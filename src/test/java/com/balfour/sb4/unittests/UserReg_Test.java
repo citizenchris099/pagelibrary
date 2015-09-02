@@ -132,7 +132,7 @@ public class UserReg_Test {
 		driver.get(tp0.getSbProjConf());
 		driver.get(setRegType("Invite Only", pc0, tp0));
 		driver.get(openReg("Invite Only", ur0, pc0));
-		new Sb4NewUserRegProf(driver).doReg(ur0, false, false);
+		new Sb4NewUserRegProf(driver).doReg(ur0, false);
 		userLogin(ur0);
 		userSearch(ur0, tp0);
 		userCleanUp(ur0, tp0);

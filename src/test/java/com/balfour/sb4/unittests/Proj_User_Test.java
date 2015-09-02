@@ -179,7 +179,7 @@ public class Proj_User_Test {
 		key = new Sb4UserAdminPage(driver).regNewUser(obj);
 		new Sb4UserAdminPage(driver).LogOut();
 		driver.get(key);
-		new Sb4NewUserRegProf(driver).doReg(obj, false, false);
+		new Sb4NewUserRegProf(driver).doReg(obj, false);
 		driver.get(obj1.getSbLogOnUrl());
 		new Sb4LoginPage(driver).loginAs(obj.getEmail(), obj.getPword())
 				.LogOut();

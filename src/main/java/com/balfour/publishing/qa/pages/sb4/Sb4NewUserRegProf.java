@@ -291,19 +291,14 @@ public class Sb4NewUserRegProf extends Page {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public Sb4NewUserRegProf doReg(UserRegPOJO obj, Boolean uname,
-			Boolean social) throws InterruptedException {
+	public Sb4NewUserRegProf doReg(UserRegPOJO obj, Boolean social) throws InterruptedException {
 
 		logger.info("Begin completion of registration process");
-
-		if (uname == true) {
-			setUName(obj.getfName());
-		}
-
+		setUName(obj.getEmail());
 		setFName(obj.getfName());
 		setLName(obj.getlName());
 		setPhone(obj.getPhone());
-//		setDName(obj.getdName());
+		// setDName(obj.getdName());
 
 		if (social == true) {
 			setFBook(obj.getfBook());
