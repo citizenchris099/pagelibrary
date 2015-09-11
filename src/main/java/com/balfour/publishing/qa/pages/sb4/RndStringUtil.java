@@ -21,8 +21,7 @@ public class RndStringUtil {
 	 *            : of random string
 	 * @return
 	 */
-	public static String generateString(Random rng, String characters,
-			int length) {
+	public static String generateString(Random rng, String characters, int length) {
 		char[] text = new char[length];
 		for (int i = 0; i < length; i++) {
 			text[i] = characters.charAt(rng.nextInt(characters.length()));
@@ -35,18 +34,13 @@ public class RndStringUtil {
 	 * 
 	 * @return : string "fake" email address
 	 */
-	public String RandomEmail() {
+	public String randomPass() {
 
 		Random rng = new Random();
-		String characters = "abcdefghijklmnopqrstuvwxyz1234567890";
+		String characters = "ABCDEFGHIJKLMNopqrstuvwxyz1234567890";
 		int length = 10;
-
 		new RndStringUtil();
-		String aVariable = RndStringUtil
-				.generateString(rng, characters, length);
-		String email = String.format("%s@fake.com", aVariable);
-
-		return email;
+		return RndStringUtil.generateString(rng, characters, length);
 	}
 
 	/**
@@ -106,6 +100,7 @@ public class RndStringUtil {
 
 	/**
 	 * used to generate a random 10 digit phone number
+	 * 
 	 * @return
 	 */
 	public String RandomPhone() {

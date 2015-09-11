@@ -10,6 +10,7 @@ public class TestPOJO {
 	private String advUname;
 	private String advPword;
 	private String miscUname001;
+	private String miscPword001;
 	private String miscUname002;
 	private String sbRegUrl;
 	private String sbLogOnUrl;
@@ -20,6 +21,16 @@ public class TestPOJO {
 	
 
 	public TestPOJO() {
+	}
+
+
+	public String getMiscPword001() {
+		return miscPword001;
+	}
+
+
+	public void setMiscPword001(String miscPword001) {
+		this.miscPword001 = miscPword001;
 	}
 
 

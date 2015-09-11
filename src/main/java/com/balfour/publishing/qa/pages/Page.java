@@ -138,7 +138,7 @@ public class Page {
 		String email = null;
 		while (flag = true) {
 
-			email = new RndStringUtil().RandomEmail();
+			email = new RndStringUtil().randomPass();
 			int results = new RestUtil().enfoldCheckCode(enfold, email);
 
 			System.out.println(results);
@@ -211,8 +211,8 @@ public class Page {
 	 * 
 	 * @return
 	 */
-	public String randomPass() {
-		String string = randomString(8);
+	public String randomPassword() {
+		String string = new RndStringUtil().randomPass();
 
 		logger.info("Password is " + string);
 		return string;
@@ -260,6 +260,7 @@ public class Page {
 		int count = 0;
 		for (WebElement we : allOptions) {
 			logger.info(we.getText());
+			System.out.println(we.getText());
 			for (int i = 0; i < array.length; i++) {
 				if (we.getText().equals(array[i])) {
 					count++;

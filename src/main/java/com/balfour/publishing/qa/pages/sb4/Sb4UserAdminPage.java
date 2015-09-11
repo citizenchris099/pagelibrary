@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 import com.balfour.publishing.Test_Enviornment;
@@ -15,21 +16,11 @@ import com.balfour.publishing.qa.pages.Page;
 
 public class Sb4UserAdminPage extends Page {
 
+	Actions action = new Actions(_driver);
+
 	/**
 	 * locators
 	 */
-	private By fName = By
-			.xpath("//div[@class='ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-003']");
-	private By lName = By
-			.xpath("//div[@class='ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-004']");
-	private By email = By
-			.xpath("//div[@class='ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-005']");
-	private By project = By
-			.xpath("//div[@class='ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-007']");
-	private By role = By
-			.xpath("//div[@class='ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-008']");
-	private By editUser = By
-			.xpath("//div[@class='ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-00A']");
 	private By editUserButton = By.xpath(".//button[.='Edit User']");
 	private By rKeyButton = By.xpath("//button[.='Resend Key']");
 	private By delReg = By.xpath("//button[.='Delete Registration']");
@@ -42,14 +33,37 @@ public class Sb4UserAdminPage extends Page {
 	private By NUProjTxt = By.xpath(".//input[@type='text']");
 	private By enter = By.xpath("//button[@type='submit']");
 	private By userRegMsg = By.xpath("//div[contains(text(), 'User Added')]");
+	private By gridElement = By.xpath(".//div[@class='ui-grid-cell-contents ng-binding ng-scope']");
 
-	private String keyUrl = new Test_Enviornment().envUrl(slugNAction
-			.getnReg_dynamic());
+	/**
+	 * webelements
+	 */
+	private WebElement fNameTxt = _driver.findElement(By.xpath(
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0004')]"));
+	private WebElement lNameTxt = _driver.findElement(By.xpath(
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0005')]"));
+	private WebElement email = _driver.findElement(By.xpath(
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0006')]"));
+	private WebElement role = _driver.findElement(By.xpath(
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0009')]"));
+	private WebElement project = _driver.findElement(By.xpath(
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0008')]"));
+
+	private WebElement fNameField = _driver
+			.findElement(By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0004')]"));
+	private WebElement lNameField = _driver
+			.findElement(By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0005')]"));
+	private WebElement emailField = _driver
+			.findElement(By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0006')]"));
+	private WebElement roleField = _driver
+			.findElement(By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0009')]"));
+
+	private String keyUrl = new Test_Enviornment().envUrl(slugNAction.getnReg_dynamic());
 	UserMenu um = new UserMenu(_driver);
 
 	public Sb4UserAdminPage(WebDriver driver) throws InterruptedException {
 		super(driver);
-		isLoaded(role, project);
+		isLoaded(NULName, NUFName);
 		logger.info("User Admin Page is loaded");
 	}
 
@@ -58,37 +72,27 @@ public class Sb4UserAdminPage extends Page {
 	 */
 
 	private Sb4UserAdminPage fNameSearch(String value) {
-
-		WebElement fNameTxt = _driver.findElement(fName);
 		fNameTxt.findElement(search).sendKeys(value);
 		return this;
 	}
 
 	private Sb4UserAdminPage lNameSearch(String value) {
-
-		WebElement fNameTxt = _driver.findElement(lName);
-		fNameTxt.findElement(search).sendKeys(value);
+		lNameTxt.findElement(search).sendKeys(value);
 		return this;
 	}
 
 	private Sb4UserAdminPage emailSearch(String value) {
-
-		WebElement fNameTxt = _driver.findElement(email);
-		fNameTxt.findElement(search).sendKeys(value);
+		email.findElement(search).sendKeys(value);
 		return this;
 	}
 
 	private Sb4UserAdminPage projSearch(String value) {
-
-		WebElement fNameTxt = _driver.findElement(project);
-		fNameTxt.findElement(search).sendKeys(value);
+		project.findElement(search).sendKeys(value);
 		return this;
 	}
 
 	private Sb4UserAdminPage roleSearch(String value) {
-
-		WebElement fNameTxt = _driver.findElement(role);
-		fNameTxt.findElement(search).sendKeys(value);
+		role.findElement(search).sendKeys(value);
 		return this;
 	}
 
@@ -108,6 +112,38 @@ public class Sb4UserAdminPage extends Page {
 
 		waitForElementPresence(delReg, 10);
 		return this;
+	}
+
+	private Sb4UserAdminPage userSearch(UserRegPOJO obj) {
+		// _driver.navigate().refresh();
+		fNameSearch(obj.getfName());
+		lNameSearch(obj.getlName());
+		if (obj.getEmailSearch() == true) {
+			emailSearch(obj.getEmail());
+		}
+		projSearch(obj.getProject());
+		roleSearch(obj.getRole());
+		return this;
+	}
+
+	private int userRegSearchCount(UserRegPOJO obj) {
+		userSearch(obj);
+		rKey();
+		delReg();
+		return _driver.findElements(rKeyButton).size();
+	}
+
+	/**
+	 * used to search for registered users
+	 * 
+	 * @param obj
+	 *            : of UserRegPOJO
+	 * @return : int count
+	 */
+	private int userSearchCount(UserRegPOJO obj) {
+		userSearch(obj);
+		editUser();
+		return _driver.findElements(editUserButton).size();
 	}
 
 	private Sb4UserAdminPage NUFname(String value) {
@@ -152,12 +188,10 @@ public class Sb4UserAdminPage extends Page {
 		return this;
 	}
 
-	private String GetKey(UserRegPOJO obj) throws InterruptedException,
-			InstantiationException, IllegalAccessException,
+	private String GetKey(UserRegPOJO obj) throws InterruptedException, InstantiationException, IllegalAccessException,
 			ClassNotFoundException, SQLException {
-		String aVariable = new DbUtil().B4PubData(obj.getEmail(),
-				obj.getStatement(), obj.getDb_url(), obj.getDb_username(),
-				obj.getDb_pword(), obj.getDb_reg_key());
+		String aVariable = new DbUtil().B4PubData(obj.getEmail(), obj.getStatement(), obj.getDb_url(),
+				obj.getDb_username(), obj.getDb_pword(), obj.getDb_reg_key());
 		String link = String.format(keyUrl, aVariable);
 		logger.info(link);
 
@@ -181,9 +215,8 @@ public class Sb4UserAdminPage extends Page {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public String regNewUser(UserRegPOJO obj) throws InterruptedException,
-			InstantiationException, IllegalAccessException,
-			ClassNotFoundException, SQLException {
+	public String regNewUser(UserRegPOJO obj) throws InterruptedException, InstantiationException,
+			IllegalAccessException, ClassNotFoundException, SQLException {
 
 		NUFname(obj.getfName());
 		NULname(obj.getlName());
@@ -195,52 +228,84 @@ public class Sb4UserAdminPage extends Page {
 		return GetKey(obj);
 	}
 
-	public Sb4UserAdminPage userSearch(UserRegPOJO obj) {
-		_driver.navigate().refresh();
-		fNameSearch(obj.getfName());
-		lNameSearch(obj.getlName());
-		emailSearch(obj.getEmail());
-		projSearch(obj.getProject());
-		roleSearch(obj.getRole());
-		return this;
-	}
-
-	public Sb4UserAdminPage userRegButtons() {
-		rKey();
-		delReg();
-		return this;
-	}
-
-	public int userRegSearchCount(UserRegPOJO obj) {
-		userSearch(obj);
-		return _driver.findElements(rKeyButton).size();
-	}
-
 	/**
-	 * used to search for registered users
+	 * assures that a user is found on the User Admin grid
 	 * 
 	 * @param obj
-	 *            : of UserRegPOJO
-	 * @return : int count
+	 * @return
 	 */
-	public int userSearchCount(UserRegPOJO obj) {
-		userSearch(obj);
-		return _driver.findElements(editUserButton).size();
-	}
-
-	public Sb4EditUserPage editUser(UserRegPOJO obj)
-			throws InterruptedException {
+	public Sb4UserAdminPage userFound(UserRegPOJO obj) {
 		if (userSearchCount(obj) < 1) {
 			throw new RuntimeException("User Was Not Found");
 		}
-		userSearch(obj);
+		return this;
+	}
+
+	public Sb4UserAdminPage userRegFound(UserRegPOJO obj) {
+		if (userRegSearchCount(obj) < 1) {
+			throw new RuntimeException("User Was Not Found");
+		}
+		return this;
+	}
+
+	/**
+	 * used to edit the first name of a user on the User Admin Grid
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public Sb4UserAdminPage fNameEdit(String value) {
+		action.doubleClick(fNameField.findElement(gridElement)).perform();
+		_driver.switchTo().activeElement().clear();
+		_driver.switchTo().activeElement().sendKeys(value + Keys.ENTER);
+		return this;
+	}
+
+	/**
+	 * edit the last name of a user found on the User Admin grid
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public Sb4UserAdminPage lNameEdit(String value) {
+		action.doubleClick(lNameField.findElement(gridElement)).perform();
+		_driver.switchTo().activeElement().clear();
+		_driver.switchTo().activeElement().sendKeys(value + Keys.ENTER);
+		return this;
+	}
+
+	/**
+	 * edit the email of a user found on the User Admin grid
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public Sb4UserAdminPage emailEdit(String value) {
+		action.doubleClick(emailField.findElement(gridElement)).perform();
+		_driver.switchTo().activeElement().clear();
+		_driver.switchTo().activeElement().sendKeys(value + Keys.ENTER);
+		return this;
+	}
+
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public Sb4UserAdminPage roleEdit(String value) {
+		action.doubleClick(roleField.findElement(gridElement)).perform();
+		_driver.switchTo().activeElement().sendKeys(value + Keys.ENTER);
+		return this;
+	}
+
+	public Sb4EditUserPage editUser(UserRegPOJO obj) throws InterruptedException {
+		userFound(obj);
 		editUser();
 		return new Sb4EditUserPage(_driver);
 	}
 
-	public Sb4UserAdminPage deleteRegUser(UserRegPOJO obj)
-			throws InterruptedException {
-		userSearch(obj).userRegButtons();
+	public Sb4UserAdminPage deleteRegUser(UserRegPOJO obj) throws InterruptedException {
+		userRegFound(obj);
 		_driver.findElement(delReg).click();
 		Alert alert = _driver.switchTo().alert();
 		alert.accept();

@@ -30,9 +30,18 @@ public class UserRegPOJO {
 	private String role;
 	private String project;
 	private String key;
+	private Boolean emailSearch;
 
 	public UserRegPOJO() {
 
+	}
+
+	public Boolean getEmailSearch() {
+		return emailSearch;
+	}
+
+	public void setEmailSearch(Boolean emailSearch) {
+		this.emailSearch = emailSearch;
 	}
 
 	public String getoMsg() {
