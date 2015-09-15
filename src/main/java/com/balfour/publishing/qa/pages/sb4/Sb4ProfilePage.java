@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 
-import com.balfour.publishing.qa.ProfilePOJO;
+import com.balfour.publishing.qa.UserRegPOJO;
 import com.balfour.publishing.qa.pages.Page;
 
 /**
@@ -311,7 +311,7 @@ public class Sb4ProfilePage extends Page {
 	 *            : of ProfilePOJO
 	 * @return
 	 */
-	private Sb4ProfilePage updateProfile(ProfilePOJO obj) {
+	private Sb4ProfilePage updateProfile(UserRegPOJO obj) {
 
 		logger.info("Begin profile Update");
 		setEMail(obj.getEmail());
@@ -341,7 +341,7 @@ public class Sb4ProfilePage extends Page {
 	 *            : of ProfilePOJO
 	 * @return
 	 */
-	public Sb4ProfilePage updatePword(ProfilePOJO obj) {
+	public Sb4ProfilePage updatePword(UserRegPOJO obj) {
 
 		logger.info("Begin password Update");
 		setPWord1(obj.getPword());
@@ -352,7 +352,7 @@ public class Sb4ProfilePage extends Page {
 		return this;
 	}
 
-	public Sb4ProfilePage successfullUpdate(ProfilePOJO obj) {
+	public Sb4ProfilePage successfullUpdate(UserRegPOJO obj) {
 
 		logger.info("Begin Profile Update");
 		updateProfile(obj);
@@ -362,7 +362,7 @@ public class Sb4ProfilePage extends Page {
 		return this;
 	}
 
-	public Sb4ProfilePage cancelUpdate(ProfilePOJO obj) {
+	public Sb4ProfilePage cancelUpdate(UserRegPOJO obj) {
 
 		logger.info("Begin Profile Update");
 		updateProfile(obj);
@@ -374,10 +374,10 @@ public class Sb4ProfilePage extends Page {
 	/**
 	 * used to check values in the form fields of User Profile
 	 * 
-	 * @return : object of ProfilePOJO
+	 * @return : object of UserRegPOJO
 	 */
-	public ProfilePOJO checkProfile() {
-		ProfilePOJO obj = new ProfilePOJO();
+	public UserRegPOJO checkProfile() {
+		UserRegPOJO obj = new UserRegPOJO();
 
 		obj.setuName(getUName());
 		obj.setEmail(getEmail());

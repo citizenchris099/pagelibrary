@@ -34,29 +34,20 @@ public class Sb4UserAdminPage extends Page {
 	private By enter = By.xpath("//button[@type='submit']");
 	private By userRegMsg = By.xpath("//div[contains(text(), 'User Added')]");
 	private By gridElement = By.xpath(".//div[@class='ui-grid-cell-contents ng-binding ng-scope']");
-
-	/**
-	 * webelements
-	 */
-	private WebElement fNameTxt = _driver.findElement(By.xpath(
-			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0004')]"));
-	private WebElement lNameTxt = _driver.findElement(By.xpath(
-			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0005')]"));
-	private WebElement email = _driver.findElement(By.xpath(
-			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0006')]"));
-	private WebElement role = _driver.findElement(By.xpath(
-			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0009')]"));
-	private WebElement project = _driver.findElement(By.xpath(
-			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0008')]"));
-
-	private WebElement fNameField = _driver
-			.findElement(By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0004')]"));
-	private WebElement lNameField = _driver
-			.findElement(By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0005')]"));
-	private WebElement emailField = _driver
-			.findElement(By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0006')]"));
-	private WebElement roleField = _driver
-			.findElement(By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0009')]"));
+	private By fnSearch = By.xpath(
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0004')]");
+	private By fnField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0004')]");
+	private By lnSearch = By.xpath(
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0005')]");
+	private By lnField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0005')]");
+	private By emSearch = By.xpath(
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0006')]");
+	private By emField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0006')]");
+	private By roSearch = By.xpath(
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0009')]");
+	private By roField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0009')]");
+	private By prSearch = By.xpath(
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0008')]");
 
 	private String keyUrl = new Test_Enviornment().envUrl(slugNAction.getnReg_dynamic());
 	UserMenu um = new UserMenu(_driver);
@@ -72,44 +63,46 @@ public class Sb4UserAdminPage extends Page {
 	 */
 
 	private Sb4UserAdminPage fNameSearch(String value) {
+		WebElement fNameTxt = _driver.findElement(fnSearch);
 		fNameTxt.findElement(search).sendKeys(value);
 		return this;
 	}
 
 	private Sb4UserAdminPage lNameSearch(String value) {
+		WebElement lNameTxt = _driver.findElement(lnSearch);
 		lNameTxt.findElement(search).sendKeys(value);
 		return this;
 	}
 
 	private Sb4UserAdminPage emailSearch(String value) {
+		WebElement email = _driver.findElement(emSearch);
 		email.findElement(search).sendKeys(value);
 		return this;
 	}
 
 	private Sb4UserAdminPage projSearch(String value) {
+		WebElement project = _driver.findElement(prSearch);
 		project.findElement(search).sendKeys(value);
 		return this;
 	}
 
 	private Sb4UserAdminPage roleSearch(String value) {
+		WebElement role = _driver.findElement(roSearch);
 		role.findElement(search).sendKeys(value);
 		return this;
 	}
 
 	private Sb4UserAdminPage editUser() {
-
 		_driver.findElement(editUserButton).click();
 		return this;
 	}
 
 	private Sb4UserAdminPage rKey() {
-
 		waitForElementPresence(rKeyButton, 10);
 		return this;
 	}
 
 	private Sb4UserAdminPage delReg() {
-
 		waitForElementPresence(delReg, 10);
 		return this;
 	}
@@ -142,7 +135,6 @@ public class Sb4UserAdminPage extends Page {
 	 */
 	private int userSearchCount(UserRegPOJO obj) {
 		userSearch(obj);
-		editUser();
 		return _driver.findElements(editUserButton).size();
 	}
 
@@ -254,10 +246,12 @@ public class Sb4UserAdminPage extends Page {
 	 * @param value
 	 * @return
 	 */
-	public Sb4UserAdminPage fNameEdit(String value) {
+	public Sb4UserAdminPage fNameEdit(UserRegPOJO obj) {
+		waitForElementPresence(fnField, 10);
+		WebElement fNameField = _driver.findElement(fnField);
 		action.doubleClick(fNameField.findElement(gridElement)).perform();
 		_driver.switchTo().activeElement().clear();
-		_driver.switchTo().activeElement().sendKeys(value + Keys.ENTER);
+		_driver.switchTo().activeElement().sendKeys(obj.getfName() + Keys.ENTER);
 		return this;
 	}
 
@@ -267,10 +261,12 @@ public class Sb4UserAdminPage extends Page {
 	 * @param value
 	 * @return
 	 */
-	public Sb4UserAdminPage lNameEdit(String value) {
+	public Sb4UserAdminPage lNameEdit(UserRegPOJO obj) {
+		waitForElementPresence(lnField, 10);
+		WebElement lNameField = _driver.findElement(lnField);
 		action.doubleClick(lNameField.findElement(gridElement)).perform();
-		_driver.switchTo().activeElement().clear();
-		_driver.switchTo().activeElement().sendKeys(value + Keys.ENTER);
+		// _driver.switchTo().activeElement().clear();
+		_driver.switchTo().activeElement().sendKeys(Keys.BACK_SPACE + obj.getlName() + Keys.ENTER);
 		return this;
 	}
 
@@ -280,10 +276,12 @@ public class Sb4UserAdminPage extends Page {
 	 * @param value
 	 * @return
 	 */
-	public Sb4UserAdminPage emailEdit(String value) {
+	public Sb4UserAdminPage emailEdit(UserRegPOJO obj) {
+		waitForElementPresence(emField, 10);
+		WebElement emailField = _driver.findElement(emField);
 		action.doubleClick(emailField.findElement(gridElement)).perform();
 		_driver.switchTo().activeElement().clear();
-		_driver.switchTo().activeElement().sendKeys(value + Keys.ENTER);
+		_driver.switchTo().activeElement().sendKeys(obj.getEmail() + Keys.ENTER);
 		return this;
 	}
 
@@ -292,18 +290,36 @@ public class Sb4UserAdminPage extends Page {
 	 * @param value
 	 * @return
 	 */
-	public Sb4UserAdminPage roleEdit(String value) {
+	public Sb4UserAdminPage roleEdit(UserRegPOJO obj) {
+		waitForElementPresence(roField, 10);
+		WebElement roleField = _driver.findElement(roField);
 		action.doubleClick(roleField.findElement(gridElement)).perform();
-		_driver.switchTo().activeElement().sendKeys(value + Keys.ENTER);
+		_driver.switchTo().activeElement().sendKeys(obj.getRole() + Keys.ENTER);
 		return this;
 	}
 
+	/**
+	 * searches for then clicks to edit the user
+	 * 
+	 * @param obj
+	 *            : of UserRegPOJO
+	 * @return : Sb4EditUserPage
+	 * @throws InterruptedException
+	 */
 	public Sb4EditUserPage editUser(UserRegPOJO obj) throws InterruptedException {
 		userFound(obj);
 		editUser();
 		return new Sb4EditUserPage(_driver);
 	}
 
+	/**
+	 * searches for then attempts to delete a user register
+	 * 
+	 * @param obj
+	 *            : UserRegPOJO
+	 * @return : Sb4UserAdminPage
+	 * @throws InterruptedException
+	 */
 	public Sb4UserAdminPage deleteRegUser(UserRegPOJO obj) throws InterruptedException {
 		userRegFound(obj);
 		_driver.findElement(delReg).click();

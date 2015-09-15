@@ -261,7 +261,7 @@ public class UserRegPOJO {
 	@Override
 	public int hashCode() {
 		HashCodeBuilder builder = new HashCodeBuilder();
-		builder.append(email);
+//		builder.append(email);
 		builder.append(fName);
 		builder.append(lName);
 		builder.append(phone);
