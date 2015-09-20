@@ -34,8 +34,7 @@ public class Sb4EditUserPage extends Page {
 	private By instagram = By.xpath("//*[@name='instagram']");
 	private By fbook = By.xpath("//*[@name='facebook']");
 	private By pNR = By.xpath("//button[@id='projects_roles_submitButton']");
-	private By submit = By
-			.xpath("//button[@id='admin_edit_user_submitButton']");
+	private By submit = By.xpath("//button[@id='admin_edit_user_submitButton']");
 	private By cancel = By.xpath("//button[@id='admin_edit_user_resetButton']");
 	private By bio = By.xpath("//textarea[@id='admin_edit_user_bio']");
 	private By addProjects = By.xpath("//a[@data-sub_action='adviserAddSchoolProjects']");
@@ -76,7 +75,7 @@ public class Sb4EditUserPage extends Page {
 		_driver.findElement(cancel).click();
 		return this;
 	}
-	
+
 	/**
 	 * profile project and roles button
 	 * 
@@ -84,6 +83,16 @@ public class Sb4EditUserPage extends Page {
 	 */
 	private Sb4EditUserPage clickProjNRoles() {
 		_driver.findElement(pNR).click();
+		return this;
+	}
+
+	public Sb4EditUserPage addProjectsChk() {
+		waitForElementClickable(addProjects, 10);
+		return this;
+	}
+
+	private Sb4EditUserPage addAllProjects() {
+		_driver.findElement(addProjects).click();
 		return this;
 	}
 
@@ -356,10 +365,29 @@ public class Sb4EditUserPage extends Page {
 		logger.info("Profile info retrieved");
 		return obj;
 	}
-	
-	public Sb4ProjNRolePage goToProjNRole() throws InterruptedException{
-		
+
+	/**
+	 * takes user to projects and roles page
+	 * 
+	 * @return : Sb4ProjNRolePage
+	 * @throws InterruptedException
+	 */
+	public Sb4ProjNRolePage goToProjNRole() throws InterruptedException {
 		clickProjNRoles();
+		return new Sb4ProjNRolePage(_driver);
+	}
+
+	/**
+	 * clicks the add all projects button if present then clicks the projects
+	 * and roles button
+	 * 
+	 * @return : Sb4ProjNRolePage
+	 * @throws InterruptedException
+	 */
+	public Sb4ProjNRolePage addAllProjtoUser() throws InterruptedException {
+		addProjectsChk();
+		addAllProjects();
+		goToProjNRole();
 		return new Sb4ProjNRolePage(_driver);
 	}
 

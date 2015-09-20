@@ -68,22 +68,6 @@ public class Sb4HomePage extends Page {
 	}
 
 	/**
-	 * shared change project service for users w/ >8 projects
-	 * 
-	 * @param mainProj
-	 *            : initial project present in the menu
-	 * @param nextProj
-	 *            : desired project to switch to
-	 * @return
-	 * @throws InterruptedException
-	 */
-	public Sb4HomePage ChangeProject(String mainProj, String nextProj)
-			throws InterruptedException {
-		um.projectMenu(mainProj, nextProj);
-		return this;
-	}
-
-	/**
 	 * shared change project service for users w/ <8 projects
 	 * 
 	 * @param mainProj
@@ -93,9 +77,23 @@ public class Sb4HomePage extends Page {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public Sb4HomePage ChangeProject2(String mainProj, String nextProj)
-			throws InterruptedException {
-		um.projectMenuSearch(mainProj, nextProj);
+	public Sb4HomePage ChangeProject(String nextProj) throws InterruptedException {
+		um.projectMenu(nextProj);
+		return this;
+	}
+
+	/**
+	 * shared change project service for users w/ >8 projects
+	 * 
+	 * @param mainProj
+	 *            : initial project present in the menu
+	 * @param nextProj
+	 *            : desired project to switch to
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public Sb4HomePage ChangeProject2(String nextProj) throws InterruptedException {
+		um.projectMenuSearch(nextProj);
 		return this;
 	}
 
@@ -106,7 +104,7 @@ public class Sb4HomePage extends Page {
 	 * @return
 	 */
 	public Sb4HomePage CheckProject(String project) {
-		um.projectCheck(project);
+		um.projectLoaded(project);
 		return this;
 	}
 
@@ -118,7 +116,7 @@ public class Sb4HomePage extends Page {
 	 * @return
 	 */
 	public int CheckProject(String project, String project2) {
-		return um.projectCheck(project, project2);
+		return um.projectCheck(project2);
 	}
 
 	/**
@@ -129,14 +127,23 @@ public class Sb4HomePage extends Page {
 	 * @return : Sb4SearchResultsPage
 	 * @throws InterruptedException
 	 */
-	public Sb4SearchResultsPage SiteSearch(String value)
-			throws InterruptedException {
+	public Sb4SearchResultsPage SiteSearch(String value) throws InterruptedException {
 		um.SiteSearch(value);
 		return new Sb4SearchResultsPage(_driver);
 	}
 
 	public void userFBack(String Value) {
-
 		new MenuBar(_driver).userFBack(Value);
+	}
+
+	/**
+	 * navigates to the project view / info page
+	 * 
+	 * @return : Sb4ProjectViewPage
+	 * @throws InterruptedException
+	 */
+	public Sb4ProjectViewPage goToProjInfo() throws InterruptedException {
+		um.projectInfo();
+		return new Sb4ProjectViewPage(_driver);
 	}
 }

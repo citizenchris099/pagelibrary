@@ -15,12 +15,23 @@ public class TestPOJO {
 	private String sbRegUrl;
 	private String sbLogOnUrl;
 	private String sbPUUrl;
+	private String sbPUDyUrl;
 	private String sbProjConf;
 	private String sbUAUrl;
 	
 	
 
 	public TestPOJO() {
+	}
+
+
+	public String getSbPUDyUrl() {
+		return sbPUDyUrl;
+	}
+
+
+	public void setSbPUDyUrl(String sbPUDyUrl) {
+		this.sbPUDyUrl = sbPUDyUrl;
 	}
 
 

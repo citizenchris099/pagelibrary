@@ -39,27 +39,19 @@ public class Sb4ProjectUserPage extends Page {
 	private By noEmailPword1 = By.xpath(".//input[@name='pwd1']");
 	private By noEmailPword2 = By.xpath(".//input[@name='pwd2']");
 	private By gridElement = By.xpath(".//div[@class='ui-grid-cell-contents ng-binding ng-scope']");
+	private By fnSearch = By.xpath(
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0004')]");
+	private By fnField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0004')]");
+	private By lnSearch = By.xpath(
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0005')]");
+	private By lnField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0005')]");
+	private By emSearch = By.xpath(
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0006')]");
+	private By emField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0006')]");
+	private By roSearch = By.xpath(
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0007')]");
+	private By roField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0007')]");
 
-	/**
-	 * webelements
-	 */
-	private WebElement fNameTxt = _driver.findElement(By.xpath(
-			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0004')]"));
-	private WebElement lNameTxt = _driver.findElement(By.xpath(
-			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0005')]"));
-	private WebElement email = _driver.findElement(By.xpath(
-			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0006')]"));
-	private WebElement role = _driver.findElement(By.xpath(
-			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0007')]"));
-
-	private WebElement fNameField = _driver
-			.findElement(By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0004')]"));
-	private WebElement lNameField = _driver
-			.findElement(By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0005')]"));
-	private WebElement emailField = _driver
-			.findElement(By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0006')]"));
-	private WebElement roleField = _driver
-			.findElement(By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0007')]"));
 
 	private String slug = slugNAction.getnReg_dynamic();
 	private String keyUrl = new Test_Enviornment().envUrl(slug);
@@ -76,21 +68,25 @@ public class Sb4ProjectUserPage extends Page {
 	 */
 
 	private Sb4ProjectUserPage fNameSearch(String value) {
+		WebElement fNameTxt = _driver.findElement(fnSearch);
 		fNameTxt.findElement(search).sendKeys(value);
 		return this;
 	}
 
 	private Sb4ProjectUserPage lNameSearch(String value) {
+		WebElement lNameTxt = _driver.findElement(lnSearch);
 		lNameTxt.findElement(search).sendKeys(value);
 		return this;
 	}
 
 	private Sb4ProjectUserPage emailSearch(String value) {
+		WebElement email = _driver.findElement(emSearch);
 		email.findElement(search).sendKeys(value);
 		return this;
 	}
 
 	private Sb4ProjectUserPage roleSearch(String value) {
+		WebElement role = _driver.findElement(roSearch);
 		role.findElement(search).sendKeys(value);
 		return this;
 	}
@@ -104,7 +100,7 @@ public class Sb4ProjectUserPage extends Page {
 		waitForElementPresence(delReg, 10);
 		return this;
 	}
-	
+
 	private Sb4ProjectUserPage userSearch(UserRegPOJO obj) {
 		// _driver.navigate().refresh();
 		fNameSearch(obj.getfName());
@@ -116,17 +112,13 @@ public class Sb4ProjectUserPage extends Page {
 		return this;
 	}
 
-
 	private int userRegSearchCount(UserRegPOJO obj) {
 		userSearch(obj);
-		editUser();
 		return _driver.findElements(rKeyButton).size();
 	}
 
 	private int userSearchCount(UserRegPOJO obj) {
 		userSearch(obj);
-		rKey();
-		delReg();
 		return _driver.findElements(editUserButton).size();
 	}
 
@@ -252,8 +244,12 @@ public class Sb4ProjectUserPage extends Page {
 		waitForElementPresence(userRegMsg, 10);
 		return this;
 	}
-
 	
+	public Sb4ProjectUserPage checkFakeUserRoles(String[] roles){
+		fakeUser();
+		rolesAvailable(roles);
+		return this;
+	}
 
 	public Sb4ProjectUserPage userFound(UserRegPOJO obj) {
 		if (userSearchCount(obj) < 1) {
@@ -269,37 +265,76 @@ public class Sb4ProjectUserPage extends Page {
 		return this;
 	}
 
-	public Sb4ProjectUserPage fNameEdit(String value) {
+	/**
+	 * used to edit the first name of a user on the User Admin Grid
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public Sb4ProjectUserPage fNameEdit(UserRegPOJO obj) {
+		waitForElementPresence(fnField, 10);
+		WebElement fNameField = _driver.findElement(fnField);
 		action.doubleClick(fNameField.findElement(gridElement)).perform();
 		_driver.switchTo().activeElement().clear();
-		_driver.switchTo().activeElement().sendKeys(value + Keys.ENTER);
+		_driver.switchTo().activeElement().sendKeys(obj.getfName() + Keys.ENTER);
 		return this;
 	}
 
-	public Sb4ProjectUserPage lNameEdit(String value) {
+	/**
+	 * edit the last name of a user found on the User Admin grid
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public Sb4ProjectUserPage lNameEdit(UserRegPOJO obj) {
+		waitForElementPresence(lnField, 10);
+		WebElement lNameField = _driver.findElement(lnField);
 		action.doubleClick(lNameField.findElement(gridElement)).perform();
-		_driver.switchTo().activeElement().clear();
-		_driver.switchTo().activeElement().sendKeys(value + Keys.ENTER);
+		// _driver.switchTo().activeElement().clear();
+		_driver.switchTo().activeElement().sendKeys(Keys.BACK_SPACE + obj.getlName() + Keys.ENTER);
 		return this;
 	}
 
-	public Sb4ProjectUserPage emailEdit(String value) {
+	/**
+	 * edit the email of a user found on the User Admin grid
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public Sb4ProjectUserPage emailEdit(UserRegPOJO obj) {
+		waitForElementPresence(emField, 10);
+		WebElement emailField = _driver.findElement(emField);
 		action.doubleClick(emailField.findElement(gridElement)).perform();
 		_driver.switchTo().activeElement().clear();
-		_driver.switchTo().activeElement().sendKeys(value + Keys.ENTER);
+		_driver.switchTo().activeElement().sendKeys(obj.getEmail() + Keys.ENTER);
 		return this;
 	}
 
-	public Sb4ProjectUserPage roleEdit(String value) {
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public Sb4ProjectUserPage roleEdit(UserRegPOJO obj) {
+		waitForElementPresence(roField, 10);
+		WebElement roleField = _driver.findElement(roField);
 		action.doubleClick(roleField.findElement(gridElement)).perform();
-		_driver.switchTo().activeElement().sendKeys(value + Keys.ENTER);
+		_driver.switchTo().activeElement().sendKeys(obj.getRole() + Keys.ENTER);
 		return this;
 	}
 
-	public Sb4ProjNRolePage editUser(UserRegPOJO obj) throws InterruptedException {
+	/**
+	 * searches for then clicks to edit the user
+	 * 
+	 * @param obj
+	 *            : of UserRegPOJO
+	 * @return : Sb4EditUserPage
+	 * @throws InterruptedException
+	 */
+	public Sb4EditUserPage editUser(UserRegPOJO obj) throws InterruptedException {
 		userFound(obj);
 		editUser();
-		return new Sb4ProjNRolePage(_driver);
+		return new Sb4EditUserPage(_driver);
 	}
 
 	public Sb4ProjectUserPage deleteRegUser(UserRegPOJO obj) throws InterruptedException {
@@ -317,5 +352,35 @@ public class Sb4ProjectUserPage extends Page {
 	public Sb4LoginPage LogOut() throws InterruptedException {
 		um.LogOut();
 		return new Sb4LoginPage(_driver);
+	}
+
+	/**
+	 * shared change project service for users w/ <8 projects
+	 * 
+	 * @param mainProj
+	 *            : initial project present in the menu
+	 * @param nextProj
+	 *            : desired project to switch to
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public Sb4ProjectUserPage ChangeProject(String nextProj) throws InterruptedException {
+		um.projectMenu(nextProj);
+		return this;
+	}
+
+	/**
+	 * shared change project service for users w/ >8 projects
+	 * 
+	 * @param mainProj
+	 *            : initial project present in the menu
+	 * @param nextProj
+	 *            : desired project to switch to
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public Sb4ProjectUserPage ChangeProject2(String nextProj) throws InterruptedException {
+		um.projectMenuSearch(nextProj);
+		return this;
 	}
 }

@@ -229,21 +229,6 @@ public class Sb4ProjNRolePage extends Page {
 	}
 
 	/**
-	 * shared change project service for users w/ >8 projects
-	 * 
-	 * @param mainProj
-	 *            : initial project present in the menu
-	 * @param nextProj
-	 *            : desired project to switch to
-	 * @return
-	 * @throws InterruptedException
-	 */
-	public Sb4ProjNRolePage ChangeProject(String mainProj, String nextProj) throws InterruptedException {
-		um.projectMenu(mainProj, nextProj);
-		return this;
-	}
-
-	/**
 	 * shared change project service for users w/ <8 projects
 	 * 
 	 * @param mainProj
@@ -253,8 +238,23 @@ public class Sb4ProjNRolePage extends Page {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public Sb4ProjNRolePage ChangeProject2(String mainProj, String nextProj) throws InterruptedException {
-		um.projectMenuSearch(mainProj, nextProj);
+	public Sb4ProjNRolePage ChangeProject(String nextProj) throws InterruptedException {
+		um.projectMenu(nextProj);
+		return this;
+	}
+
+	/**
+	 * shared change project service for users w/ >8 projects
+	 * 
+	 * @param mainProj
+	 *            : initial project present in the menu
+	 * @param nextProj
+	 *            : desired project to switch to
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public Sb4ProjNRolePage ChangeProject2(String nextProj) throws InterruptedException {
+		um.projectMenuSearch(nextProj);
 		return this;
 	}
 
@@ -265,7 +265,7 @@ public class Sb4ProjNRolePage extends Page {
 	 * @return
 	 */
 	public Sb4ProjNRolePage CheckProject(String project) {
-		um.projectCheck(project);
+		um.projectLoaded(project);
 		return this;
 	}
 

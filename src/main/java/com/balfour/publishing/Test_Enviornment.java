@@ -16,7 +16,7 @@ public class Test_Enviornment {
 	private String school_config_dynamic = "/book-status/admin/school-admin/?action=config&school_num=%s";
 	private String project_list = "/book-status/admin/project-admin/";
 	private String project_view = "/book-status/admin/project-admin/?project_num=Y50061";
-	private String project_view_dynamic = "/book-status/admin/project-admin/?project_num=%s";
+	private String project_view_dynamic = "/book-status/admin/project-admin/?project_num=";
 	private String project_config = "/book-status/admin/project-admin/?action=config&project_num=Y50061";
 	private String project_config_dynamic = "/book-status/admin/project-admin/?action=config&project_num=%s";
 	private String shop = "/shop/";
