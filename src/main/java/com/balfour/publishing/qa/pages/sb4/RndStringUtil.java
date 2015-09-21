@@ -89,7 +89,7 @@ public class RndStringUtil {
 	public String RandomName(int num) {
 
 		Random rng = new Random();
-		String characters = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		String characters = "abcdefghijklmnopqrstuvwxyz1234567890";
 		int length = num;
 
 		new RndStringUtil();

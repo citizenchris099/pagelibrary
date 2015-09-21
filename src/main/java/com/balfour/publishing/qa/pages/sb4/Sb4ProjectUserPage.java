@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -52,7 +53,6 @@ public class Sb4ProjectUserPage extends Page {
 			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0007')]");
 	private By roField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0007')]");
 
-
 	private String slug = slugNAction.getnReg_dynamic();
 	private String keyUrl = new Test_Enviornment().envUrl(slug);
 	UserMenu um = new UserMenu(_driver);
@@ -88,16 +88,6 @@ public class Sb4ProjectUserPage extends Page {
 	private Sb4ProjectUserPage roleSearch(String value) {
 		WebElement role = _driver.findElement(roSearch);
 		role.findElement(search).sendKeys(value);
-		return this;
-	}
-
-	private Sb4ProjectUserPage rKey() {
-		waitForElementPresence(rKeyButton, 10);
-		return this;
-	}
-
-	private Sb4ProjectUserPage delReg() {
-		waitForElementPresence(delReg, 10);
 		return this;
 	}
 
@@ -159,14 +149,20 @@ public class Sb4ProjectUserPage extends Page {
 		return this;
 	}
 
-	private Sb4ProjectUserPage rolesAvailable(String[] array) {
-
-		optionsAvailable(array, FURole);
+	private Sb4ProjectUserPage rolesAvailable(String[] array) throws InterruptedException {
+		try {
+			logger.info("checking the fake user roles");
+			optionsAvailable(array, FURole);
+		} catch (RuntimeException e) {
+			logger.info("expected fake user roles didn't match");
+			LogOut();
+			throw (e);
+		}
 		return this;
 	}
 
 	private Sb4ProjectUserPage FakeUName(String value) {
-
+		_driver.findElement(noEmailUName).clear();
 		_driver.findElement(noEmailUName).sendKeys(value);
 		return this;
 	}
@@ -218,7 +214,7 @@ public class Sb4ProjectUserPage extends Page {
 	 */
 	public String regNewUser(UserRegPOJO obj) throws InterruptedException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException, SQLException {
-
+		logger.info("begin registering new user");
 		NUFname(obj.getfName());
 		NULname(obj.getlName());
 		NUEmail(obj.getEmail());
@@ -231,7 +227,7 @@ public class Sb4ProjectUserPage extends Page {
 
 	public Sb4ProjectUserPage createFakeUser(UserRegPOJO obj, String[] roles) throws InterruptedException,
 			InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-
+		logger.info("begin creating fake user");
 		fakeUser();
 		NUFname(obj.getfName());
 		NULname(obj.getlName());
@@ -240,19 +236,27 @@ public class Sb4ProjectUserPage extends Page {
 		FakeUName(obj.getuName());
 		FakePword1(obj.getPword());
 		FakePword2(obj.getPword());
+		try{
 		clickEnter();
 		waitForElementPresence(userRegMsg, 10);
+		}catch(UnhandledAlertException e){
+			logger.info("unexpected alert present");
+			throw(e);
+		}
+		logger.info("fake user created");
 		return this;
 	}
-	
-	public Sb4ProjectUserPage checkFakeUserRoles(String[] roles){
+
+	public Sb4ProjectUserPage checkFakeUserRoles(String[] roles) throws InterruptedException {
 		fakeUser();
 		rolesAvailable(roles);
+		logger.info("correct roles available for fake user");
 		return this;
 	}
 
 	public Sb4ProjectUserPage userFound(UserRegPOJO obj) {
 		if (userSearchCount(obj) < 1) {
+			logger.info("user was not found");
 			throw new RuntimeException("User Was Not Found");
 		}
 		return this;
@@ -260,6 +264,7 @@ public class Sb4ProjectUserPage extends Page {
 
 	public Sb4ProjectUserPage userRegFound(UserRegPOJO obj) {
 		if (userRegSearchCount(obj) < 1) {
+			logger.info("user register was not found");
 			throw new RuntimeException("User Was Not Found");
 		}
 		return this;
@@ -272,6 +277,7 @@ public class Sb4ProjectUserPage extends Page {
 	 * @return
 	 */
 	public Sb4ProjectUserPage fNameEdit(UserRegPOJO obj) {
+		logger.info("editing first name");
 		waitForElementPresence(fnField, 10);
 		WebElement fNameField = _driver.findElement(fnField);
 		action.doubleClick(fNameField.findElement(gridElement)).perform();
@@ -287,11 +293,12 @@ public class Sb4ProjectUserPage extends Page {
 	 * @return
 	 */
 	public Sb4ProjectUserPage lNameEdit(UserRegPOJO obj) {
+		logger.info("editing last name");
 		waitForElementPresence(lnField, 10);
 		WebElement lNameField = _driver.findElement(lnField);
 		action.doubleClick(lNameField.findElement(gridElement)).perform();
-		// _driver.switchTo().activeElement().clear();
-		_driver.switchTo().activeElement().sendKeys(Keys.BACK_SPACE + obj.getlName() + Keys.ENTER);
+		_driver.switchTo().activeElement().clear();
+		_driver.switchTo().activeElement().sendKeys(obj.getlName() + Keys.ENTER);
 		return this;
 	}
 
@@ -302,6 +309,7 @@ public class Sb4ProjectUserPage extends Page {
 	 * @return
 	 */
 	public Sb4ProjectUserPage emailEdit(UserRegPOJO obj) {
+		logger.info("editing email");
 		waitForElementPresence(emField, 10);
 		WebElement emailField = _driver.findElement(emField);
 		action.doubleClick(emailField.findElement(gridElement)).perform();
@@ -316,6 +324,7 @@ public class Sb4ProjectUserPage extends Page {
 	 * @return
 	 */
 	public Sb4ProjectUserPage roleEdit(UserRegPOJO obj) {
+		logger.info("editing role");
 		waitForElementPresence(roField, 10);
 		WebElement roleField = _driver.findElement(roField);
 		action.doubleClick(roleField.findElement(gridElement)).perform();
@@ -336,8 +345,15 @@ public class Sb4ProjectUserPage extends Page {
 		editUser();
 		return new Sb4EditUserPage(_driver);
 	}
+	
+	public Sb4EditFakeUserPage editFakeUser(UserRegPOJO obj) throws InterruptedException {
+		userFound(obj);
+		editUser();
+		return new Sb4EditFakeUserPage(_driver);
+	}
 
 	public Sb4ProjectUserPage deleteRegUser(UserRegPOJO obj) throws InterruptedException {
+		logger.info("attempting to delete user register");
 		userRegFound(obj);
 		_driver.findElement(delReg).click();
 		Alert alert = _driver.switchTo().alert();
@@ -346,6 +362,7 @@ public class Sb4ProjectUserPage extends Page {
 		Alert alert2 = _driver.switchTo().alert();
 		alert2.accept();
 		_driver.navigate().refresh();
+		logger.info("user register deleted");
 		return this;
 	}
 

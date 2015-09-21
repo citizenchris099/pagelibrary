@@ -58,6 +58,6 @@ public class genericTest001 {
 	@Test
 	public void logInTest001() throws InterruptedException {
 
-		new Sb4LoginPage(driver).loginAs(unameVal, pwordVal).goToProjInfo().goToProjUsers();
+		new Sb4LoginPage(driver).loginAs(unameVal, pwordVal).projInfoChk();
 	}
 }

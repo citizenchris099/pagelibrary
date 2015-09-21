@@ -349,7 +349,6 @@ public class Sb4EditUserPage extends Page {
 	 */
 	public UserRegPOJO checkEditUser() {
 		UserRegPOJO obj = new UserRegPOJO();
-
 		obj.setuName(getUName());
 		obj.setEmail(getEmail());
 		obj.setfName(getFname());
@@ -362,7 +361,7 @@ public class Sb4EditUserPage extends Page {
 		obj.setLinkedin(getLinkedin());
 		obj.setPinterest(getPintrest());
 		obj.setInstagram(getInstagram());
-		logger.info("Profile info retrieved");
+		logger.info("Edit User info retrieved");
 		return obj;
 	}
 

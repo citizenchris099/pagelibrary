@@ -146,4 +146,21 @@ public class Sb4HomePage extends Page {
 		um.projectInfo();
 		return new Sb4ProjectViewPage(_driver);
 	}
+
+	/**
+	 * checks for the presence of the project info menu. if present a runtime
+	 * exception is thrown and the user is logged out.
+	 * 
+	 * @return Sb4HomePage
+	 * @throws InterruptedException
+	 */
+	public Sb4HomePage projInfoChk() throws InterruptedException {
+		if (um.projInfoCount() > 0) {
+			LogOut();
+			logger.info("project info menu was found");
+			throw new RuntimeException("project info menu was found");
+		} else
+			logger.info("project info menu was not found");
+		return this;
+	}
 }

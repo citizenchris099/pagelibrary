@@ -1,25 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" total="1" passed="1">
+<testng-results skipped="0" failed="1" total="1" passed="0">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="31693" started-at="2015-09-18T14:03:10Z" finished-at="2015-09-18T14:03:42Z">
+  <suite name="Default suite" duration-ms="24274" started-at="2015-09-20T16:17:32Z" finished-at="2015-09-20T16:17:56Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="31693" started-at="2015-09-18T14:03:10Z" finished-at="2015-09-18T14:03:42Z">
+    <test name="Default test" duration-ms="24274" started-at="2015-09-20T16:17:32Z" finished-at="2015-09-20T16:17:56Z">
       <class name="com.balfour.sb4.unittests.genericTest001">
-        <test-method status="PASS" signature="setup()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@5d624da6]" name="setup" is-config="true" duration-ms="4866" started-at="2015-09-18T09:03:05Z" finished-at="2015-09-18T09:03:10Z">
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@5d624da6]" name="setup" is-config="true" duration-ms="4209" started-at="2015-09-20T11:17:28Z" finished-at="2015-09-20T11:17:32Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method status="PASS" signature="testSetUp()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@5d624da6]" name="testSetUp" is-config="true" duration-ms="9833" started-at="2015-09-18T09:03:10Z" finished-at="2015-09-18T09:03:20Z">
+        <test-method status="PASS" signature="testSetUp()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@5d624da6]" name="testSetUp" is-config="true" duration-ms="5760" started-at="2015-09-20T11:17:32Z" finished-at="2015-09-20T11:17:38Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testSetUp -->
-        <test-method status="PASS" signature="logInTest001()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@5d624da6]" name="logInTest001" duration-ms="21853" started-at="2015-09-18T09:03:20Z" finished-at="2015-09-18T09:03:42Z">
+        <test-method status="FAIL" signature="logInTest001()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@5d624da6]" name="logInTest001" duration-ms="18504" started-at="2015-09-20T11:17:38Z" finished-at="2015-09-20T11:17:56Z">
+          <exception class="java.lang.RuntimeException">
+            <message>
+              <![CDATA[project info menu was found]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.RuntimeException: project info menu was found
+	at com.balfour.publishing.qa.pages.sb4.Sb4HomePage.projInfoChk(Sb4HomePage.java:161)
+	at com.balfour.sb4.unittests.genericTest001.logInTest001(genericTest001.java:61)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:85)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:639)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:816)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1124)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:124)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:108)
+	at org.testng.TestRunner.privateRun(TestRunner.java:773)
+	at org.testng.TestRunner.run(TestRunner.java:623)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:359)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:354)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:312)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:261)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1185)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1110)
+	at org.testng.TestNG.run(TestNG.java:1018)
+	at org.testng.remote.RemoteTestNG.run(RemoteTestNG.java:112)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:205)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:176)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.RuntimeException -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- logInTest001 -->
-        <test-method status="PASS" signature="teardown()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@5d624da6]" name="teardown" is-config="true" duration-ms="193" started-at="2015-09-18T09:03:42Z" finished-at="2015-09-18T09:03:42Z">
+        <test-method status="PASS" signature="teardown()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@5d624da6]" name="teardown" is-config="true" duration-ms="192" started-at="2015-09-20T11:17:57Z" finished-at="2015-09-20T11:17:57Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- teardown -->
