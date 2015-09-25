@@ -161,8 +161,7 @@ public class Sb4ProfilePage extends Page {
 	}
 
 	private String getDName() {
-		return new Select(_driver.findElement(disName))
-				.getFirstSelectedOption().getText();
+		return new Select(_driver.findElement(disName)).getFirstSelectedOption().getText();
 	}
 
 	private Sb4ProfilePage setDName(String value) {
@@ -330,6 +329,15 @@ public class Sb4ProfilePage extends Page {
 		return this;
 	}
 
+	private Sb4ProfilePage updateFUProfile(UserRegPOJO obj) {
+
+		logger.info("Begin profile Update");
+		setFName(obj.getfName());
+		setLName(obj.getlName());
+		logger.info("profile Update complete");
+		return this;
+	}
+
 	/**
 	 * Services
 	 */
@@ -342,7 +350,6 @@ public class Sb4ProfilePage extends Page {
 	 * @return
 	 */
 	public Sb4ProfilePage updatePword(UserRegPOJO obj) {
-
 		logger.info("Begin password Update");
 		setPWord1(obj.getPword());
 		setPWord2(obj.getPword());
@@ -352,13 +359,29 @@ public class Sb4ProfilePage extends Page {
 		return this;
 	}
 
-	public Sb4ProfilePage successfullUpdate(UserRegPOJO obj) {
-
+	/**
+	 * used to update the users profile information
+	 * 
+	 * @param obj
+	 *            : UserRegPOJO
+	 * @return : Sb4ProfilePage
+	 */
+	public Sb4ProfilePage updateUserProfile(UserRegPOJO obj) {
 		logger.info("Begin Profile Update");
 		updateProfile(obj);
 		clickSubmit();
 		profileMsgChk(obj.getMsg());
 		logger.info("Profile Update complete");
+		return this;
+	}
+
+	public Sb4ProfilePage updateFakeUserProfile(UserRegPOJO obj) {
+
+		logger.info("Begin FU Profile Update");
+		updateFUProfile(obj);
+		clickSubmit();
+		profileMsgChk(obj.getMsg());
+		logger.info("FU Profile Update complete");
 		return this;
 	}
 

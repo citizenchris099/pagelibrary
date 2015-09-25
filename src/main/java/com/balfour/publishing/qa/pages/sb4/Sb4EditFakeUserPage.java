@@ -22,8 +22,7 @@ public class Sb4EditFakeUserPage extends Page {
 	private By userName = By.xpath("//*[@name='username']");
 	private By fName = By.xpath("//*[@name='firstname']");
 	private By lName = By.xpath("//*[@name='lastname']");
-	private By submit = By.xpath("//button[@id='admin_edit_user_submitButton']");
-	private By cancel = By.xpath("//button[@id='admin_edit_user_resetButton']");
+	private By submit = By.xpath("//button[.='Submit']");
 
 	/**
 	 * constructor that uses shared isloaded service to check for two unique
@@ -35,7 +34,7 @@ public class Sb4EditFakeUserPage extends Page {
 	public Sb4EditFakeUserPage(WebDriver driver) throws InterruptedException {
 		super(driver);
 		isLoaded(editUserTile, userName);
-		logger.info("Sb4EditUserPage is loaded");
+		logger.info("Sb4EditFakeUserPage is loaded");
 	}
 
 	/**
@@ -49,16 +48,6 @@ public class Sb4EditFakeUserPage extends Page {
 	 */
 	private Sb4EditFakeUserPage clickSubmit() {
 		_driver.findElement(submit).click();
-		return this;
-	}
-
-	/**
-	 * cancel button
-	 * 
-	 * @return
-	 */
-	public Sb4EditFakeUserPage clickCancel() {
-		_driver.findElement(cancel).click();
 		return this;
 	}
 

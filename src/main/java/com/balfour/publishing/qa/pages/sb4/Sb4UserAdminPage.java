@@ -41,13 +41,15 @@ public class Sb4UserAdminPage extends Page {
 			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0005')]");
 	private By lnField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0005')]");
 	private By emSearch = By.xpath(
-			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0006')]");
-	private By emField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0006')]");
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0007')]");
+	private By emField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0007')]");
 	private By roSearch = By.xpath(
-			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0009')]");
-	private By roField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0009')]");
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-000A')]");
+	private By roField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-000A')]");
 	private By prSearch = By.xpath(
-			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0008')]");
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0009')]");
+	private By unSearch = By.xpath(
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0006')]");
 
 	private String keyUrl = new Test_Enviornment().envUrl(slugNAction.getnReg_dynamic());
 	UserMenu um = new UserMenu(_driver);
@@ -85,6 +87,12 @@ public class Sb4UserAdminPage extends Page {
 		project.findElement(search).sendKeys(value);
 		return this;
 	}
+	
+	private Sb4UserAdminPage unameSearch(String value) {
+		WebElement uname = _driver.findElement(unSearch);
+		uname.findElement(search).sendKeys(value);
+		return this;
+	}
 
 	private Sb4UserAdminPage roleSearch(String value) {
 		WebElement role = _driver.findElement(roSearch);
@@ -115,6 +123,7 @@ public class Sb4UserAdminPage extends Page {
 			emailSearch(obj.getEmail());
 		}
 		projSearch(obj.getProject());
+		unameSearch(obj.getuName());
 		roleSearch(obj.getRole());
 		return this;
 	}
@@ -139,35 +148,27 @@ public class Sb4UserAdminPage extends Page {
 	}
 
 	private Sb4UserAdminPage NUFname(String value) {
-
 		_driver.findElement(NUFName).sendKeys(value);
-		;
 		return this;
 	}
 
 	private Sb4UserAdminPage NULname(String value) {
-
 		_driver.findElement(NULName).sendKeys(value);
-		;
 		return this;
 	}
 
 	private Sb4UserAdminPage NUEmail(String value) {
-
 		_driver.findElement(NUEmail).sendKeys(value);
-		;
 		return this;
 	}
 
 	private Sb4UserAdminPage NURole(String value) {
-
 		Select dropdown = new Select(_driver.findElement(NURole));
 		dropdown.selectByVisibleText(value);
 		return this;
 	}
 
 	private Sb4UserAdminPage NUProject(String value) {
-
 		WebElement proj = _driver.findElement(NUProj);
 		proj.click();
 		proj.findElement(NUProjTxt).sendKeys(value + Keys.RETURN);
@@ -175,7 +176,6 @@ public class Sb4UserAdminPage extends Page {
 	}
 
 	private Sb4UserAdminPage clickEnter() {
-
 		_driver.findElement(enter).click();
 		return this;
 	}
@@ -186,7 +186,6 @@ public class Sb4UserAdminPage extends Page {
 				obj.getDb_username(), obj.getDb_pword(), obj.getDb_reg_key());
 		String link = String.format(keyUrl, aVariable);
 		logger.info(link);
-
 		return link;
 	}
 
@@ -228,6 +227,7 @@ public class Sb4UserAdminPage extends Page {
 	 */
 	public Sb4UserAdminPage userFound(UserRegPOJO obj) {
 		if (userSearchCount(obj) < 1) {
+			logger.info("User Was Not Found");
 			throw new RuntimeException("User Was Not Found");
 		}
 		return this;
@@ -235,6 +235,7 @@ public class Sb4UserAdminPage extends Page {
 
 	public Sb4UserAdminPage userRegFound(UserRegPOJO obj) {
 		if (userRegSearchCount(obj) < 1) {
+			logger.info("User Was Not Found");
 			throw new RuntimeException("User Was Not Found");
 		}
 		return this;
@@ -310,6 +311,18 @@ public class Sb4UserAdminPage extends Page {
 		userFound(obj);
 		editUser();
 		return new Sb4EditUserPage(_driver);
+	}
+	
+	/**
+	 * searches for and clicks to edit fake users. 
+	 * @param obj : UserRegPOJO
+	 * @return : Sb4EditFakeUserPage
+	 * @throws InterruptedException
+	 */
+	public Sb4EditFakeUserPage editFakeUser(UserRegPOJO obj) throws InterruptedException {
+		userFound(obj);
+		editUser();
+		return new Sb4EditFakeUserPage(_driver);
 	}
 
 	/**

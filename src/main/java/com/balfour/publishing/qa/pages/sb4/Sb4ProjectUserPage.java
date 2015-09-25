@@ -46,12 +46,14 @@ public class Sb4ProjectUserPage extends Page {
 	private By lnSearch = By.xpath(
 			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0005')]");
 	private By lnField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0005')]");
-	private By emSearch = By.xpath(
+	private By unSearch = By.xpath(
 			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0006')]");
-	private By emField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0006')]");
-	private By roSearch = By.xpath(
+	private By emSearch = By.xpath(
 			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0007')]");
-	private By roField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0007')]");
+	private By emField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0007')]");
+	private By roSearch = By.xpath(
+			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0008')]");
+	private By roField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0008')]");
 
 	private String slug = slugNAction.getnReg_dynamic();
 	private String keyUrl = new Test_Enviornment().envUrl(slug);
@@ -79,6 +81,12 @@ public class Sb4ProjectUserPage extends Page {
 		return this;
 	}
 
+	private Sb4ProjectUserPage unameSearch(String value) {
+		WebElement uname = _driver.findElement(unSearch);
+		uname.findElement(search).sendKeys(value);
+		return this;
+	}
+	
 	private Sb4ProjectUserPage emailSearch(String value) {
 		WebElement email = _driver.findElement(emSearch);
 		email.findElement(search).sendKeys(value);
@@ -95,6 +103,7 @@ public class Sb4ProjectUserPage extends Page {
 		// _driver.navigate().refresh();
 		fNameSearch(obj.getfName());
 		lNameSearch(obj.getlName());
+		unameSearch(obj.getuName());
 		if (obj.getEmailSearch() == true) {
 			emailSearch(obj.getEmail());
 		}
@@ -346,6 +355,12 @@ public class Sb4ProjectUserPage extends Page {
 		return new Sb4EditUserPage(_driver);
 	}
 	
+	/**
+	 * searches for and clicks to edit fake users. 
+	 * @param obj : UserRegPOJO
+	 * @return : Sb4EditFakeUserPage
+	 * @throws InterruptedException
+	 */
 	public Sb4EditFakeUserPage editFakeUser(UserRegPOJO obj) throws InterruptedException {
 		userFound(obj);
 		editUser();
