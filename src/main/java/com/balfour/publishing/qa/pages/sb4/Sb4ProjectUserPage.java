@@ -86,7 +86,7 @@ public class Sb4ProjectUserPage extends Page {
 		uname.findElement(search).sendKeys(value);
 		return this;
 	}
-	
+
 	private Sb4ProjectUserPage emailSearch(String value) {
 		WebElement email = _driver.findElement(emSearch);
 		email.findElement(search).sendKeys(value);
@@ -245,12 +245,12 @@ public class Sb4ProjectUserPage extends Page {
 		FakeUName(obj.getuName());
 		FakePword1(obj.getPword());
 		FakePword2(obj.getPword());
-		try{
-		clickEnter();
-		waitForElementPresence(userRegMsg, 10);
-		}catch(UnhandledAlertException e){
+		try {
+			clickEnter();
+			waitForElementPresence(userRegMsg, 10);
+		} catch (UnhandledAlertException e) {
 			logger.info("unexpected alert present");
-			throw(e);
+			throw (e);
 		}
 		logger.info("fake user created");
 		return this;
@@ -263,6 +263,13 @@ public class Sb4ProjectUserPage extends Page {
 		return this;
 	}
 
+	/**
+	 * used to search for user on the PU grid
+	 * 
+	 * @param obj
+	 *            : UserRegPOJO
+	 * @return
+	 */
 	public Sb4ProjectUserPage userFound(UserRegPOJO obj) {
 		if (userSearchCount(obj) < 1) {
 			logger.info("user was not found");
@@ -354,10 +361,12 @@ public class Sb4ProjectUserPage extends Page {
 		editUser();
 		return new Sb4EditUserPage(_driver);
 	}
-	
+
 	/**
-	 * searches for and clicks to edit fake users. 
-	 * @param obj : UserRegPOJO
+	 * searches for and clicks to edit fake users.
+	 * 
+	 * @param obj
+	 *            : UserRegPOJO
 	 * @return : Sb4EditFakeUserPage
 	 * @throws InterruptedException
 	 */
@@ -414,5 +423,16 @@ public class Sb4ProjectUserPage extends Page {
 	public Sb4ProjectUserPage ChangeProject2(String nextProj) throws InterruptedException {
 		um.projectMenuSearch(nextProj);
 		return this;
+	}
+	
+	/**
+	 * shared service to take user to home page
+	 * 
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public Sb4HomePage GoHome() throws InterruptedException {
+		new MenuBar(_driver).goHome();
+		return new Sb4HomePage(_driver);
 	}
 }

@@ -150,7 +150,6 @@ public class Page {
 	}
 
 	public String emailGen002() {
-
 		String email = new RestUtil().guerrillamail();
 		logger.info("User Email is " + email);
 		return email;

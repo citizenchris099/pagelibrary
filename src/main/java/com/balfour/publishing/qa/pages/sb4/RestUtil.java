@@ -78,7 +78,6 @@ public class RestUtil {
 	}
 
 	public String guerrillamail() {
-
 		Response response = given().contentType(ContentType.JSON).expect()
 				.statusCode(200).get("https://api.guerrillamail.com/ajax.php?f=get_email_address");
 		String code = response.path("email_addr");

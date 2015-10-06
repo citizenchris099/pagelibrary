@@ -18,6 +18,7 @@ public class Sb4HomePage extends Page {
 	 */
 	private By brand = By.xpath("//a[@class='navbar-brand']");
 	private By status = By.xpath("//a[.='Book Status']");
+	private By cancelTour = By.xpath("//span[@id='canceltour']");
 	// private By build = By.xpath("//a[.='Build A Book']");
 	// private By sales = By.xpath("//a[.='Sales & Orders']");
 	// private By edu = By.xpath("//a[.='Education']");
@@ -35,10 +36,26 @@ public class Sb4HomePage extends Page {
 	public Sb4HomePage(WebDriver driver) throws InterruptedException {
 		super(driver);
 		if (tp.termsPageCheck() > 0) {
+			logger.info("Terms Page is loaded");
 			tp.agreeTerms();
+		} else if (tourCheck() > 0) {
+			logger.info("Tour is loaded");
+			closeTour();
 		} else
 			isLoaded(brand, status);
 		logger.info("Home Page is loaded");
+	}
+
+	/**
+	 * elements
+	 */
+
+	private int tourCheck() {
+		return _driver.findElements(cancelTour).size();
+	}
+
+	private void closeTour() {
+		_driver.findElement(cancelTour).click();
 	}
 
 	/**
