@@ -23,6 +23,7 @@ public class OCOPOJO {
 	private String grade;
 	private String orderTotal;
 	private String balance;
+	private String nBalance;
 	private String pType;
 	private String aPType;
 	private String aPaid;
@@ -43,9 +44,35 @@ public class OCOPOJO {
 	private String name;
 	private Boolean filloutPurchaser;
 	private Boolean check;
+	private String date;
+	private String pDate;
 
 	public OCOPOJO() {
 
+	}
+
+	public String getnBalance() {
+		return nBalance;
+	}
+
+	public void setnBalance(String nBalance) {
+		this.nBalance = nBalance;
+	}
+
+	public String getpDate() {
+		return pDate;
+	}
+
+	public void setpDate(String pDate) {
+		this.pDate = pDate;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	public String getaPType() {
@@ -183,7 +210,6 @@ public class OCOPOJO {
 	public void setLine(Boolean line) {
 		this.line = line;
 	}
-
 
 	public String getpQuanVal() {
 		return quan;
@@ -394,20 +420,32 @@ public class OCOPOJO {
 	@Override
 	public int hashCode() {
 		HashCodeBuilder builder = new HashCodeBuilder();
-		builder.append(pFName.trim());
-		builder.append(pLName.trim());
-		builder.append(add1.trim());
-		builder.append(add2.trim());
-		builder.append(city.trim());
-		builder.append(state.trim());
-		builder.append(zip.trim());
-		builder.append(phone.trim());
+		if (filloutPurchaser == true) {
+			builder.append(pFName.trim());
+			builder.append(pLName.trim());
+			builder.append(add1.trim());
+			builder.append(add2.trim());
+			builder.append(city.trim());
+			builder.append(state.trim());
+			builder.append(zip.trim());
+			builder.append(phone.trim());
+		}
 		builder.append(sFName.trim());
 		builder.append(sLName.trim());
 		builder.append(orderTotal.trim());
 		builder.append(balance.trim());
 		builder.append(pType.trim());
 		builder.append(aPaid.trim());
+		builder.append(date.trim());
+		if(paymentMade==true & !aPType.equals("Comp")){
+			builder.append(nBalance.trim());
+			builder.append(pDate.trim());
+			builder.append(aAPaid.trim());
+			builder.append(aPType.trim());
+		}else if(paymentMade==true & aPType.equals("Comp")){
+			builder.append(pDate.trim());
+			builder.append(aPType.trim());
+		}
 		return builder.toHashCode();
 	}
 }

@@ -1,5 +1,9 @@
 package com.balfour.publishing.qa.pages;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.client.fluent.Request;
@@ -100,6 +104,14 @@ public class Page {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public String curDate() {
+		Date today = Calendar.getInstance().getTime();
+		DateFormat df = new SimpleDateFormat("MMM dd");
+		String reportDate = df.format(today);
+		logger.info("Tadys date = " + reportDate.trim());
+		return reportDate.trim();
 	}
 
 	/**

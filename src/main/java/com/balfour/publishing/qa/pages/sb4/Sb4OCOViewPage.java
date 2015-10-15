@@ -30,6 +30,7 @@ public class Sb4OCOViewPage extends Page {
 	private By purchaser = By.xpath(".//div[@id='purchaser']");
 	private By student = By.xpath(".//div[@id='student']");
 	private By orderNum = By.xpath(".//div[@id='order-number']");
+	private By editOCO = By.xpath(".//input[@id='editOrder']");
 
 	/**
 	 * constructor that uses shared isloaded service to check for two unique
@@ -82,26 +83,6 @@ public class Sb4OCOViewPage extends Page {
 		String line1 = tokens[0].trim();
 		logger.info("OCO date = " + line1.trim());
 		return line1.trim();
-	}
-
-	private String curDate() {
-		Date today = Calendar.getInstance().getTime();
-		DateFormat df = new SimpleDateFormat("MMM dd");
-		String reportDate = df.format(today);
-		logger.info("Tadys date = " + reportDate.trim());
-		return reportDate.trim();
-	}
-
-	/**
-	 * used to check that a newly entered OCO date is todays date
-	 */
-	private void checODate() {
-		logger.info("checking OCO date");
-		if (!oDate().equals(curDate())) {
-			logger.info("OCO date is not todays date");
-			throw new RuntimeException("The Order date did not match the Current date");
-		}
-		logger.info("OCO date is todays date");
 	}
 
 	/**
@@ -183,7 +164,7 @@ public class Sb4OCOViewPage extends Page {
 		String due = tokens[2].trim();
 		return due.trim().replaceAll("[^a-zA-Z0-9]", "").trim();
 	}
-	
+
 	private String tDueComp() {
 		WebElement oTotal = _driver.findElement(orderTotal);
 		String tmp = oTotal.getText().trim().replaceAll("\n", " ").replaceAll("\r", " ");
@@ -271,39 +252,72 @@ public class Sb4OCOViewPage extends Page {
 	 * 
 	 * @return OCOPOJO
 	 */
-	public OCOPOJO getOCOInfo(OCOPOJO obj) {
+	public void getOCOInfo(OCOPOJO obj) {
 		logger.info("Checking On Campus Orders View Page info");
-		checODate();
-		OCOPOJO oco = new OCOPOJO();
+		logger.info("view oDate value found = " + oDate());
+		obj.setDate(oDate());
 		if (obj.getFilloutPurchaser() == true) {
-			oco.setPhone(getPhone());
-			oco.setZip(getZip());
-			oco.setState(getState());
-			oco.setCity(getCity());
-			oco.setAdd1(getAdd1());
-			oco.setAdd2(getAdd2());
-			oco.setpFName(getPurchaserFName());
-			oco.setpLName(getPurchaserLName());
+			logger.info("view getPhone value found = " + getPhone());
+			obj.setPhone(getPhone());
+			logger.info("view getZip value found = " + getZip());
+			obj.setZip(getZip());
+			logger.info("view getState value found = " + getState());
+			obj.setState(getState());
+			logger.info("view getCity value found = " + getCity());
+			obj.setCity(getCity());
+			logger.info("view getAdd1 value found = " + getAdd1());
+			obj.setAdd1(getAdd1());
+			logger.info("view getAdd2 value found = " + getAdd2());
+			obj.setAdd2(getAdd2());
+			logger.info("view getPurchaserFName value found = " + getPurchaserFName());
+			obj.setpFName(getPurchaserFName());
+			logger.info("view getPurchaserLName value found = " + getPurchaserLName());
+			obj.setpLName(getPurchaserLName());
 		}
-		oco.setsFName(getStudentFName());
-		oco.setsLName(getStudentLName());
-		oco.setOrderNumber(getOnum());
-		if (!obj.getpType().equals("Comp")) {
-			oco.setBalance(tDue());
-		} else {
-			oco.setBalance(tDueComp());
+		logger.info("view getStudentFName value found = " + getStudentFName());
+		obj.setsFName(getStudentFName());
+		logger.info("view getStudentLName value found = " + getStudentLName());
+		obj.setsLName(getStudentLName());
+		logger.info("view getOnum value found = " + getOnum());
+		obj.setOrderNumber(getOnum());
+		if (obj.getPaymentMade() == false) {
+			if (!obj.getpType().equals("Comp")) {
+				logger.info("view tDue value found = " + tDue());
+				obj.setBalance(tDue());
+			} else {
+				logger.info("view tDueComp value found = " + tDueComp());
+				obj.setBalance(tDueComp());
+			}
+		} else if (obj.getPaymentMade() == true) {
+			if (!obj.getpType().equals("Comp")) {
+				logger.info("view tDue value found = " + tDue());
+				obj.setnBalance(tDue());
+			} else {
+				logger.info("view tDueComp value found = " + tDueComp());
+				obj.setnBalance(tDueComp());
+			}
 		}
-		oco.setOrderTotal(oTotal());
-		oco.setaPaid(aPaid());
-		oco.setpType(pType());
+		logger.info("view oTotal value found = " + oTotal());
+		obj.setOrderTotal(oTotal());
+		logger.info("view aPaid value found = " + aPaid());
+		obj.setaPaid(aPaid());
+		logger.info("view pType value found = " + pType());
+		obj.setpType(pType());
 		if (obj.getPaymentMade() == true) {
-			checPDate();
-			oco.setaPType(aPType());
-			oco.setaAPaid(aAPaid());
+			logger.info("view pDate value found = " + pDate());
+			obj.setpDate(pDate());
+			logger.info("view aPType value found = " + aPType());
+			obj.setaPType(aPType());
+			logger.info("view aAPaid value found = " + aAPaid());
+			obj.setaAPaid(aAPaid());
 		}
-
 		logger.info("On Campus Orders View Page info retrieved");
-		return oco;
+		// return oco;
+	}
+
+	public Sb4OCOPage editOCO() throws InterruptedException {
+		_driver.findElement(editOCO).click();
+		return new Sb4OCOPage(_driver);
 	}
 
 	/**

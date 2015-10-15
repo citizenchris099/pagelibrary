@@ -18,10 +18,21 @@ public class TestPOJO {
 	private String sbPUDyUrl;
 	private String sbProjConf;
 	private String sbUAUrl;
+	private String sbOCOurl;
 	
 	
 
 	public TestPOJO() {
+	}
+
+
+	public String getSbOCOurl() {
+		return sbOCOurl;
+	}
+
+
+	public void setSbOCOurl(String sbOCOurl) {
+		this.sbOCOurl = sbOCOurl;
 	}
 
 

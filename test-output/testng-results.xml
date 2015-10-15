@@ -2,24 +2,24 @@
 <testng-results skipped="0" failed="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="112935" started-at="2015-10-06T12:36:20Z" finished-at="2015-10-06T12:38:13Z">
+  <suite name="Default suite" duration-ms="165409" started-at="2015-10-14T18:26:53Z" finished-at="2015-10-14T18:29:39Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="112935" started-at="2015-10-06T12:36:20Z" finished-at="2015-10-06T12:38:13Z">
+    <test name="Default test" duration-ms="165409" started-at="2015-10-14T18:26:53Z" finished-at="2015-10-14T18:29:39Z">
       <class name="com.balfour.sb4.unittests.genericTest001">
-        <test-method status="PASS" signature="setup()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@1e67b872]" name="setup" is-config="true" duration-ms="9035" started-at="2015-10-06T07:36:11Z" finished-at="2015-10-06T07:36:20Z">
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@10bdf5e5]" name="setup" is-config="true" duration-ms="7141" started-at="2015-10-14T13:26:46Z" finished-at="2015-10-14T13:26:53Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method status="PASS" signature="testSetUp()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@1e67b872]" name="testSetUp" is-config="true" duration-ms="5521" started-at="2015-10-06T07:36:20Z" finished-at="2015-10-06T07:36:26Z">
+        <test-method status="PASS" signature="testSetUp()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@10bdf5e5]" name="testSetUp" is-config="true" duration-ms="4261" started-at="2015-10-14T13:26:53Z" finished-at="2015-10-14T13:26:58Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testSetUp -->
-        <test-method status="PASS" signature="ocoTest001()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@1e67b872]" name="ocoTest001" duration-ms="107408" started-at="2015-10-06T07:36:26Z" finished-at="2015-10-06T07:38:13Z">
+        <test-method status="PASS" signature="ocoTest003()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@10bdf5e5]" name="ocoTest003" duration-ms="161142" started-at="2015-10-14T13:26:58Z" finished-at="2015-10-14T13:29:39Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- ocoTest001 -->
-        <test-method status="PASS" signature="teardown()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@1e67b872]" name="teardown" is-config="true" duration-ms="215" started-at="2015-10-06T07:38:13Z" finished-at="2015-10-06T07:38:13Z">
+        </test-method> <!-- ocoTest003 -->
+        <test-method status="PASS" signature="teardown()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@10bdf5e5]" name="teardown" is-config="true" duration-ms="135" started-at="2015-10-14T13:29:39Z" finished-at="2015-10-14T13:29:39Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- teardown -->

@@ -28,7 +28,8 @@ public class Sb4OCOListPage extends Page {
 	// private String ocoNew = slugNAction.getOcoNew();
 	// private By newOrder = dynamicLocator(ocoNew);
 	private By newOrder = By.xpath("//*[contains(@href,'/sales-orders/oncampus/?action=config&orderid=New')]");
-	private By editOrder = By.xpath("//*[.='edit']");
+//	private By editOrder = By.xpath("//*[.='edit']");
+	private By editOrder = By.xpath("//*[contains(@href,'/sales-orders/oncampus/?action=config&orderid=')] [.='edit']");
 
 	JavascriptExecutor jse = (JavascriptExecutor) _driver;
 
