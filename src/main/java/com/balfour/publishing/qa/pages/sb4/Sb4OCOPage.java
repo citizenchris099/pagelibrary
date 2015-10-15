@@ -468,6 +468,10 @@ public class Sb4OCOPage extends Page {
 	 * @return
 	 */
 	private Sb4OCOPage setAmtPaid(String value) {
+		if (!_driver.findElement(amtPaid).getAttribute("value").equals("0")){
+			logger.info("The OCO Amount was not 0");
+			throw new RuntimeException("The OCO Amount was not 0");
+		}
 		_driver.findElement(amtPaid).sendKeys(Keys.chord(Keys.CONTROL, "a"));
 		_driver.findElement(amtPaid).sendKeys(Keys.BACK_SPACE + value);
 		_driver.findElement(amtPaid).sendKeys(Keys.TAB);

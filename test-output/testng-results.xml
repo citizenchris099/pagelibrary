@@ -1,25 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" total="1" passed="1">
+<testng-results skipped="0" failed="1" total="1" passed="0">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="165409" started-at="2015-10-14T18:26:53Z" finished-at="2015-10-14T18:29:39Z">
+  <suite name="Default suite" duration-ms="118704" started-at="2015-10-15T17:39:50Z" finished-at="2015-10-15T17:41:48Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="165409" started-at="2015-10-14T18:26:53Z" finished-at="2015-10-14T18:29:39Z">
+    <test name="Default test" duration-ms="118704" started-at="2015-10-15T17:39:50Z" finished-at="2015-10-15T17:41:48Z">
       <class name="com.balfour.sb4.unittests.genericTest001">
-        <test-method status="PASS" signature="setup()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@10bdf5e5]" name="setup" is-config="true" duration-ms="7141" started-at="2015-10-14T13:26:46Z" finished-at="2015-10-14T13:26:53Z">
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@10bdf5e5]" name="setup" is-config="true" duration-ms="12021" started-at="2015-10-15T12:39:38Z" finished-at="2015-10-15T12:39:50Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method status="PASS" signature="testSetUp()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@10bdf5e5]" name="testSetUp" is-config="true" duration-ms="4261" started-at="2015-10-14T13:26:53Z" finished-at="2015-10-14T13:26:58Z">
+        <test-method status="PASS" signature="testSetUp()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@10bdf5e5]" name="testSetUp" is-config="true" duration-ms="5777" started-at="2015-10-15T12:39:50Z" finished-at="2015-10-15T12:39:55Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testSetUp -->
-        <test-method status="PASS" signature="ocoTest003()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@10bdf5e5]" name="ocoTest003" duration-ms="161142" started-at="2015-10-14T13:26:58Z" finished-at="2015-10-14T13:29:39Z">
+        <test-method status="FAIL" signature="ocoTest003()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@10bdf5e5]" name="ocoTest003" duration-ms="112917" started-at="2015-10-15T12:39:55Z" finished-at="2015-10-15T12:41:48Z">
+          <exception class="org.openqa.selenium.TimeoutException">
+            <message>
+              <![CDATA[Timed out after 10 seconds waiting for visibility of element located by By.xpath: //*[contains(@href, '10010826')]
+Build info: version: '2.45.0', revision: '5017cb8e7ca8e37638dc3091b2440b90a1d8686f', time: '2015-02-27 09:10:26'
+System info: host: 'd-cmanning-mbp.local', ip: '10.33.8.173', os.name: 'Mac OS X', os.arch: 'x86_64', os.version: '10.10.5', java.version: '1.8.0_60'
+Driver info: org.openqa.selenium.remote.RemoteWebDriver
+Capabilities [{applicationCacheEnabled=true, rotatable=false, hasMetadata=true, databaseEnabled=true, handlesAlerts=true, version=40.0.2, platform=WINDOWS, nativeEvents=false, acceptSslCerts=true, webdriver.remote.sessionid=45fe05bdf89e4ee5a5a76b41ece4c0e3, locationContextEnabled=true, webStorageEnabled=true, takesScreenshot=true, browserName=firefox, javascriptEnabled=true, cssSelectorsEnabled=true}]
+Session ID: 45fe05bdf89e4ee5a5a76b41ece4c0e3]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[org.openqa.selenium.TimeoutException: Timed out after 10 seconds waiting for visibility of element located by By.xpath: //*[contains(@href, '10010826')]
+Build info: version: '2.45.0', revision: '5017cb8e7ca8e37638dc3091b2440b90a1d8686f', time: '2015-02-27 09:10:26'
+System info: host: 'd-cmanning-mbp.local', ip: '10.33.8.173', os.name: 'Mac OS X', os.arch: 'x86_64', os.version: '10.10.5', java.version: '1.8.0_60'
+Driver info: org.openqa.selenium.remote.RemoteWebDriver
+Capabilities [{applicationCacheEnabled=true, rotatable=false, hasMetadata=true, databaseEnabled=true, handlesAlerts=true, version=40.0.2, platform=WINDOWS, nativeEvents=false, acceptSslCerts=true, webdriver.remote.sessionid=45fe05bdf89e4ee5a5a76b41ece4c0e3, locationContextEnabled=true, webStorageEnabled=true, takesScreenshot=true, browserName=firefox, javascriptEnabled=true, cssSelectorsEnabled=true}]
+Session ID: 45fe05bdf89e4ee5a5a76b41ece4c0e3
+	at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:79)
+	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:228)
+	at com.balfour.publishing.qa.pages.Page.waitForElementVisable(Page.java:51)
+	at com.balfour.publishing.qa.pages.Page.waitForElementVisable(Page.java:74)
+	at com.balfour.publishing.qa.pages.sb4.Sb4OCOListPage.fullOCOSearch(Sb4OCOListPage.java:98)
+	at com.balfour.publishing.qa.pages.sb4.Sb4OCOListPage.editOCO(Sb4OCOListPage.java:138)
+	at com.balfour.sb4.unittests.genericTest001.ocoTest003(genericTest001.java:123)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:85)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:639)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:816)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1124)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:124)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:108)
+	at org.testng.TestRunner.privateRun(TestRunner.java:773)
+	at org.testng.TestRunner.run(TestRunner.java:623)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:359)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:354)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:312)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:261)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1185)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1110)
+	at org.testng.TestNG.run(TestNG.java:1018)
+	at org.testng.remote.RemoteTestNG.run(RemoteTestNG.java:112)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:205)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:176)
+Caused by: org.openqa.selenium.NoSuchElementException: Unable to locate element: {"method":"xpath","selector":"//*[contains(@href, '10010826')]"}
+For documentation on this error, please visit: http://seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '2.47.1', revision: '411b314', time: '2015-07-30 03:03:16'
+System info: host: 'WIN-R1JBAO1CNPS', ip: '172.20.32.146', os.name: 'Windows Server 2008 R2', os.arch: 'x86', os.version: '6.1', java.version: '1.7.0_60'
+Driver info: driver.version: unknown
+Command duration or timeout: 7.20 seconds
+For documentation on this error, please visit: http://seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '2.45.0', revision: '5017cb8e7ca8e37638dc3091b2440b90a1d8686f', time: '2015-02-27 09:10:26'
+System info: host: 'd-cmanning-mbp.local', ip: '10.33.8.173', os.name: 'Mac OS X', os.arch: 'x86_64', os.version: '10.10.5', java.version: '1.8.0_60'
+Driver info: org.openqa.selenium.remote.RemoteWebDriver
+Capabilities [{applicationCacheEnabled=true, rotatable=false, hasMetadata=true, databaseEnabled=true, handlesAlerts=true, version=40.0.2, platform=WINDOWS, nativeEvents=false, acceptSslCerts=true, webdriver.remote.sessionid=45fe05bdf89e4ee5a5a76b41ece4c0e3, locationContextEnabled=true, webStorageEnabled=true, takesScreenshot=true, browserName=firefox, javascriptEnabled=true, cssSelectorsEnabled=true}]
+Session ID: 45fe05bdf89e4ee5a5a76b41ece4c0e3
+*** Element info: {Using=xpath, value=//*[contains(@href, '10010826')]}
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:422)
+	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:204)
+	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:156)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:599)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:352)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:449)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:357)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:344)
+	at org.openqa.selenium.support.ui.ExpectedConditions.findElement(ExpectedConditions.java:730)
+	at org.openqa.selenium.support.ui.ExpectedConditions.access$000(ExpectedConditions.java:39)
+	at org.openqa.selenium.support.ui.ExpectedConditions$4.apply(ExpectedConditions.java:130)
+	at org.openqa.selenium.support.ui.ExpectedConditions$4.apply(ExpectedConditions.java:126)
+	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:208)
+	... 29 more
+Caused by: org.openqa.selenium.NoSuchElementException: Unable to locate element: {"method":"xpath","selector":"//*[contains(@href, '10010826')]"}
+For documentation on this error, please visit: http://seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '2.47.1', revision: '411b314', time: '2015-07-30 03:03:16'
+System info: host: 'WIN-R1JBAO1CNPS', ip: '172.20.32.146', os.name: 'Windows Server 2008 R2', os.arch: 'x86', os.version: '6.1', java.version: '1.7.0_60'
+Driver info: driver.version: unknown
+For documentation on this error, please visit: http://seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '2.45.0', revision: '5017cb8e7ca8e37638dc3091b2440b90a1d8686f', time: '2015-02-27 09:10:26'
+System info: host: 'd-cmanning-mbp.local', ip: '10.33.8.173', os.name: 'Mac OS X', os.arch: 'x86_64', os.version: '10.10.5', java.version: '1.8.0_60'
+Driver info: driver.version: unknown
+	at <anonymous class>.FirefoxDriver.prototype.findElementInternal_(file:///C:/Users/ADMINI~1/AppData/Local/Temp/anonymous2044317957532184267webdriver-profile/extensions/fxdriver@googlecode.com/components/driver-component.js:10667)
+	at <anonymous class>.fxdriver.Timer.prototype.setTimeout/<.notify(file:///C:/Users/ADMINI~1/AppData/Local/Temp/anonymous2044317957532184267webdriver-profile/extensions/fxdriver@googlecode.com/components/driver-component.js:623)
+]]>
+            </full-stacktrace>
+          </exception> <!-- org.openqa.selenium.TimeoutException -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- ocoTest003 -->
-        <test-method status="PASS" signature="teardown()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@10bdf5e5]" name="teardown" is-config="true" duration-ms="135" started-at="2015-10-14T13:29:39Z" finished-at="2015-10-14T13:29:39Z">
+        <test-method status="PASS" signature="teardown()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@10bdf5e5]" name="teardown" is-config="true" duration-ms="151" started-at="2015-10-15T12:41:48Z" finished-at="2015-10-15T12:41:49Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- teardown -->
