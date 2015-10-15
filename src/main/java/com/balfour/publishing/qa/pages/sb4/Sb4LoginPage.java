@@ -37,8 +37,7 @@ public class Sb4LoginPage extends Page {
 	private By submit = By.xpath("//button[.='Submit']");
 
 	private SshUtil sshUtil;
-	private String keyUrl = new Test_Enviornment().envUrl(slugNAction
-			.getPwrdNonce_dynamic());
+	private String keyUrl = new Test_Enviornment().envUrl(slugNAction.getPwrdNonce_dynamic());
 
 	/**
 	 * constructor that uses shared isloaded service to check for two unique
@@ -191,8 +190,7 @@ public class Sb4LoginPage extends Page {
 	 * @return: Dashboard Page constructor should be called
 	 * @throws InterruptedException
 	 */
-	public Sb4HomePage loginAs(String unameVal, String pwordVal)
-			throws InterruptedException {
+	public Sb4HomePage loginAs(String unameVal, String pwordVal) throws InterruptedException {
 		logger.info("Begin LogIn");
 		setUname(unameVal);
 		setPword(pwordVal);
@@ -208,8 +206,7 @@ public class Sb4LoginPage extends Page {
 	 * @return: Dashboard Page constructor should be called
 	 * @throws InterruptedException
 	 */
-	public Sb4AdminDashboardPage loginAsAdmin(String unameVal, String pwordVal)
-			throws InterruptedException {
+	public Sb4AdminDashboardPage loginAsAdmin(String unameVal, String pwordVal) throws InterruptedException {
 		setUname(unameVal);
 		setPword(pwordVal);
 		clickSignin();
@@ -229,6 +226,20 @@ public class Sb4LoginPage extends Page {
 		setPword(pwordVal);
 		clickSignin();
 		return new Sb4LoginPage(_driver, "Invalid Username/Password");
+	}
+
+	/**
+	 * used to test disabled user login
+	 * 
+	 * @param unameVal
+	 * @param pwordVal
+	 * @return
+	 */
+	public Sb4LoginPage disabledloginAs(String unameVal, String pwordVal) {
+		setUname(unameVal);
+		setPword(pwordVal);
+		clickSignin();
+		return new Sb4LoginPage(_driver, "Please contact your Balfour representative");
 	}
 
 	/**
@@ -267,8 +278,7 @@ public class Sb4LoginPage extends Page {
 	 * @throws IOException
 	 * @throws URISyntaxException
 	 */
-	public Sb4LoginPage delEmailLogFile(String ip, String authusr, String cmd)
-			throws IOException, URISyntaxException {
+	public Sb4LoginPage delEmailLogFile(String ip, String authusr, String cmd) throws IOException, URISyntaxException {
 		sshUtil.rmFile(ip, authusr, cmd);
 
 		return this;
@@ -306,12 +316,10 @@ public class Sb4LoginPage extends Page {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public Sb4PwrdUpdatePage GetPwrdKey(LogInPOJO obj)
-			throws InterruptedException, InstantiationException,
+	public Sb4PwrdUpdatePage GetPwrdKey(LogInPOJO obj) throws InterruptedException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException, SQLException {
-		String aVariable = new DbUtil().B4PubData(obj.getUserId(),
-				obj.getStatement(), obj.getDb_url(), obj.getDb_username(),
-				obj.getDb_pword(), obj.getDb_reg_key());
+		String aVariable = new DbUtil().B4PubData(obj.getUserId(), obj.getStatement(), obj.getDb_url(),
+				obj.getDb_username(), obj.getDb_pword(), obj.getDb_reg_key());
 		String link = String.format(keyUrl, aVariable);
 		logger.info(link);
 		_driver.get(link);

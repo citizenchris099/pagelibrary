@@ -10,16 +10,49 @@ public class TestPOJO {
 	private String advUname;
 	private String advPword;
 	private String miscUname001;
+	private String miscPword001;
 	private String miscUname002;
 	private String sbRegUrl;
 	private String sbLogOnUrl;
 	private String sbPUUrl;
+	private String sbPUDyUrl;
 	private String sbProjConf;
 	private String sbUAUrl;
+	private String sbOCOurl;
 	
 	
 
 	public TestPOJO() {
+	}
+
+
+	public String getSbOCOurl() {
+		return sbOCOurl;
+	}
+
+
+	public void setSbOCOurl(String sbOCOurl) {
+		this.sbOCOurl = sbOCOurl;
+	}
+
+
+	public String getSbPUDyUrl() {
+		return sbPUDyUrl;
+	}
+
+
+	public void setSbPUDyUrl(String sbPUDyUrl) {
+		this.sbPUDyUrl = sbPUDyUrl;
+	}
+
+
+	public String getMiscPword001() {
+		return miscPword001;
+	}
+
+
+	public void setMiscPword001(String miscPword001) {
+		this.miscPword001 = miscPword001;
 	}
 
 

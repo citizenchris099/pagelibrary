@@ -16,7 +16,7 @@ public class email_Test {
 		String email = null;
 		while (flag = true) {
 
-			email = new RndStringUtil().RandomEmail();
+			email = new RndStringUtil().randomPass();
 			String results = new RestUtil().enfoldCheckString(url, email);
 
 			if (expected.equals(results)) {

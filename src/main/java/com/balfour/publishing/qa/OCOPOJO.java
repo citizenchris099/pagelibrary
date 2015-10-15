@@ -9,6 +9,7 @@ public class OCOPOJO {
 	private String pMi;
 	private String pLName;
 	private String email;
+	private String studentEmail;
 	private String add1;
 	private String add2;
 	private String city;
@@ -22,11 +23,15 @@ public class OCOPOJO {
 	private String grade;
 	private String orderTotal;
 	private String balance;
+	private String nBalance;
 	private String pType;
+	private String aPType;
 	private String aPaid;
+	private String aAPaid;
+	private Boolean paymentMade;
 	private String cNum;
-	private String pQuanId;
-	private String pQuanVal;
+	private String price;
+	private String quan;
 	private Boolean icon;
 	private Boolean line;
 	private String lineId;
@@ -34,11 +39,120 @@ public class OCOPOJO {
 	private String iconMenuId;
 	private String iconId;
 	private String iconMenuValue;
-
+	private String orderNumber;
+	private String balStatus;
+	private String name;
+	private Boolean filloutPurchaser;
 	private Boolean check;
+	private String date;
+	private String pDate;
 
 	public OCOPOJO() {
 
+	}
+
+	public String getnBalance() {
+		return nBalance;
+	}
+
+	public void setnBalance(String nBalance) {
+		this.nBalance = nBalance;
+	}
+
+	public String getpDate() {
+		return pDate;
+	}
+
+	public void setpDate(String pDate) {
+		this.pDate = pDate;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getaPType() {
+		return aPType;
+	}
+
+	public void setaPType(String aPType) {
+		this.aPType = aPType;
+	}
+
+	public String getaAPaid() {
+		return aAPaid;
+	}
+
+	public void setaAPaid(String aAPaid) {
+		this.aAPaid = aAPaid;
+	}
+
+	public Boolean getPaymentMade() {
+		return paymentMade;
+	}
+
+	public void setPaymentMade(Boolean paymentMade) {
+		this.paymentMade = paymentMade;
+	}
+
+	public Boolean getFilloutPurchaser() {
+		return filloutPurchaser;
+	}
+
+	public void setFilloutPurchaser(Boolean filloutPurchaser) {
+		this.filloutPurchaser = filloutPurchaser;
+	}
+
+	public String getStudentEmail() {
+		return studentEmail;
+	}
+
+	public void setStudentEmail(String studentEmail) {
+		this.studentEmail = studentEmail;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
+	public String getQuan() {
+		return quan;
+	}
+
+	public void setQuan(String quan) {
+		this.quan = quan;
+	}
+
+	public String getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+
+	public String getBalStatus() {
+		return balStatus;
+	}
+
+	public void setBalStatus(String balStatus) {
+		this.balStatus = balStatus;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getIconMenuId() {
@@ -97,20 +211,12 @@ public class OCOPOJO {
 		this.line = line;
 	}
 
-	public String getpQuanId() {
-		return pQuanId;
-	}
-
-	public void setpQuanId(String pQuanId) {
-		this.pQuanId = pQuanId;
-	}
-
 	public String getpQuanVal() {
-		return pQuanVal;
+		return quan;
 	}
 
 	public void setpQuanVal(String pQuanVal) {
-		this.pQuanVal = pQuanVal;
+		this.quan = pQuanVal;
 	}
 
 	public Boolean getCheck() {
@@ -314,26 +420,32 @@ public class OCOPOJO {
 	@Override
 	public int hashCode() {
 		HashCodeBuilder builder = new HashCodeBuilder();
-		builder.append(pFName);
-		builder.append(pMi);
-		builder.append(pLName);
-		builder.append(email);
-		builder.append(add1);
-		builder.append(add2);
-		builder.append(city);
-		builder.append(state);
-		builder.append(zip);
-		builder.append(country);
-		builder.append(phone);
-		builder.append(sFName);
-		builder.append(sMi);
-		builder.append(sLName);
-		builder.append(grade);
-		builder.append(orderTotal);
-		builder.append(balance);
-		builder.append(pType);
-		builder.append(aPaid);
-		builder.append(cNum);
+		if (filloutPurchaser == true) {
+			builder.append(pFName.trim());
+			builder.append(pLName.trim());
+			builder.append(add1.trim());
+			builder.append(add2.trim());
+			builder.append(city.trim());
+			builder.append(state.trim());
+			builder.append(zip.trim());
+			builder.append(phone.trim());
+		}
+		builder.append(sFName.trim());
+		builder.append(sLName.trim());
+		builder.append(orderTotal.trim());
+		builder.append(balance.trim());
+		builder.append(pType.trim());
+		builder.append(aPaid.trim());
+		builder.append(date.trim());
+		if(paymentMade==true & !aPType.equals("Comp")){
+			builder.append(nBalance.trim());
+			builder.append(pDate.trim());
+			builder.append(aAPaid.trim());
+			builder.append(aPType.trim());
+		}else if(paymentMade==true & aPType.equals("Comp")){
+			builder.append(pDate.trim());
+			builder.append(aPType.trim());
+		}
 		return builder.toHashCode();
 	}
 }

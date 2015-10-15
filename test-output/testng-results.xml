@@ -1,106 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="1" total="1" passed="0">
+<testng-results skipped="0" failed="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="206343" started-at="2015-08-19T17:59:54Z" finished-at="2015-08-19T18:03:20Z">
+  <suite name="Default suite" duration-ms="165409" started-at="2015-10-14T18:26:53Z" finished-at="2015-10-14T18:29:39Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="206343" started-at="2015-08-19T17:59:54Z" finished-at="2015-08-19T18:03:20Z">
-      <class name="com.balfour.sb4.unittests.UserAdmin_Test">
-        <test-method status="PASS" signature="setup()[pri:0, instance:com.balfour.sb4.unittests.UserAdmin_Test@6578e964]" name="setup" is-config="true" duration-ms="67762" started-at="2015-08-19T12:58:46Z" finished-at="2015-08-19T12:59:54Z">
+    <test name="Default test" duration-ms="165409" started-at="2015-10-14T18:26:53Z" finished-at="2015-10-14T18:29:39Z">
+      <class name="com.balfour.sb4.unittests.genericTest001">
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@10bdf5e5]" name="setup" is-config="true" duration-ms="7141" started-at="2015-10-14T13:26:46Z" finished-at="2015-10-14T13:26:53Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method status="PASS" signature="testSetUp()[pri:0, instance:com.balfour.sb4.unittests.UserAdmin_Test@6578e964]" name="testSetUp" is-config="true" duration-ms="1882" started-at="2015-08-19T12:59:54Z" finished-at="2015-08-19T12:59:56Z">
+        <test-method status="PASS" signature="testSetUp()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@10bdf5e5]" name="testSetUp" is-config="true" duration-ms="4261" started-at="2015-10-14T13:26:53Z" finished-at="2015-10-14T13:26:58Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testSetUp -->
-        <test-method status="FAIL" signature="userAdminTest005()[pri:0, instance:com.balfour.sb4.unittests.UserAdmin_Test@6578e964]" name="userAdminTest005" duration-ms="204442" started-at="2015-08-19T12:59:56Z" finished-at="2015-08-19T13:03:20Z">
-          <exception class="org.openqa.selenium.TimeoutException">
-            <message>
-              <![CDATA[Timed out after 15 seconds waiting for visibility of element located by By.xpath: //button[contains(text(), 'Y50061')]
-Build info: version: '2.45.0', revision: '5017cb8e7ca8e37638dc3091b2440b90a1d8686f', time: '2015-02-27 09:10:26'
-System info: host: 'A-MACBOOKPRO-1.local', ip: '10.160.10.149', os.name: 'Mac OS X', os.arch: 'x86_64', os.version: '10.9.5', java.version: '1.7.0_25'
-Session ID: a97265ffb7974b48917fcfd17aedaff8
-Driver info: org.openqa.selenium.remote.RemoteWebDriver
-Capabilities [{platform=XP, acceptSslCerts=true, javascriptEnabled=true, hasMetadata=true, browserName=chrome, chrome={userDataDir=C:\Users\ADMINI~1\AppData\Local\Temp\scoped_dir2420_20490}, rotatable=false, mobileEmulationEnabled=false, locationContextEnabled=true, webdriver.remote.sessionid=a97265ffb7974b48917fcfd17aedaff8, version=44.0.2403.125, takesHeapSnapshot=true, cssSelectorsEnabled=true, databaseEnabled=false, handlesAlerts=true, browserConnectionEnabled=false, webStorageEnabled=true, nativeEvents=true, applicationCacheEnabled=false, takesScreenshot=true}]]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[org.openqa.selenium.TimeoutException: Timed out after 15 seconds waiting for visibility of element located by By.xpath: //button[contains(text(), 'Y50061')]
-Build info: version: '2.45.0', revision: '5017cb8e7ca8e37638dc3091b2440b90a1d8686f', time: '2015-02-27 09:10:26'
-System info: host: 'A-MACBOOKPRO-1.local', ip: '10.160.10.149', os.name: 'Mac OS X', os.arch: 'x86_64', os.version: '10.9.5', java.version: '1.7.0_25'
-Session ID: a97265ffb7974b48917fcfd17aedaff8
-Driver info: org.openqa.selenium.remote.RemoteWebDriver
-Capabilities [{platform=XP, acceptSslCerts=true, javascriptEnabled=true, hasMetadata=true, browserName=chrome, chrome={userDataDir=C:\Users\ADMINI~1\AppData\Local\Temp\scoped_dir2420_20490}, rotatable=false, mobileEmulationEnabled=false, locationContextEnabled=true, webdriver.remote.sessionid=a97265ffb7974b48917fcfd17aedaff8, version=44.0.2403.125, takesHeapSnapshot=true, cssSelectorsEnabled=true, databaseEnabled=false, handlesAlerts=true, browserConnectionEnabled=false, webStorageEnabled=true, nativeEvents=true, applicationCacheEnabled=false, takesScreenshot=true}]
-	at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:79)
-	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:228)
-	at com.balfour.publishing.qa.pages.Page.waitForElementVisable(Page.java:48)
-	at com.balfour.publishing.qa.pages.sb4.UserMenu.projectCheck(UserMenu.java:134)
-	at com.balfour.publishing.qa.pages.sb4.Sb4HomePage.CheckProject(Sb4HomePage.java:105)
-	at com.balfour.sb4.unittests.UserAdmin_Test.userAdminTest005(UserAdmin_Test.java:170)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:84)
-	at org.testng.internal.Invoker.invokeMethod(Invoker.java:714)
-	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:901)
-	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1231)
-	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:127)
-	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:111)
-	at org.testng.TestRunner.privateRun(TestRunner.java:767)
-	at org.testng.TestRunner.run(TestRunner.java:617)
-	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
-	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
-	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
-	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1224)
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1149)
-	at org.testng.TestNG.run(TestNG.java:1057)
-	at org.testng.remote.RemoteTestNG.run(RemoteTestNG.java:111)
-	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:204)
-	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:175)
-Caused by: org.openqa.selenium.NoSuchElementException: no such element
-  (Session info: chrome=44.0.2403.125)
-  (Driver info: chromedriver=2.15.322448 (52179c1b310fec1797c81ea9a20326839860b7d3),platform=Windows NT 10.0 x86_64) (WARNING: The server did not provide any stacktrace information)
-Command duration or timeout: 30.12 seconds
-For documentation on this error, please visit: http://seleniumhq.org/exceptions/no_such_element.html
-Build info: version: '2.45.0', revision: '5017cb8e7ca8e37638dc3091b2440b90a1d8686f', time: '2015-02-27 09:10:26'
-System info: host: 'A-MACBOOKPRO-1.local', ip: '10.160.10.149', os.name: 'Mac OS X', os.arch: 'x86_64', os.version: '10.9.5', java.version: '1.7.0_25'
-*** Element info: {Using=xpath, value=//button[contains(text(), 'Y50061')]}
-Session ID: a97265ffb7974b48917fcfd17aedaff8
-Driver info: org.openqa.selenium.remote.RemoteWebDriver
-Capabilities [{platform=XP, acceptSslCerts=true, javascriptEnabled=true, hasMetadata=true, browserName=chrome, chrome={userDataDir=C:\Users\ADMINI~1\AppData\Local\Temp\scoped_dir2420_20490}, rotatable=false, mobileEmulationEnabled=false, locationContextEnabled=true, webdriver.remote.sessionid=a97265ffb7974b48917fcfd17aedaff8, version=44.0.2403.125, takesHeapSnapshot=true, cssSelectorsEnabled=true, databaseEnabled=false, handlesAlerts=true, browserConnectionEnabled=false, webStorageEnabled=true, nativeEvents=true, applicationCacheEnabled=false, takesScreenshot=true}]
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
-	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
-	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:204)
-	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:156)
-	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:599)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:352)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:449)
-	at org.openqa.selenium.By$ByXPath.findElement(By.java:357)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:344)
-	at org.openqa.selenium.support.ui.ExpectedConditions.findElement(ExpectedConditions.java:730)
-	at org.openqa.selenium.support.ui.ExpectedConditions.access$000(ExpectedConditions.java:39)
-	at org.openqa.selenium.support.ui.ExpectedConditions$4.apply(ExpectedConditions.java:130)
-	at org.openqa.selenium.support.ui.ExpectedConditions$4.apply(ExpectedConditions.java:126)
-	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:208)
-	... 28 more
-]]>
-            </full-stacktrace>
-          </exception> <!-- org.openqa.selenium.TimeoutException -->
+        <test-method status="PASS" signature="ocoTest003()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@10bdf5e5]" name="ocoTest003" duration-ms="161142" started-at="2015-10-14T13:26:58Z" finished-at="2015-10-14T13:29:39Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- userAdminTest005 -->
-        <test-method status="PASS" signature="teardown()[pri:0, instance:com.balfour.sb4.unittests.UserAdmin_Test@6578e964]" name="teardown" is-config="true" duration-ms="28629" started-at="2015-08-19T13:03:20Z" finished-at="2015-08-19T13:03:49Z">
+        </test-method> <!-- ocoTest003 -->
+        <test-method status="PASS" signature="teardown()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@10bdf5e5]" name="teardown" is-config="true" duration-ms="135" started-at="2015-10-14T13:29:39Z" finished-at="2015-10-14T13:29:39Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- teardown -->
-      </class> <!-- com.balfour.sb4.unittests.UserAdmin_Test -->
+      </class> <!-- com.balfour.sb4.unittests.genericTest001 -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

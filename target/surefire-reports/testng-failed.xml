@@ -1,62 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite verbose="0" name="Failed suite [Command line suite]">
+<suite verbose="0" name="Failed suite [com.balfour.sb4.unittests.email_Test]">
   <test name="Command line test(failed)" preserve-order="false">
     <classes>
-      <class name="com.balfour.sb4.unittests.Profile_Test">
+      <class name="com.balfour.sb4.unittests.email_Test">
         <methods>
-          <include name="testSetUp"/>
-          <include name="profileTest002"/>
-          <include name="setup"/>
-        </methods>
-      </class>
-      <class name="com.balfour.sb4.unittests.RequestPwordEmail_Test">
-        <methods>
-          <include name="requestPwordEmail_Test"/>
-          <include name="requestPwordBadEmail_Test"/>
-          <include name="setup"/>
-          <include name="testSetUp"/>
-        </methods>
-      </class>
-      <class name="com.balfour.sb4.unittests.UserReg_Test">
-        <methods>
-          <include name="testSetUp"/>
-          <include name="setup"/>
-        </methods>
-      </class>
-      <class name="com.balfour.sb4.unittests.OCO_Test">
-        <methods>
-          <include name="testSetUp"/>
-          <include name="supplies_test001"/>
-          <include name="setup"/>
-        </methods>
-      </class>
-      <class name="com.balfour.sb4.unittests.FailedLogin_Test">
-        <methods>
-          <include name="f"/>
-          <include name="setup"/>
-          <include name="testSetUp"/>
-        </methods>
-      </class>
-      <class name="com.balfour.sb4.unittests.Admin_Test">
-        <methods>
-          <include name="setup"/>
-          <include name="f"/>
-          <include name="testSetUp"/>
-        </methods>
-      </class>
-      <class name="com.balfour.sb4.unittests.Supplies_Test">
-        <methods>
-          <include name="supplies_test001"/>
-          <include name="testSetUp"/>
-          <include name="setup"/>
-        </methods>
-      </class>
-      <class name="com.balfour.sb4.unittests.Login_Test">
-        <methods>
-          <include name="f"/>
-          <include name="testSetUp"/>
-          <include name="setup"/>
+          <include name="printEmail"/>
         </methods>
       </class>
     </classes>

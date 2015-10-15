@@ -18,6 +18,7 @@ public class Sb4HomePage extends Page {
 	 */
 	private By brand = By.xpath("//a[@class='navbar-brand']");
 	private By status = By.xpath("//a[.='Book Status']");
+	private By cancelTour = By.xpath("//span[@id='canceltour']");
 	// private By build = By.xpath("//a[.='Build A Book']");
 	// private By sales = By.xpath("//a[.='Sales & Orders']");
 	// private By edu = By.xpath("//a[.='Education']");
@@ -35,10 +36,26 @@ public class Sb4HomePage extends Page {
 	public Sb4HomePage(WebDriver driver) throws InterruptedException {
 		super(driver);
 		if (tp.termsPageCheck() > 0) {
+			logger.info("Terms Page is loaded");
 			tp.agreeTerms();
+		} else if (tourCheck() > 0) {
+			logger.info("Tour is loaded");
+			closeTour();
 		} else
 			isLoaded(brand, status);
 		logger.info("Home Page is loaded");
+	}
+
+	/**
+	 * elements
+	 */
+
+	private int tourCheck() {
+		return _driver.findElements(cancelTour).size();
+	}
+
+	private void closeTour() {
+		_driver.findElement(cancelTour).click();
 	}
 
 	/**
@@ -68,22 +85,6 @@ public class Sb4HomePage extends Page {
 	}
 
 	/**
-	 * shared change project service for users w/ >8 projects
-	 * 
-	 * @param mainProj
-	 *            : initial project present in the menu
-	 * @param nextProj
-	 *            : desired project to switch to
-	 * @return
-	 * @throws InterruptedException
-	 */
-	public Sb4HomePage ChangeProject(String mainProj, String nextProj)
-			throws InterruptedException {
-		um.projectMenu(mainProj, nextProj);
-		return this;
-	}
-
-	/**
 	 * shared change project service for users w/ <8 projects
 	 * 
 	 * @param mainProj
@@ -93,9 +94,23 @@ public class Sb4HomePage extends Page {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public Sb4HomePage ChangeProject2(String mainProj, String nextProj)
-			throws InterruptedException {
-		um.projectMenuSearch(mainProj, nextProj);
+	public Sb4HomePage ChangeProject(String nextProj) throws InterruptedException {
+		um.projectMenu(nextProj);
+		return this;
+	}
+
+	/**
+	 * shared change project service for users w/ >8 projects
+	 * 
+	 * @param mainProj
+	 *            : initial project present in the menu
+	 * @param nextProj
+	 *            : desired project to switch to
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public Sb4HomePage ChangeProject2(String nextProj) throws InterruptedException {
+		um.projectMenuSearch(nextProj);
 		return this;
 	}
 
@@ -106,7 +121,7 @@ public class Sb4HomePage extends Page {
 	 * @return
 	 */
 	public Sb4HomePage CheckProject(String project) {
-		um.projectCheck(project);
+		um.projectLoaded(project);
 		return this;
 	}
 
@@ -118,7 +133,7 @@ public class Sb4HomePage extends Page {
 	 * @return
 	 */
 	public int CheckProject(String project, String project2) {
-		return um.projectCheck(project, project2);
+		return um.projectCheck(project2);
 	}
 
 	/**
@@ -129,14 +144,40 @@ public class Sb4HomePage extends Page {
 	 * @return : Sb4SearchResultsPage
 	 * @throws InterruptedException
 	 */
-	public Sb4SearchResultsPage SiteSearch(String value)
-			throws InterruptedException {
+	public Sb4SearchResultsPage SiteSearch(String value) throws InterruptedException {
 		um.SiteSearch(value);
 		return new Sb4SearchResultsPage(_driver);
 	}
 
 	public void userFBack(String Value) {
-
 		new MenuBar(_driver).userFBack(Value);
+	}
+
+	/**
+	 * navigates to the project view / info page
+	 * 
+	 * @return : Sb4ProjectViewPage
+	 * @throws InterruptedException
+	 */
+	public Sb4ProjectViewPage goToProjInfo() throws InterruptedException {
+		um.projectInfo();
+		return new Sb4ProjectViewPage(_driver);
+	}
+
+	/**
+	 * checks for the presence of the project info menu. if present a runtime
+	 * exception is thrown and the user is logged out.
+	 * 
+	 * @return Sb4HomePage
+	 * @throws InterruptedException
+	 */
+	public Sb4HomePage projInfoChk() throws InterruptedException {
+		if (um.projInfoCount() > 0) {
+			LogOut();
+			logger.info("project info menu was found");
+			throw new RuntimeException("project info menu was found");
+		} else
+			logger.info("project info menu was not found");
+		return this;
 	}
 }

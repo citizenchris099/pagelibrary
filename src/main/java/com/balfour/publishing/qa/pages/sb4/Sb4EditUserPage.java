@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 
-import com.balfour.publishing.qa.ProfilePOJO;
+import com.balfour.publishing.qa.UserRegPOJO;
 import com.balfour.publishing.qa.pages.Page;
 
 /**
@@ -25,7 +25,7 @@ public class Sb4EditUserPage extends Page {
 	private By eMail = By.xpath("//*[@name='email']");
 	private By fName = By.xpath("//*[@name='firstname']");
 	private By lName = By.xpath("//*[@name='lastname']");
-	private By phone = By.xpath("//*[@name='phone']");
+	private By phone = By.xpath("//input[@id='admin_edit_user_phone']");
 	private By google = By.xpath("//*[@name='googleplus']");
 	private By yahoo = By.xpath("//*[@name='yahoo']");
 	private By twitter = By.xpath("//*[@name='twitter']");
@@ -34,10 +34,10 @@ public class Sb4EditUserPage extends Page {
 	private By instagram = By.xpath("//*[@name='instagram']");
 	private By fbook = By.xpath("//*[@name='facebook']");
 	private By pNR = By.xpath("//button[@id='projects_roles_submitButton']");
-	private By submit = By
-			.xpath("//button[@id='admin_edit_user_submitButton']");
+	private By submit = By.xpath("//button[@id='admin_edit_user_submitButton']");
 	private By cancel = By.xpath("//button[@id='admin_edit_user_resetButton']");
 	private By bio = By.xpath("//textarea[@id='admin_edit_user_bio']");
+	private By addProjects = By.xpath("//a[@data-sub_action='adviserAddSchoolProjects']");
 
 	/**
 	 * constructor that uses shared isloaded service to check for two unique
@@ -75,7 +75,7 @@ public class Sb4EditUserPage extends Page {
 		_driver.findElement(cancel).click();
 		return this;
 	}
-	
+
 	/**
 	 * profile project and roles button
 	 * 
@@ -83,6 +83,16 @@ public class Sb4EditUserPage extends Page {
 	 */
 	private Sb4EditUserPage clickProjNRoles() {
 		_driver.findElement(pNR).click();
+		return this;
+	}
+
+	public Sb4EditUserPage addProjectsChk() {
+		waitForElementClickable(addProjects, 10);
+		return this;
+	}
+
+	private Sb4EditUserPage addAllProjects() {
+		_driver.findElement(addProjects).click();
 		return this;
 	}
 
@@ -170,8 +180,8 @@ public class Sb4EditUserPage extends Page {
 	 * @return
 	 */
 	private Sb4EditUserPage setBio(String value) {
-		_driver.findElement(phone).clear();
-		_driver.findElement(phone).sendKeys(value);
+		_driver.findElement(bio).clear();
+		_driver.findElement(bio).sendKeys(value);
 		return this;
 	}
 
@@ -294,12 +304,11 @@ public class Sb4EditUserPage extends Page {
 	 *            : of ProfilePOJO
 	 * @return
 	 */
-	private Sb4EditUserPage updateUser(ProfilePOJO obj) {
+	private Sb4EditUserPage updateUser(UserRegPOJO obj) {
 
 		logger.info("Begin User Update");
 		setFName(obj.getfName());
 		setLName(obj.getlName());
-		setBio(obj.getBio());
 		setPhone(obj.getPhone());
 		setFBook(obj.getfBook());
 		setGoogle(obj.getGoogle());
@@ -316,7 +325,7 @@ public class Sb4EditUserPage extends Page {
 	 * Services
 	 */
 
-	public Sb4EditUserPage successfullUpdate(ProfilePOJO obj) {
+	public Sb4EditUserPage successfullUpdate(UserRegPOJO obj) {
 
 		updateUser(obj);
 		clickSubmit();
@@ -324,7 +333,7 @@ public class Sb4EditUserPage extends Page {
 		return this;
 	}
 
-	public Sb4EditUserPage cancelUpdate(ProfilePOJO obj) {
+	public Sb4EditUserPage cancelUpdate(UserRegPOJO obj) {
 
 		logger.info("Begin Profile Update");
 		updateUser(obj);
@@ -336,11 +345,10 @@ public class Sb4EditUserPage extends Page {
 	/**
 	 * used to check values in the form fields of User Profile
 	 * 
-	 * @return : object of ProfilePOJO
+	 * @return : object of UserRegPOJO
 	 */
-	public ProfilePOJO checkEditUser() {
-		ProfilePOJO obj = new ProfilePOJO();
-
+	public UserRegPOJO checkEditUser() {
+		UserRegPOJO obj = new UserRegPOJO();
 		obj.setuName(getUName());
 		obj.setEmail(getEmail());
 		obj.setfName(getFname());
@@ -353,14 +361,32 @@ public class Sb4EditUserPage extends Page {
 		obj.setLinkedin(getLinkedin());
 		obj.setPinterest(getPintrest());
 		obj.setInstagram(getInstagram());
-		obj.setBio(getBio());
-		logger.info("Profile info retrieved");
+		logger.info("Edit User info retrieved");
 		return obj;
 	}
-	
-	public Sb4ProjNRolePage goToProjNRole() throws InterruptedException{
-		
+
+	/**
+	 * takes user to projects and roles page
+	 * 
+	 * @return : Sb4ProjNRolePage
+	 * @throws InterruptedException
+	 */
+	public Sb4ProjNRolePage goToProjNRole() throws InterruptedException {
 		clickProjNRoles();
+		return new Sb4ProjNRolePage(_driver);
+	}
+
+	/**
+	 * clicks the add all projects button if present then clicks the projects
+	 * and roles button
+	 * 
+	 * @return : Sb4ProjNRolePage
+	 * @throws InterruptedException
+	 */
+	public Sb4ProjNRolePage addAllProjtoUser() throws InterruptedException {
+		addProjectsChk();
+		addAllProjects();
+		goToProjNRole();
 		return new Sb4ProjNRolePage(_driver);
 	}
 

@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
+import com.balfour.publishing.qa.UserRegPOJO;
 import com.balfour.publishing.qa.pages.Page;
 
 /**
@@ -25,7 +26,7 @@ public class Sb4ProjNRolePage extends Page {
 	 */
 	private By title = By.xpath("//*[.='User Projects and Roles']");
 	private By addProj = By.xpath("//*[.='Add a Project']");
-	private By addProjInput = By.xpath("//input[@name='project']");
+	private By addProjInput = By.xpath("//*[@placeholder='add project']");
 	private By addProjSubmit = By.xpath("//input[@value='Add']");
 	private By projList = By.xpath("//div[@id='postbox-container-1']");
 	private By usrProjList = By.xpath("//table[@id='project_list_container']");
@@ -49,18 +50,37 @@ public class Sb4ProjNRolePage extends Page {
 	 * elements
 	 */
 
+	/**
+	 * present when user logged in w/access to all projects. used to search for
+	 * projects to add to user
+	 * 
+	 * @param value
+	 *            : project to add.
+	 * @return
+	 */
 	private Sb4ProjNRolePage projectSearch(String value) {
-
+		waitForElementVisable(addProjInput, 15);
 		_driver.findElement(addProjInput).sendKeys(value + Keys.ENTER);
 		return this;
 	}
 
+	/**
+	 * add button used in conjunction with the projectSearch element
+	 * 
+	 * @return
+	 */
 	private Sb4ProjNRolePage clickAdd() {
-
 		_driver.findElement(addProjSubmit).click();
 		return this;
 	}
 
+	/**
+	 * used to check whether a project was in fact added to a user
+	 * 
+	 * @param value
+	 *            : of project to look for
+	 * @return
+	 */
 	private int projChk(String value) {
 		_driver.navigate().refresh();
 		waitForElementPresence(usrProjList, 10);
@@ -73,15 +93,32 @@ public class Sb4ProjNRolePage extends Page {
 	 * services
 	 */
 
+	/**
+	 * searches for then adds project to user. then a check is performed to
+	 * assert project was successfully added
+	 * 
+	 * @param value
+	 *            : of project to be added / searched for
+	 * @return
+	 */
 	public Sb4ProjNRolePage addProject(String value) {
 
 		projectSearch(value).clickAdd();
 		if (projChk(value) < 1) {
-			throw new RuntimeException("User Was Not Found");
+			throw new RuntimeException("project Was Not Found");
 		}
 		return this;
 	}
 
+	/**
+	 * to be used when a user w/o access to all projects is on the project and
+	 * roles page. in cases such as these users have access to a specific list
+	 * of projects.
+	 * 
+	 * @param value
+	 *            : of project to add / search for
+	 * @return
+	 */
 	public Sb4ProjNRolePage addProjectList(String value) {
 
 		By proj = By.xpath(".//*[contains(text(), '" + value + "')]");
@@ -101,8 +138,7 @@ public class Sb4ProjNRolePage extends Page {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public Sb4ProjNRolePage projAction(String value)
-			throws InterruptedException {
+	public Sb4ProjNRolePage projAction(String value) throws InterruptedException {
 		_driver.navigate().refresh();
 		By action = By.xpath("//*[@href='" + value + "']");
 		waitForElementVisable(action);
@@ -119,19 +155,53 @@ public class Sb4ProjNRolePage extends Page {
 	 * User Admin
 	 * 
 	 * @param href
-	 *            : of role select menu
+	 *            : of project select menu to check
 	 * @param role
 	 *            : desired role
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public Sb4ProjNRolePage projRole(String href, String role)
-			throws InterruptedException {
+	public Sb4ProjNRolePage projRole(String href, String role) throws InterruptedException {
 		_driver.navigate().refresh();
 		By action = By.xpath("//select[@data-project-uuid='" + href + "']");
 		waitForElementVisable(action);
 		Select dropdown = new Select(_driver.findElement(action));
 		dropdown.selectByVisibleText(role);
+		return this;
+	}
+
+	/**
+	 * used to assert a project role selected
+	 * 
+	 * @param href
+	 *            : of project select menu to check
+	 * @return
+	 * @throws InterruptedException
+	 */
+	private String projRoleSelected(String href) throws InterruptedException {
+		_driver.navigate().refresh();
+		By action = By.xpath("//select[@data-project-uuid='" + href + "']");
+		waitForElementVisable(action);
+		return new Select(_driver.findElement(action)).getFirstSelectedOption().getText();
+	}
+
+	/**
+	 * tests whether the expected role is selected
+	 * 
+	 * @param href
+	 *            : of project select menu to check
+	 * @param obj
+	 *            : UserRegPOJO
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public Sb4ProjNRolePage projRoleCheck(String href, UserRegPOJO obj) throws InterruptedException {
+		String selectedRole = projRoleSelected(href);
+		System.out.println("selected role = " + selectedRole);
+		System.out.println("ur1 role = " + obj.getRole());
+		if (!selectedRole.equals(obj.getRole())) {
+			throw new RuntimeException("User Info did not match");
+		}
 		return this;
 	}
 
@@ -159,22 +229,6 @@ public class Sb4ProjNRolePage extends Page {
 	}
 
 	/**
-	 * shared change project service for users w/ >8 projects
-	 * 
-	 * @param mainProj
-	 *            : initial project present in the menu
-	 * @param nextProj
-	 *            : desired project to switch to
-	 * @return
-	 * @throws InterruptedException
-	 */
-	public Sb4ProjNRolePage ChangeProject(String mainProj, String nextProj)
-			throws InterruptedException {
-		um.projectMenu(mainProj, nextProj);
-		return this;
-	}
-
-	/**
 	 * shared change project service for users w/ <8 projects
 	 * 
 	 * @param mainProj
@@ -184,9 +238,23 @@ public class Sb4ProjNRolePage extends Page {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public Sb4ProjNRolePage ChangeProject2(String mainProj, String nextProj)
-			throws InterruptedException {
-		um.projectMenuSearch(mainProj, nextProj);
+	public Sb4ProjNRolePage ChangeProject(String nextProj) throws InterruptedException {
+		um.projectMenu(nextProj);
+		return this;
+	}
+
+	/**
+	 * shared change project service for users w/ >8 projects
+	 * 
+	 * @param mainProj
+	 *            : initial project present in the menu
+	 * @param nextProj
+	 *            : desired project to switch to
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public Sb4ProjNRolePage ChangeProject2(String nextProj) throws InterruptedException {
+		um.projectMenuSearch(nextProj);
 		return this;
 	}
 
@@ -197,7 +265,7 @@ public class Sb4ProjNRolePage extends Page {
 	 * @return
 	 */
 	public Sb4ProjNRolePage CheckProject(String project) {
-		um.projectCheck(project);
+		um.projectLoaded(project);
 		return this;
 	}
 
@@ -209,8 +277,7 @@ public class Sb4ProjNRolePage extends Page {
 	 * @return : Sb4SearchResultsPage
 	 * @throws InterruptedException
 	 */
-	public Sb4SearchResultsPage SiteSearch(String value)
-			throws InterruptedException {
+	public Sb4SearchResultsPage SiteSearch(String value) throws InterruptedException {
 		um.SiteSearch(value);
 		return new Sb4SearchResultsPage(_driver);
 	}

@@ -1,5 +1,9 @@
 package com.balfour.publishing.qa.pages;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.client.fluent.Request;
@@ -27,8 +31,7 @@ import com.balfour.publishing.qa.pages.sb4.RndStringUtil;
 public class Page {
 	protected static WebDriver _driver;
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-	protected Test_EnviornmentPOJO slugNAction = new Test_Enviornment()
-			.slugNAction();
+	protected Test_EnviornmentPOJO slugNAction = new Test_Enviornment().slugNAction();
 
 	public Page(WebDriver driver) {
 		Page._driver = driver;
@@ -45,8 +48,7 @@ public class Page {
 	 */
 	public WebElement waitForElementVisable(By locator, int timeout) {
 		WebDriverWait wait = new WebDriverWait(_driver, timeout);
-		return wait.until(ExpectedConditions
-				.visibilityOfElementLocated(locator));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
 	}
 
 	/**
@@ -93,8 +95,7 @@ public class Page {
 	 */
 	public static boolean checkResponse(String url) {
 		try {
-			int resp_code = Request.Get(url).execute().returnResponse()
-					.getStatusLine().getStatusCode();
+			int resp_code = Request.Get(url).execute().returnResponse().getStatusLine().getStatusCode();
 
 			if (resp_code == 200)
 				return true;
@@ -103,6 +104,14 @@ public class Page {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public String curDate() {
+		Date today = Calendar.getInstance().getTime();
+		DateFormat df = new SimpleDateFormat("MMM dd");
+		String reportDate = df.format(today);
+		logger.info("Tadys date = " + reportDate.trim());
+		return reportDate.trim();
 	}
 
 	/**
@@ -120,8 +129,8 @@ public class Page {
 	 * @throws InterruptedException
 	 */
 	public void isLoaded(By one, By two) throws InterruptedException {
-		waitForElementPresence(one, 10);
-		waitForElementPresence(two, 10);
+		waitForElementPresence(one, 15);
+		waitForElementPresence(two, 15);
 	}
 
 	/**
@@ -138,7 +147,7 @@ public class Page {
 		String email = null;
 		while (flag = true) {
 
-			email = new RndStringUtil().RandomEmail();
+			email = new RndStringUtil().randomPass();
 			int results = new RestUtil().enfoldCheckCode(enfold, email);
 
 			System.out.println(results);
@@ -151,9 +160,8 @@ public class Page {
 		logger.info("Email is " + email);
 		return email;
 	}
-	
-	public String emailGen002(){
-		
+
+	public String emailGen002() {
 		String email = new RestUtil().guerrillamail();
 		logger.info("User Email is " + email);
 		return email;
@@ -211,8 +219,8 @@ public class Page {
 	 * 
 	 * @return
 	 */
-	public String randomPass() {
-		String string = randomString(8);
+	public String randomPassword() {
+		String string = new RndStringUtil().randomPass();
 
 		logger.info("Password is " + string);
 		return string;
@@ -260,6 +268,7 @@ public class Page {
 		int count = 0;
 		for (WebElement we : allOptions) {
 			logger.info(we.getText());
+			System.out.println(we.getText());
 			for (int i = 0; i < array.length; i++) {
 				if (we.getText().equals(array[i])) {
 					count++;
@@ -271,32 +280,6 @@ public class Page {
 		}
 	}
 
-	/**
-	 * used to assert items selected in a multi-select pulldown
-	 * 
-	 * @param array
-	 * @param select
-	 */
-	public void optionsSelected(String[] array, By select) {
-		/**
-		 * gets the size and all of the options within the pull down
-		 */
-		Select dropdown = new Select(_driver.findElement(select));
-		List<WebElement> allOptions = dropdown.getAllSelectedOptions();
-
-		int count = 0;
-		for (WebElement we : allOptions) {
-			logger.info(we.getText());
-			for (int i = 0; i < array.length; i++) {
-				if (we.getText().equals(array[i])) {
-					count++;
-				}
-			}
-		}
-		if (count != array.length) {
-			throw new RuntimeException("Actual values didn't match");
-		}
-	}
 
 	/**
 	 * used to verify a field is disabled

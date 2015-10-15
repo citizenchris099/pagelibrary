@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import com.balfour.publishing.qa.OCOListPOJO;
+import com.balfour.publishing.qa.OCOPOJO;
 import com.balfour.publishing.qa.pages.Page;
 
 /**
@@ -23,9 +24,14 @@ public class Sb4OCOListPage extends Page {
 	private By orderNum = By.xpath("//input[@name='orders_number']");
 	private By orderName = By.xpath("//input[@name='orders_name']");
 	private By balStatus = By.xpath("//select[@name='orders_balance']");
-	private By filter = By.xpath("//button[@id='_list_search_submitButton']");
-	private String ocoNew = slugNAction.getOcoNew();
-	private By newOrder = dynamicLocator(ocoNew);
+	private By filter = By.xpath("//button[@id='order_list_search_submitButton']");
+	// private String ocoNew = slugNAction.getOcoNew();
+	// private By newOrder = dynamicLocator(ocoNew);
+	private By newOrder = By.xpath("//*[contains(@href,'/sales-orders/oncampus/?action=config&orderid=New')]");
+//	private By editOrder = By.xpath("//*[.='edit']");
+	private By editOrder = By.xpath("//*[contains(@href,'/sales-orders/oncampus/?action=config&orderid=')] [.='edit']");
+
+	JavascriptExecutor jse = (JavascriptExecutor) _driver;
 
 	/**
 	 * constructor that uses shared is loaded service to check for two unique
@@ -43,6 +49,10 @@ public class Sb4OCOListPage extends Page {
 	/**
 	 * elements
 	 */
+
+	private By existingOCO(String value) {
+		return By.xpath("//*[contains(@href, '" + value + "')]");
+	}
 
 	private Sb4OCOListPage clickFilter() {
 		_driver.findElement(filter).click();
@@ -68,9 +78,36 @@ public class Sb4OCOListPage extends Page {
 	private Sb4OCOListPage clickNewOrder() {
 
 		WebElement no = _driver.findElement(newOrder);
-		JavascriptExecutor jse = (JavascriptExecutor) _driver;
 		jse.executeScript("arguments[0].scrollIntoView(true);", no);
 		jse.executeScript("arguments[0].click();", no);
+		return this;
+	}
+
+	/**
+	 * Searches for an existing order
+	 * 
+	 * @param obj
+	 *            : OCOListPOJO
+	 * @return : Sb4OCOPage
+	 * @throws InterruptedException
+	 */
+	private Sb4OCOListPage fullOCOSearch(OCOPOJO obj) throws InterruptedException {
+		logger.info("Begin OCO search");
+		setOrderNum(obj.getOrderNumber());
+		clickFilter();
+		waitForElementVisable(existingOCO(obj.getOrderNumber()));
+		logger.info("Order found with order number");
+		setOrderName(obj.getName());
+		clickFilter();
+		waitForElementVisable(existingOCO(obj.getOrderNumber()));
+		logger.info("Order found with name");
+		setBalStatus(obj.getBalStatus());
+		clickFilter();
+		waitForElementVisable(existingOCO(obj.getOrderNumber()));
+		logger.info("Order found with Bal status");
+		clickFilter();
+		waitForElementVisable(existingOCO(obj.getOrderNumber()));
+		logger.info("OCO search complete and order found");
 		return this;
 	}
 
@@ -92,21 +129,29 @@ public class Sb4OCOListPage extends Page {
 	}
 
 	/**
-	 * Searches for an existing order
-	 * 
-	 * @param obj
-	 *            : OCOListPOJO
+	 * used to click the edit order button
+	 * @param obj : OCOPOJO
 	 * @return : Sb4OCOPage
 	 * @throws InterruptedException
 	 */
-	public Sb4OCOPage fullOCOSearch(OCOListPOJO obj)
-			throws InterruptedException {
-
-		setOrderNum(obj.getOrderNumber());
-		setOrderName(obj.getName());
-		setBalStatus(obj.getBalStatus());
-		clickFilter();
+	public Sb4OCOPage editOCO(OCOPOJO obj) throws InterruptedException {
+		fullOCOSearch(obj);
+		_driver.findElement(editOrder).click();
+		logger.info("clicking to edit OCO");
 		return new Sb4OCOPage(_driver);
+	}
+
+	/** 
+	 * used to click the view order button
+	 * @param obj : OCOPOJO
+	 * @return : Sb4OCOViewPage
+	 * @throws InterruptedException
+	 */
+	public Sb4OCOViewPage viewOCO(OCOPOJO obj) throws InterruptedException {
+		fullOCOSearch(obj);
+		_driver.findElement(existingOCO(obj.getOrderNumber())).click();
+		logger.info("clicking to view OCO");
+		return new Sb4OCOViewPage(_driver);
 	}
 
 }

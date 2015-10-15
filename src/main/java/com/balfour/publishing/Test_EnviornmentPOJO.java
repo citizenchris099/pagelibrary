@@ -31,9 +31,18 @@ public class Test_EnviornmentPOJO {
 	private String nReg_dynamic;
 	private String enfold;
 	private String register;
+	private String salesDb;
 	
 
 	public Test_EnviornmentPOJO() {
+	}
+
+	public String getSalesDb() {
+		return salesDb;
+	}
+
+	public void setSalesDb(String salesDb) {
+		this.salesDb = salesDb;
 	}
 
 	public String getRegister() {

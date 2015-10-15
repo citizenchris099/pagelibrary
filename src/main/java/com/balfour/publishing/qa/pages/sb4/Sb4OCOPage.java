@@ -1,8 +1,15 @@
 package com.balfour.publishing.qa.pages.sb4;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -22,30 +29,43 @@ public class Sb4OCOPage extends Page {
 	 * locators
 	 */
 	private By date = By.xpath("//input[@name='orderdate']");
+	private By purchaser = By.xpath("//fieldset[@id='purchaserFieldset']");
+	private By purchaserChevron = By.xpath(".//span[@class='glyphicon glyphicon-white glyphicon-chevron-down']");
 	private By pFirst = By.xpath("//input[@name='purchaserFirstName']");
 	private By pMi = By.xpath("//input[@name='purchaserMiddleName']");
 	private By pLast = By.xpath("//input[@name='purchaserLastName']");
 	private By pEmail = By.xpath("//input[@name='purchaserEmail']");
+	private By sEmail = By.xpath("//input[@name='studentEmail']");
 	private By add1 = By.xpath("//input[@name='purchaser_address_1']");
 	private By add2 = By.xpath("//input[@name='purchaser_address_2']");
 	private By city = By.xpath("//input[@name='purchaser_city']");
-	private By state = By.xpath("//select[@name='purchaser_state']");
 	private By zip = By.xpath("//input[@name='purchaser_zip']");
-	private By country = By.xpath("//select[@name='purchaser_country']");
 	private By phone = By.xpath("//input[@name='purchaserPhone']");
 	private By sFirst = By.xpath("//input[@name='studentFirstName']");
 	private By sMi = By.xpath("//input[@name='studentMiddleName']");
 	private By sLast = By.xpath("//input[@name='studentLastName']");
 	private By sGrade = By.xpath("//select[@name='studentGrade']");
 
-	private By orderTotal = By.xpath("//span[@data-reactid='.0.1.0.0.0.1']");
-	private By balanceDue = By.xpath("//span[@data-reactid='.0.1.1.0.0.1']");
+	private By packagePrice = By.xpath("//input[contains(@data-reactid,'BASICPACKAGE')] [@type='currency']");
+	private By packageAdd = By.xpath("//span[contains(@data-reactid,'BASICPACKAGE')] [@class='glyphicon glyphicon-plus glyphicon-white']");
+	private By balDue = By.cssSelector(".totalPrice div p span:nth-child(2)");
 
 	private By payType = By.xpath("//select[@name='payType']");
 	private By amtPaid = By.xpath("//input[@name='payAmount']");
 	private By chkNum = By.xpath("//input[@name='payReference']");
 
-	private By submit = By.xpath("//button[.='Enter']");
+	private By saveView = By.xpath("//*[@id='submitLink']");
+	private By saveNew = By.xpath("//*[@id='submitAndNewLink']");
+	private By nextOrder = By.xpath("//*[@id='nextOrder']");
+	private By printReceipt = By.xpath("//*[@id='printReceipt']");
+	private By viewOrder = By.xpath("//*[@id='viewOrder']");
+	private By saveEdit = By.xpath("//*[contains(@id,'submitLink')] [.='Save']");
+
+	private By prevPayments = By.xpath("//div[@class='previousPayments']");
+	private By prevPaymentsRow = By.xpath(".//div[@class='row'][2]");
+	private By newPaymentsRow = By.xpath(".//div[@class='row'][3]");
+
+	private By ocoNumber = By.cssSelector(".confirmList div fieldset div p span:nth-child(2)");
 
 	JavascriptExecutor jse = (JavascriptExecutor) _driver;
 
@@ -58,7 +78,7 @@ public class Sb4OCOPage extends Page {
 	 */
 	public Sb4OCOPage(WebDriver driver) throws InterruptedException {
 		super(driver);
-		isLoaded(pFirst, date);
+		isLoaded(sFirst, packagePrice);
 		logger.info("On Campus Orders Page is loaded");
 	}
 
@@ -67,12 +87,65 @@ public class Sb4OCOPage extends Page {
 	 */
 
 	/**
-	 * used to click the submit button
+	 * prototype for a method that anticipates having to click through sevearl
+	 * timeout errors and clicking to try to submit the order again
 	 * 
 	 * @return
 	 */
-	private Sb4OCOPage clickSubmit() {
-		_driver.findElement(submit).click();
+	// private Object protoclickSaveView() {
+	// int loop = 0;
+	//
+	// while (loop < 1) {
+	// try {
+	// _driver.findElement(saveView).click();
+	// return this;
+	// } catch (UnhandledAlertException u) {
+	// logger.info("OCO error popped up");
+	// Alert alert = _driver.switchTo().alert();
+	// alert.accept();
+	// loop++;
+	// }
+	// }
+	//
+	// // should only get here in the saveView.click() didn't work
+	// throw new RuntimeException("OCO error was thrown");
+	// }
+
+	/**
+	 * the decision was made to fail any test where an error popped up so this
+	 * method should be used
+	 * 
+	 * @return
+	 */
+	private Sb4OCOPage clickSaveView() {
+		try {
+			_driver.findElement(saveView).click();
+		} catch (UnhandledAlertException u) {
+			logger.info("OCO error was thrown");
+			throw new RuntimeException("OCO error was thrown");
+		}
+		return this;
+	}
+
+	private Sb4OCOPage clickSaveNew() {
+		_driver.findElement(saveNew).click();
+		waitForElementVisable(nextOrder);
+		waitForElementVisable(printReceipt);
+		waitForElementVisable(viewOrder);
+		return this;
+	}
+
+	private Sb4OCOPage clickSaveEdit() {
+		_driver.findElement(saveEdit).click();
+		return this;
+	}
+
+	private Sb4OCOPage expandPurchaser() {
+		WebElement expand = _driver.findElement(purchaser);
+		if (expand.findElements(purchaserChevron).size() > 0) {
+			expand.findElement(purchaserChevron).click();
+		}
+		waitForElementVisable(pFirst);
 		return this;
 	}
 
@@ -89,17 +162,8 @@ public class Sb4OCOPage extends Page {
 		return this;
 	}
 
-	/**
-	 * first clears then enters text into Purchaser Middle Name field
-	 * 
-	 * @param value
-	 *            : of text to be entered
-	 * @return
-	 */
-	private Sb4OCOPage setPMi(String value) {
-		_driver.findElement(pMi).clear();
-		_driver.findElement(pMi).sendKeys(value);
-		return this;
+	private String getPFirst() {
+		return _driver.findElement(pFirst).getAttribute("value");
 	}
 
 	/**
@@ -115,6 +179,10 @@ public class Sb4OCOPage extends Page {
 		return this;
 	}
 
+	private String getPLast() {
+		return _driver.findElement(pLast).getAttribute("value");
+	}
+
 	/**
 	 * first clears then enters text into Purchaser email field
 	 * 
@@ -126,6 +194,30 @@ public class Sb4OCOPage extends Page {
 		_driver.findElement(pEmail).clear();
 		_driver.findElement(pEmail).sendKeys(value);
 		return this;
+	}
+
+	private String getPEmail() {
+		return _driver.findElement(pEmail).getAttribute("value");
+	}
+
+	/**
+	 * first clears then enters text into Student email field
+	 * 
+	 * @param value
+	 *            : of text to be entered
+	 * @return
+	 */
+	private Sb4OCOPage setSEmail(String value) {
+		Boolean textVal = _driver.findElement(sEmail).isEnabled();
+		if (textVal == true) {
+			_driver.findElement(sEmail).clear();
+			_driver.findElement(sEmail).sendKeys(value);
+		}
+		return this;
+	}
+
+	private String getSEmail() {
+		return _driver.findElement(sEmail).getAttribute("value");
 	}
 
 	/**
@@ -141,6 +233,10 @@ public class Sb4OCOPage extends Page {
 		return this;
 	}
 
+	private String getAdd1() {
+		return _driver.findElement(add1).getAttribute("value");
+	}
+
 	/**
 	 * first clears then enters text into Purchaser address 2 field
 	 * 
@@ -152,6 +248,10 @@ public class Sb4OCOPage extends Page {
 		_driver.findElement(add2).clear();
 		_driver.findElement(add2).sendKeys(value);
 		return this;
+	}
+
+	private String getAdd2() {
+		return _driver.findElement(add2).getAttribute("value");
 	}
 
 	/**
@@ -167,17 +267,8 @@ public class Sb4OCOPage extends Page {
 		return this;
 	}
 
-	/**
-	 * used to choose option in Purchaser state select menu
-	 * 
-	 * @param value
-	 *            : of text to be entered
-	 * @return
-	 */
-	private Sb4OCOPage setState(String value) {
-		Select dropdown = new Select(_driver.findElement(state));
-		dropdown.selectByVisibleText(value);
-		return this;
+	private String getCity() {
+		return _driver.findElement(city).getAttribute("value");
 	}
 
 	/**
@@ -193,17 +284,8 @@ public class Sb4OCOPage extends Page {
 		return this;
 	}
 
-	/**
-	 * used to choose option in Purchaser country select menu
-	 * 
-	 * @param value
-	 *            : of text to be entered
-	 * @return
-	 */
-	private Sb4OCOPage setCountry(String value) {
-		Select dropdown = new Select(_driver.findElement(country));
-		dropdown.selectByVisibleText(value);
-		return this;
+	private String getZip() {
+		return _driver.findElement(zip).getAttribute("value");
 	}
 
 	/**
@@ -219,6 +301,10 @@ public class Sb4OCOPage extends Page {
 		return this;
 	}
 
+	private String getPhone() {
+		return _driver.findElement(phone).getAttribute("value");
+	}
+
 	/**
 	 * first clears then enters text into Student First Name field
 	 * 
@@ -232,17 +318,8 @@ public class Sb4OCOPage extends Page {
 		return this;
 	}
 
-	/**
-	 * first clears then enters text into Student Middle Name field
-	 * 
-	 * @param value
-	 *            : of text to be entered
-	 * @return
-	 */
-	private Sb4OCOPage setSMi(String value) {
-		_driver.findElement(sMi).clear();
-		_driver.findElement(sMi).sendKeys(value);
-		return this;
+	private String getSFirst() {
+		return _driver.findElement(sFirst).getAttribute("value");
 	}
 
 	/**
@@ -258,18 +335,9 @@ public class Sb4OCOPage extends Page {
 		return this;
 	}
 
-	/**
-	 * used to assert the options available in the Student grade select menu
-	 * 
-	 * @param array
-	 *            : of expected values available in the grade menu
-	 * @return
-	 */
-	// private Sb4OCOPage gradesAvailable(String[] array) {
-	//
-	// optionsAvailable(array, sGrade);
-	// return this;
-	// }
+	private String getSLast() {
+		return _driver.findElement(sLast).getAttribute("value");
+	}
 
 	/**
 	 * used to choose option in Purchaser grade select menu
@@ -284,22 +352,51 @@ public class Sb4OCOPage extends Page {
 		return this;
 	}
 
+	private String getGrade() {
+		return new Select(_driver.findElement(sGrade)).getFirstSelectedOption().getText();
+	}
+	
+	public String getPackPrice(){
+		return _driver.findElement(packagePrice).getAttribute("value");
+	}
+	
+	private String getBalDue(){
+		return _driver.findElement(balDue).getText();
+	}
+	
+	private Sb4OCOPage clickPackageAdd(){
+		_driver.findElement(packageAdd).click();
+		return this;
+	}
+
 	/**
-	 * used to edit the quantity value for products on page
+	 * used to edit the price and quantity value for the first package on the
+	 * OCO order form
 	 * 
-	 * @param value
-	 *            : of data-reactid
-	 * @param value2
+	 * @param price
+	 *            : desired price of package
+	 * @param quantity
 	 *            : amount to enter into quantity field
-	 * @return
+	 * @return : Sb4OCOPage
 	 */
-	private Sb4OCOPage prodQuantity(String value, String value2) {
-		String txt = "//input[@data-reactid='" + value + "']";
-		By button = By.xpath(txt);
-		waitForElementVisable(button);
-		_driver.findElement(button).clear();
-		_driver.findElement(button).sendKeys(value2);
-		_driver.findElement(button).sendKeys(Keys.TAB);
+	private Sb4OCOPage prodQuantity(String price, String quantity) {
+		logger.info("setting On Campus Order product and quantity");
+		waitForElementVisable(packagePrice);
+		_driver.findElement(packagePrice).clear();
+		_driver.findElement(packagePrice).sendKeys(price);
+		_driver.findElement(packagePrice).sendKeys(Keys.TAB, quantity, Keys.TAB);
+		return this;
+	}
+
+	private Sb4OCOPage prodQuantity(String price, String quantity, String pack) {
+		logger.info("setting On Campus Order product and quantity");
+
+		By pax = By.xpath("//input[contains(@data-reactid,'" + pack + "')] [@type='currency']");
+
+		waitForElementVisable(pax);
+		_driver.findElement(pax).clear();
+		_driver.findElement(pax).sendKeys(price);
+		_driver.findElement(pax).sendKeys(Keys.TAB, quantity, Keys.TAB);
 		return this;
 	}
 
@@ -334,8 +431,7 @@ public class Sb4OCOPage extends Page {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	private Sb4OCOPage persIcon(String menuId, String iconId, String value)
-			throws InterruptedException {
+	private Sb4OCOPage persIcon(String menuId, String iconId, String value) throws InterruptedException {
 
 		By menu = By.xpath("//select[@data-reactid='" + menuId + "']");
 		By icon = By.xpath("//img[@data-reactid='" + iconId + "']");
@@ -346,42 +442,6 @@ public class Sb4OCOPage extends Page {
 		dropdown.selectByValue(value);
 		waitForElementVisable(icon);
 		return this;
-	}
-
-	/**
-	 * used to retrieve the order total
-	 * 
-	 * @return : string of order total
-	 */
-	private String getOrderTotal() {
-		return _driver.findElement(orderTotal).getText().trim();
-	}
-
-	/**
-	 * used to retrieve the balance
-	 * 
-	 * @return : string of balance
-	 */
-	private String getBalanceDue() {
-		return _driver.findElement(balanceDue).getText().trim();
-	}
-
-	/**
-	 * used to check both the order total and ballance
-	 * 
-	 * @param obj
-	 *            : of OCOPOJO
-	 * @return : boolean
-	 */
-	public boolean checkTotalNBal(OCOPOJO obj) {
-		System.out.println("Total = "+getOrderTotal());
-		Boolean orderTotalsMatch = getOrderTotal().equals(obj.getOrderTotal());
-		System.out.println(orderTotalsMatch);
-		System.out.println("Balance = "+getBalanceDue());
-		Boolean balDueMatch = getBalanceDue().equals(obj.getBalance());
-		System.out.println(balDueMatch);
-
-		return orderTotalsMatch && balDueMatch;
 	}
 
 	/**
@@ -425,12 +485,90 @@ public class Sb4OCOPage extends Page {
 	 */
 	private Sb4OCOPage setChkNum(Boolean check, String value) {
 
-		if (check = true) {
+		if (check == true) {
 			waitForElementVisable(chkNum);
 			_driver.findElement(chkNum).clear();
 			_driver.findElement(chkNum).sendKeys(value);
 		}
 		return this;
+	}
+
+	private String getPrevPayment() {
+		WebElement pp = _driver.findElement(prevPayments);
+		return pp.findElement(prevPaymentsRow).getText().replaceAll("\n", " ").replaceAll("\r", " ").trim();
+	}
+
+	private String getNewPayment() {
+		WebElement pp = _driver.findElement(prevPayments);
+		return pp.findElement(newPaymentsRow).getText().replaceAll("\n", " ").replaceAll("\r", " ").trim();
+	}
+
+	private String getPrevPType() {
+		String type = null;
+		String tmp = getPrevPayment();
+		String[] tokens = tmp.split(" ");
+		String ty = tokens[0].trim();
+		if (ty.equals("cash")) {
+			type = "Cash";
+		} else if (ty.equals("check")) {
+			type = "Check";
+		} else if (ty.equals("comp")) {
+			type = "Comp";
+		} else
+			throw new RuntimeException("The OCO payment type was not a known value");
+		return type;
+	}
+
+	private String getPrevPDate() {
+		String tmp = getPrevPayment();
+		String[] tokens = tmp.split(" ");
+		return tokens[2] + " " + tokens[3].trim();
+	}
+
+	private String getPrevPAmt() {
+		String tmp = getPrevPayment();
+		String[] tokens = tmp.split(" ");
+		return tokens[5].replaceAll("[^a-zA-Z0-9]", "").trim();
+	}
+
+	private String getPrevCNum() {
+		String tmp = getPrevPayment();
+		String[] tokens = tmp.split(" ");
+		return tokens[5].replaceAll("[^a-zA-Z0-9]", "").trim();
+	}
+
+	private String getNewPType() {
+		String type = null;
+		String tmp = getNewPayment();
+		String[] tokens = tmp.split(" ");
+		String ty = tokens[0].trim();
+		if (ty.equals("cash")) {
+			type = "Cash";
+		} else if (ty.equals("check")) {
+			type = "Check";
+		} else if (ty.equals("comp")) {
+			type = "Comp";
+		} else
+			throw new RuntimeException("The OCO payment type was not a known value");
+		return type;
+	}
+
+	private String getNewPDate() {
+		String tmp = getNewPayment();
+		String[] tokens = tmp.split(" ");
+		return tokens[2] + " " + tokens[3].trim();
+	}
+
+	private String getNewPAmt() {
+		String tmp = getNewPayment();
+		String[] tokens = tmp.split(" ");
+		return tokens[5].replaceAll("[^a-zA-Z0-9]", "").trim();
+	}
+
+	private String getNewCNum() {
+		String tmp = getNewPayment();
+		String[] tokens = tmp.split(" ");
+		return tokens[5].replaceAll("[^a-zA-Z0-9]", "").trim();
 	}
 
 	/**
@@ -441,22 +579,13 @@ public class Sb4OCOPage extends Page {
 	 * @return
 	 */
 	private Sb4OCOPage setOCOForm(OCOPOJO obj) {
-
-		setPFirst(obj.getpFName());
-		setPMi(obj.getpMi());
-		setPLast(obj.getpLName());
-		setPEmail(obj.getEmail());
-		setAdd1(obj.getAdd1());
-		setAdd2(obj.getAdd2());
-		setCity(obj.getCity());
-		setState(obj.getState());
-		setZip(obj.getZip());
-		setCountry(obj.getCountry());
-		setPhone(obj.getPhone());
-		setSFirst(obj.getsFName());
-		setSMi(obj.getsMi());
-		setSLast(obj.getsLName());
-		setGrade(obj.getGrade());
+		logger.info("filling out On Campus Order form");
+		if (obj.getFilloutPurchaser() == true) {
+			expandPurchaser().setPFirst(obj.getpFName()).setPLast(obj.getpLName()).setPEmail(obj.getEmail())
+					.setAdd1(obj.getAdd1()).setAdd2(obj.getAdd2()).setCity(obj.getCity()).setZip(obj.getZip())
+					.setPhone(obj.getPhone());
+		}
+		setSFirst(obj.getsFName()).setSLast(obj.getsLName()).setGrade(obj.getGrade());
 		return this;
 	}
 
@@ -468,11 +597,47 @@ public class Sb4OCOPage extends Page {
 	 * @return
 	 */
 	private Sb4OCOPage setOCOProdNPayment(OCOPOJO obj) {
+		logger.info("setting On Campus Order payment info");
 
-		setAmtPaid(obj.getaPaid());
-		setPayType(obj.getpType());
-		setChkNum(obj.getCheck(), obj.getcNum());
+		if (!obj.getpType().equals("Comp") & obj.getPaymentMade() == false) {
+			setPayType(obj.getpType()).setChkNum(obj.getCheck(), obj.getcNum());
+			setAmtPaid(obj.getaPaid());
+		} else if (!obj.getaPType().equals("Comp") & obj.getPaymentMade() == true) {
+			setPayType(obj.getaPType()).setChkNum(obj.getCheck(), obj.getcNum());
+			setAmtPaid(obj.getaAPaid());
+		} else if (obj.getpType().equals("Comp") & obj.getPaymentMade() == false) {
+			setPayType(obj.getpType());
+		} else if (obj.getaPType().equals("Comp") & obj.getPaymentMade() == true) {
+			setPayType(obj.getaPType());
+		}
 		return this;
+	}
+
+	/**
+	 * used in conjunction with the saveNewOCO method. using this method click
+	 * to view the current order
+	 * 
+	 * @return : Sb4OCOViewPage
+	 * @throws InterruptedException
+	 */
+	private Sb4OCOPage clickViewOrder() throws InterruptedException {
+		_driver.findElement(viewOrder).click();
+		return this;
+	}
+
+	/**
+	 * used in conjunction with the saveNewOCO method. using this method click
+	 * to start the next order
+	 * 
+	 * @return : Sb4OCOPage
+	 */
+	private Sb4OCOPage clickNextOrder() {
+		_driver.findElement(nextOrder).click();
+		return this;
+	}
+
+	private String getOCONumber() {
+		return _driver.findElement(ocoNumber).getText();
 	}
 
 	/**
@@ -480,30 +645,137 @@ public class Sb4OCOPage extends Page {
 	 * 
 	 */
 
-	public Sb4OCOViewPage minimumOrder(OCOPOJO obj) throws InterruptedException {
-
-		setOCOForm(obj);
-		prodQuantity(obj.getpQuanId(), obj.getpQuanVal());
-		if (!checkTotalNBal(obj) == true) {
-			throw new RuntimeException(
-					"Total & Balance Values were not as expected & didn't match");
+	/**
+	 * updates the OCOPOJO passed in with the form information found on the edit
+	 * OCO page
+	 * 
+	 * @param obj
+	 *            : OCOPOJO
+	 */
+	public void getEditOCOInfo(OCOPOJO obj) {
+		if (obj.getFilloutPurchaser() == true) {
+			expandPurchaser();
+			logger.info("edit getPFirst value found = " + getPFirst());
+			obj.setpFName(getPFirst());
+			logger.info("edit getPLast value found = " + getPLast());
+			obj.setpLName(getPLast());
+			logger.info("edit getPEmail value found = " + getPEmail());
+			obj.setEmail(getPEmail());
+			logger.info("edit getAdd1 value found = " + getAdd1());
+			obj.setAdd1(getAdd1());
+			logger.info("edit getAdd2 value found = " + getAdd2());
+			obj.setAdd2(getAdd2());
+			logger.info("edit getCity value found = " + getCity());
+			obj.setCity(getCity());
+			logger.info("edit getZip value found = " + getZip());
+			obj.setZip(getZip());
+			logger.info("edit getPhone value found = " + getPhone());
+			obj.setPhone(getPhone());
 		}
-		setOCOProdNPayment(obj);
-		clickSubmit();
+		logger.info("edit getSFirst value found = " + getSFirst());
+		obj.setsFName(getSFirst());
+		logger.info("edit getSLast value found = " + getSLast());
+		obj.setsLName(getSLast());
+		logger.info("edit getGrade value found = " + getGrade());
+		obj.setGrade(getGrade());
+		logger.info("prev pay type = " + getPrevPType());
+		obj.setDate(getPrevPDate());
+		logger.info("prev pay date = " + getPrevPDate());
+		obj.setpType(getPrevPType());
+		logger.info("prev pay amt = " + getPrevPAmt());
+		obj.setaPaid(getPrevPAmt());
+		if (obj.getpType().equals("Check")) {
+			obj.setcNum(getPrevCNum());
+		}
+		if (obj.getPaymentMade() == true) {
+			logger.info("prev pay type = " + getNewPType());
+			obj.setpDate(getNewPDate());
+			logger.info("prev pay date = " + getNewPDate());
+			obj.setaPType(getNewPType());
+			logger.info("prev pay amt = " + getNewPAmt());
+			obj.setaAPaid(getNewPAmt());
+			if (obj.getpType().equals("Check")) {
+				obj.setcNum(getNewCNum());
+			}
+		}
+	}
+
+	/**
+	 * used to edit an existing OCO
+	 * 
+	 * @param obj
+	 *            : OCOPOJO
+	 * @return : Sb4OCOViewPage
+	 * @throws InterruptedException
+	 */
+	public Sb4OCOViewPage saveEditOCO(OCOPOJO obj) throws InterruptedException {
+		logger.info("Begin editing existing OCO");
+		setOCOForm(obj);
+		if (obj.getPaymentMade() == true) {
+			setOCOProdNPayment(obj);
+		}
+		clickSaveEdit();
 		return new Sb4OCOViewPage(_driver);
 	}
 
-	public Sb4OCOPage fullOrder(OCOPOJO obj) throws InterruptedException {
+	/**
+	 * used to fill out the OCO form and choose the save and view option
+	 * 
+	 * @param obj
+	 *            : OCOPOJO
+	 * @return : Sb4OCOViewPage
+	 * @throws InterruptedException
+	 */
+	public Sb4OCOViewPage saveViewOCO(OCOPOJO obj) throws InterruptedException {
+		logger.info("Begin creating Save and View On Campus Order");
+		setOCOForm(obj).prodQuantity(obj.getPrice(), obj.getQuan()).setOCOProdNPayment(obj).clickSaveView();
+		return new Sb4OCOViewPage(_driver);
+	}
 
-		setOCOForm(obj);
-		prodQuantity(obj.getpQuanId(), obj.getpQuanVal());
-		persLine(obj.getLineId(), obj.getLineVal());
-		persIcon(obj.getIconMenuId(), obj.getIconId(), obj.getIconMenuValue());
-		if (!checkTotalNBal(obj) == true) {
-			throw new RuntimeException(
-					"Total & Balance Values were not as expected & didn't match");
+	/**
+	 * used to fill out the OCO form and choose the save and new option. then
+	 * clicks to view the current order
+	 * 
+	 * @param obj
+	 *            : OCOPOJO
+	 * @return : Sb4OCOViewPage
+	 * @throws InterruptedException
+	 */
+//	public Sb4OCOViewPage saveNewViewOCO(OCOPOJO obj) throws InterruptedException {
+//		logger.info("Begin creating Save and New then View On Campus Order");
+//		setOCOForm(obj).prodQuantity(obj.getPrice(), obj.getQuan()).setOCOProdNPayment(obj).clickSaveNew()
+//				.clickViewOrder();
+//		for (String winHandle : _driver.getWindowHandles()) {
+//			_driver.switchTo().window(winHandle);
+//		}
+//		return new Sb4OCOViewPage(_driver);
+//	}
+	
+	public Sb4OCOViewPage saveNewViewOCO(OCOPOJO obj) throws InterruptedException {
+		logger.info("Begin creating Save and New then View On Campus Order");
+		setOCOForm(obj).clickPackageAdd().setOCOProdNPayment(obj).clickSaveNew()
+				.clickViewOrder();
+		obj.setPrice(getPackPrice());
+		for (String winHandle : _driver.getWindowHandles()) {
+			_driver.switchTo().window(winHandle);
 		}
-		setOCOProdNPayment(obj);
+		return new Sb4OCOViewPage(_driver);
+	}
+
+	/**
+	 * used to fill out the OCO form and choose the save and new option. then
+	 * clicks to start the next order
+	 * 
+	 * @param obj
+	 *            : OCOPOJO
+	 * @return : Sb4OCOViewPage
+	 * @throws InterruptedException
+	 */
+	public Sb4OCOPage saveNewStartOCO(OCOPOJO obj) throws InterruptedException {
+		logger.info("Begin creating Save and New then New On Campus Order");
+		obj.setOrderNumber(setOCOForm(obj).prodQuantity(obj.getPrice(), obj.getQuan()).setOCOProdNPayment(obj).clickSaveNew().getOCONumber());
+				clickNextOrder();
 		return this;
 	}
+
 }

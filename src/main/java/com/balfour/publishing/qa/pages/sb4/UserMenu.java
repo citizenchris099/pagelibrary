@@ -20,12 +20,17 @@ public class UserMenu extends Page {
 	 * locators
 	 */
 	private By userMenuMain = By.cssSelector("div.btn-group.profile > button");
-	private By siteSearch = By
-			.cssSelector("div.btn-group.site-search > button");
+	private By siteSearch = By.cssSelector("div.btn-group.site-search > button");
 	private By siteSearchField = By.xpath("//input[@placeholder='Search']");
 	private By siteSearchButton = By.xpath("//input[@id='searchsubmit']");
 	private By myProfile = By.xpath("//*[.='My Profile']");
 	private By logout = By.xpath("//*[.='Logout']");
+	private By menuColumn = By.xpath("//div[@class='col-sm-3 subnav']");
+	private By bookStatus = By.xpath("//*[@href='/book-status']");
+	private By projInfo = By.xpath(".//*[contains(@href,'balfour.com/book-status/project/')]");
+	private By main = By.xpath("//button[contains(@class,'project-switcher-btn')]");
+
+	Actions builder = new Actions(_driver);
 
 	/**
 	 * constructor
@@ -37,8 +42,37 @@ public class UserMenu extends Page {
 	}
 
 	/**
+	 * elements
+	 */
+
+	/**
+	 * @return
+	 */
+	private WebElement moveToBookStatus() {
+		_driver.findElement(bookStatus).click();
+		waitForElementVisable(menuColumn);
+		WebElement mc = _driver.findElement(menuColumn);
+		builder.moveToElement(mc).build().perform();
+		return mc;
+	}
+
+	/**
 	 * services
 	 */
+
+	/**
+	 * navigates to the project info / view page
+	 */
+	public void projectInfo() {
+		WebElement mc = moveToBookStatus();
+		builder.moveToElement(mc.findElement(projInfo)).build().perform();
+		mc.findElement(projInfo).click();
+	}
+
+	public int projInfoCount() {
+		WebElement mc = moveToBookStatus();
+		return mc.findElements(projInfo).size();
+	}
 
 	public void SiteSearch(String value) {
 		waitForElementVisable(siteSearch);
@@ -53,7 +87,7 @@ public class UserMenu extends Page {
 	 * used to log out of Studio Balfour
 	 */
 	public void LogOut() {
-		Actions builder = new Actions(_driver);
+
 		WebElement um = _driver.findElement(userMenuMain);
 		builder.moveToElement(um).build().perform();
 		um.click();
@@ -65,7 +99,6 @@ public class UserMenu extends Page {
 	 * used to access the user profile
 	 */
 	public void MyProfile() {
-		Actions builder = new Actions(_driver);
 		WebElement um = _driver.findElement(userMenuMain);
 		builder.moveToElement(um).build().perform();
 		um.click();
@@ -74,7 +107,7 @@ public class UserMenu extends Page {
 	}
 
 	/**
-	 * project switch for use with users that have >8 projects
+	 * project switch for use with users that have <8 projects
 	 * 
 	 * @param val1
 	 *            : is the current project that should be present upon
@@ -83,37 +116,15 @@ public class UserMenu extends Page {
 	 *            : the intended project to switch to
 	 * @throws InterruptedException
 	 */
-	public void projectMenu(String val1, String val2)
-			throws InterruptedException {
-
-		By main = By.xpath("//button[contains(text(), '" + val1 + "')]");
+	public void projectMenu(String val2) throws InterruptedException {
 		By next = By.xpath("//a[contains(text(), '" + val2 + "')]");
-
 		_driver.findElement(main).click();
 		waitForElementVisable(next);
 		_driver.findElement(next).click();
-
 	}
 
 	/**
-	 * used to check whether a user w/ >8 projects has access to project in
-	 * project menu
-	 * 
-	 * @param val1
-	 *            : initial project in menu
-	 * @param val2
-	 *            : project to check for
-	 * @return
-	 */
-	public int projectCheck(String val1, String val2) {
-		By main = By.xpath("//button[contains(text(), '" + val1 + "')]");
-		By next = By.xpath("//a[contains(text(), '" + val2 + "')]");
-		_driver.findElement(main).click();
-		return _driver.findElements(next).size();
-	}
-
-	/**
-	 * project switch for use with users that have <8 projects
+	 * project switch for use with users that have >8 projects
 	 * 
 	 * @param mainProj
 	 *            : is the current project that should be present upon
@@ -122,33 +133,39 @@ public class UserMenu extends Page {
 	 *            : the intended project to switch to
 	 * @throws InterruptedException
 	 */
-	public void projectMenuSearch(String mainProj, String nextProj)
-			throws InterruptedException {
-
-		By main = By.xpath("//button[contains(text(), '" + mainProj + "')]");
-		By search = By.xpath("//input[@id='search-projects']");
+	public void projectMenuSearch(String nextProj) throws InterruptedException {
+		By search = By.xpath("//input[contains(@class,'search-projects')]");
 		By next = By.cssSelector("ul.typeahead.dropdown-menu > li.active");
-
 		_driver.findElement(main).click();
 		waitForElementVisable(search, 30);
-		Actions builder = new Actions(_driver);
 		WebElement um = _driver.findElement(search);
 		builder.moveToElement(um).build().perform();
 		builder.sendKeys(um, nextProj).build().perform();
 		waitForElementVisable(next, 30);
 		_driver.findElement(next).click();
-
 	}
 
 	/**
-	 * used to check the correct project is present in the project switch menu
+	 * used to check the current project loaded in the project switcher
 	 * 
 	 * @param proj
-	 *            : expected project
 	 */
-	public void projectCheck(String proj) {
+	public void projectLoaded(String proj) {
 		By load = By.xpath("//button[contains(text(), '" + proj + "')]");
 		waitForElementVisable(load, 15);
+	}
+
+	/**
+	 * used to check if a project is available for users w/<8 projects
+	 * 
+	 * @param val2
+	 * @return
+	 */
+	public int projectCheck(String val2) {
+		By main = By.xpath("//button[contains(@class,'project-switcher-btn')]");
+		By next = By.xpath("//a[contains(text(), '" + val2 + "')]");
+		_driver.findElement(main).click();
+		return _driver.findElements(next).size();
 	}
 
 }

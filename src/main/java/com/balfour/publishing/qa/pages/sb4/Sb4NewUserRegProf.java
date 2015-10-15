@@ -94,7 +94,6 @@ public class Sb4NewUserRegProf extends Page {
 	 * @return
 	 */
 	private Sb4NewUserRegProf setUName(String value) {
-		_driver.findElement(userName).clear();
 		_driver.findElement(userName).sendKeys(value);
 		return this;
 	}
@@ -115,7 +114,6 @@ public class Sb4NewUserRegProf extends Page {
 	 * @return
 	 */
 	private Sb4NewUserRegProf setFName(String value) {
-		_driver.findElement(fName).clear();
 		_driver.findElement(fName).sendKeys(value);
 		return this;
 	}
@@ -131,7 +129,6 @@ public class Sb4NewUserRegProf extends Page {
 	 * @return
 	 */
 	private Sb4NewUserRegProf setLName(String value) {
-		_driver.findElement(lName).clear();
 		_driver.findElement(lName).sendKeys(value);
 		return this;
 	}
@@ -143,7 +140,6 @@ public class Sb4NewUserRegProf extends Page {
 	 * @return
 	 */
 	private Sb4NewUserRegProf setPhone(String value) {
-		_driver.findElement(phone).clear();
 		_driver.findElement(phone).sendKeys(value);
 		return this;
 	}
@@ -162,7 +158,6 @@ public class Sb4NewUserRegProf extends Page {
 	 * @return
 	 */
 	private Sb4NewUserRegProf setDName(String value) {
-		_driver.findElement(disName).clear();
 		_driver.findElement(disName).sendKeys(value);
 		return this;
 	}
@@ -174,7 +169,6 @@ public class Sb4NewUserRegProf extends Page {
 	 * @return
 	 */
 	private Sb4NewUserRegProf setGoogle(String value) {
-		_driver.findElement(google).clear();
 		_driver.findElement(google).sendKeys(value);
 		return this;
 	}
@@ -186,7 +180,6 @@ public class Sb4NewUserRegProf extends Page {
 	 * @return
 	 */
 	private Sb4NewUserRegProf setYahoo(String value) {
-		_driver.findElement(yahoo).clear();
 		_driver.findElement(yahoo).sendKeys(value);
 		return this;
 	}
@@ -198,7 +191,6 @@ public class Sb4NewUserRegProf extends Page {
 	 * @return
 	 */
 	private Sb4NewUserRegProf setTwitter(String value) {
-		_driver.findElement(twitter).clear();
 		_driver.findElement(twitter).sendKeys(value);
 		return this;
 	}
@@ -210,7 +202,6 @@ public class Sb4NewUserRegProf extends Page {
 	 * @return
 	 */
 	private Sb4NewUserRegProf setLinkedin(String value) {
-		_driver.findElement(linkedin).clear();
 		_driver.findElement(linkedin).sendKeys(value);
 		return this;
 	}
@@ -222,7 +213,6 @@ public class Sb4NewUserRegProf extends Page {
 	 * @return
 	 */
 	private Sb4NewUserRegProf setPintrest(String value) {
-		_driver.findElement(pintrest).clear();
 		_driver.findElement(pintrest).sendKeys(value);
 		return this;
 	}
@@ -234,7 +224,6 @@ public class Sb4NewUserRegProf extends Page {
 	 * @return
 	 */
 	private Sb4NewUserRegProf setFBook(String value) {
-		_driver.findElement(fbook).clear();
 		_driver.findElement(fbook).sendKeys(value);
 		return this;
 	}
@@ -246,7 +235,6 @@ public class Sb4NewUserRegProf extends Page {
 	 * @return
 	 */
 	private Sb4NewUserRegProf setInstagram(String value) {
-		_driver.findElement(instagram).clear();
 		_driver.findElement(instagram).sendKeys(value);
 		return this;
 	}
@@ -291,19 +279,13 @@ public class Sb4NewUserRegProf extends Page {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public Sb4NewUserRegProf doReg(UserRegPOJO obj, Boolean uname,
-			Boolean social) throws InterruptedException {
+	public Sb4NewUserRegProf doReg(UserRegPOJO obj, Boolean social) throws InterruptedException {
 
 		logger.info("Begin completion of registration process");
-
-		if (uname == true) {
-			setUName(obj.getfName());
-		}
-
+		setUName(obj.getEmail());
 		setFName(obj.getfName());
 		setLName(obj.getlName());
 		setPhone(obj.getPhone());
-//		setDName(obj.getdName());
 
 		if (social == true) {
 			setFBook(obj.getfBook());
