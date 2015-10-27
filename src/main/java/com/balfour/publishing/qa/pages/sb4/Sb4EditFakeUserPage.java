@@ -19,7 +19,7 @@ public class Sb4EditFakeUserPage extends Page {
 	 * locators
 	 */
 	private By editUserTile = By.xpath("//*[.='Project Info']");
-	private By userName = By.xpath("//*[@name='username']");
+	private By userName = By.xpath("//*[@name='username_visible']");
 	private By fName = By.xpath("//*[@name='firstname']");
 	private By lName = By.xpath("//*[@name='lastname']");
 	private By submit = By.xpath("//button[.='Submit']");

@@ -47,7 +47,8 @@ public class Sb4OCOPage extends Page {
 	private By sGrade = By.xpath("//select[@name='studentGrade']");
 
 	private By packagePrice = By.xpath("//input[contains(@data-reactid,'BASICPACKAGE')] [@type='currency']");
-	private By packageAdd = By.xpath("//span[contains(@data-reactid,'BASICPACKAGE')] [@class='glyphicon glyphicon-plus glyphicon-white']");
+	private By packageAdd = By.xpath(
+			"//span[contains(@data-reactid,'BASICPACKAGE')] [@class='glyphicon glyphicon-plus glyphicon-white']");
 	private By balDue = By.cssSelector(".totalPrice div p span:nth-child(2)");
 
 	private By payType = By.xpath("//select[@name='payType']");
@@ -355,16 +356,16 @@ public class Sb4OCOPage extends Page {
 	private String getGrade() {
 		return new Select(_driver.findElement(sGrade)).getFirstSelectedOption().getText();
 	}
-	
-	public String getPackPrice(){
+
+	public String getPackPrice() {
 		return _driver.findElement(packagePrice).getAttribute("value");
 	}
-	
-	private String getBalDue(){
+
+	private String getBalDue() {
 		return _driver.findElement(balDue).getText();
 	}
-	
-	private Sb4OCOPage clickPackageAdd(){
+
+	private Sb4OCOPage clickPackageAdd() {
 		_driver.findElement(packageAdd).click();
 		return this;
 	}
@@ -468,7 +469,7 @@ public class Sb4OCOPage extends Page {
 	 * @return
 	 */
 	private Sb4OCOPage setAmtPaid(String value) {
-		if (!_driver.findElement(amtPaid).getAttribute("value").equals("0")){
+		if (!_driver.findElement(amtPaid).getAttribute("value").equals("0")) {
 			logger.info("The OCO Amount was not 0");
 			throw new RuntimeException("The OCO Amount was not 0");
 		}
@@ -745,20 +746,21 @@ public class Sb4OCOPage extends Page {
 	 * @return : Sb4OCOViewPage
 	 * @throws InterruptedException
 	 */
-//	public Sb4OCOViewPage saveNewViewOCO(OCOPOJO obj) throws InterruptedException {
-//		logger.info("Begin creating Save and New then View On Campus Order");
-//		setOCOForm(obj).prodQuantity(obj.getPrice(), obj.getQuan()).setOCOProdNPayment(obj).clickSaveNew()
-//				.clickViewOrder();
-//		for (String winHandle : _driver.getWindowHandles()) {
-//			_driver.switchTo().window(winHandle);
-//		}
-//		return new Sb4OCOViewPage(_driver);
-//	}
-	
+	// public Sb4OCOViewPage saveNewViewOCO(OCOPOJO obj) throws
+	// InterruptedException {
+	// logger.info("Begin creating Save and New then View On Campus Order");
+	// setOCOForm(obj).prodQuantity(obj.getPrice(),
+	// obj.getQuan()).setOCOProdNPayment(obj).clickSaveNew()
+	// .clickViewOrder();
+	// for (String winHandle : _driver.getWindowHandles()) {
+	// _driver.switchTo().window(winHandle);
+	// }
+	// return new Sb4OCOViewPage(_driver);
+	// }
+
 	public Sb4OCOViewPage saveNewViewOCO(OCOPOJO obj) throws InterruptedException {
 		logger.info("Begin creating Save and New then View On Campus Order");
-		setOCOForm(obj).clickPackageAdd().setOCOProdNPayment(obj).clickSaveNew()
-				.clickViewOrder();
+		setOCOForm(obj).clickPackageAdd().setOCOProdNPayment(obj).clickSaveNew().clickViewOrder();
 		obj.setPrice(getPackPrice());
 		for (String winHandle : _driver.getWindowHandles()) {
 			_driver.switchTo().window(winHandle);
@@ -775,10 +777,20 @@ public class Sb4OCOPage extends Page {
 	 * @return : Sb4OCOViewPage
 	 * @throws InterruptedException
 	 */
+	// public Sb4OCOPage saveNewStartOCO(OCOPOJO obj) throws
+	// InterruptedException {
+	// logger.info("Begin creating Save and New then New On Campus Order");
+	// obj.setOrderNumber(setOCOForm(obj).prodQuantity(obj.getPrice(),
+	// obj.getQuan()).setOCOProdNPayment(obj).clickSaveNew().getOCONumber());
+	// clickNextOrder();
+	// return this;
+	// }
+
 	public Sb4OCOPage saveNewStartOCO(OCOPOJO obj) throws InterruptedException {
 		logger.info("Begin creating Save and New then New On Campus Order");
-		obj.setOrderNumber(setOCOForm(obj).prodQuantity(obj.getPrice(), obj.getQuan()).setOCOProdNPayment(obj).clickSaveNew().getOCONumber());
-				clickNextOrder();
+		obj.setOrderNumber(setOCOForm(obj).clickPackageAdd().setOCOProdNPayment(obj).clickSaveNew().getOCONumber());
+		obj.setPrice(getPackPrice());
+		clickNextOrder();
 		return this;
 	}
 

@@ -21,7 +21,7 @@ public class Sb4ProfilePage extends Page {
 	 * locators
 	 */
 	private By profileTile = By.xpath("//*[.='Profile']");
-	private By userName = By.xpath("//*[@name='username']");
+	private By userName = By.xpath("//*[@name='username_visible']");
 	private By eMail = By.xpath("//*[@name='email']");
 	private By fName = By.xpath("//*[@name='firstname']");
 	private By lName = By.xpath("//*[@name='lastname']");

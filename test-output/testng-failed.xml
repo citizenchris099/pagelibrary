@@ -6,7 +6,7 @@
       <class name="com.balfour.sb4.unittests.genericTest001">
         <methods>
           <include name="setup"/>
-          <include name="ocoTest003"/>
+          <include name="ocoTest004"/>
           <include name="testSetUp"/>
           <include name="teardown"/>
         </methods>

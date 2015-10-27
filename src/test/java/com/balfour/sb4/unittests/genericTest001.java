@@ -68,7 +68,7 @@ public class genericTest001 {
 		driver.manage().window().maximize();
 	}
 
-	@Test
+	// @Test
 	public void ocoTest003() throws InterruptedException {
 		OCOPOJO ocoA = createOCOInfo("Comp", "2800", true);
 		OCOPOJO ocoB = createOCOInfo("Cash", "2800", true);
@@ -83,12 +83,12 @@ public class genericTest001 {
 		OCOPOJO ocoK = createOCOInfo("Cash", "5000", false);
 		OCOPOJO ocoL = createOCOInfo("Check", "5000", false);
 		OCOPOJO[] orders = { ocoA, ocoB, ocoC, ocoD, ocoE, ocoF, ocoG, ocoH, ocoI, ocoJ, ocoK, ocoL };
-//		OCOPOJO[] orders = { ocoA };
+		// OCOPOJO[] orders = { ocoA };
 		int test = 0;
 		new Sb4LoginPage(driver).loginAs(unameVal, pwordVal).ChangeProject2("550074");
 
 		for (OCOPOJO oco : orders) {
-			System.out.println("BEGINING TEST "+test);
+			System.out.println("BEGINING TEST " + test);
 			driver.get("https://sb3-qa.balfour.com/sales-orders/oncampus/");
 			OCOPOJO oco1 = oCOInfoClone(oco);
 			new Sb4OCOListPage(driver).createNewOrder().saveNewViewOCO(oco).getOCOInfo(oco1);
@@ -186,19 +186,19 @@ public class genericTest001 {
 			if (oco4.hashCode() != oco5.hashCode()) {
 				throw new RuntimeException("OCO Info did not match");
 			}
-			System.out.println("TEST "+test+" COMPLETE");
+			System.out.println("TEST " + test + " COMPLETE");
 			test++;
 			driver.get("https://sb3-qa.balfour.com/");
-			
+
 		}
 	}
 
-	// @Test
+	@Test
 	public void ocoTest004() throws InterruptedException {
 		new Sb4LoginPage(driver).loginAs(unameVal, pwordVal);
-		OCOPOJO oco = createOCOInfo("Cash", "5000", "5000", false);
-		OCOPOJO oco1 = createOCOInfo("Check", "5000", "5000", false);
-		OCOPOJO oco2 = createOCOInfo("Comp", "5000", "5000", false);
+		OCOPOJO oco = createOCOInfo("Cash", "5000", true);
+		OCOPOJO oco1 = createOCOInfo("Check", "5000", true);
+		OCOPOJO oco2 = createOCOInfo("Comp", "5000", true);
 		OCOPOJO oco4 = oCOInfoClone(oco);
 		OCOPOJO oco5 = oCOInfoClone(oco1);
 		OCOPOJO oco6 = oCOInfoClone(oco2);
@@ -206,12 +206,37 @@ public class genericTest001 {
 		driver.get("https://sb3-qa.balfour.com/sales-orders/oncampus/");
 		new Sb4OCOListPage(driver).createNewOrder().saveNewStartOCO(oco).saveNewStartOCO(oco1).saveNewStartOCO(oco2);
 		driver.get("https://sb3-qa.balfour.com/sales-orders/oncampus/");
-		new Sb4OCOListPage(driver).viewOCO(oco).getOCOInfo(oco4);
+		new Sb4OCOListPage(driver).editOCO(oco).getEditOCOInfo(oco4);
 		driver.get("https://sb3-qa.balfour.com/sales-orders/oncampus/");
-		new Sb4OCOListPage(driver).viewOCO(oco1).getOCOInfo(oco5);
+		new Sb4OCOListPage(driver).editOCO(oco1).getEditOCOInfo(oco5);
 		driver.get("https://sb3-qa.balfour.com/sales-orders/oncampus/");
-		new Sb4OCOListPage(driver).viewOCO(oco2).getOCOInfo(oco6);
+		new Sb4OCOListPage(driver).editOCO(oco2).getEditOCOInfo(oco6);
 
+		System.out.println("oco1 onumber = "+oco1.getOrderNumber());
+		System.out.println("oco1 pfn = " + oco1.getpFName() + " oco5 pfn = " + oco5.getpFName());
+		System.out.println("oco1 pln = " + oco1.getpLName() + " oco5 pln = " + oco5.getpLName());
+		System.out.println("oco1 a1 = " + oco1.getAdd1() + " oco5 a1 = " + oco5.getAdd1());
+		System.out.println("oco1 a2 = " + oco1.getAdd2() + " oco5 a2 = " + oco5.getAdd2());
+		System.out.println("oco1 ct = " + oco1.getCity() + " oco5 ct = " + oco5.getCity());
+		System.out.println("oco1 st = " + oco1.getState() + " oco5 st = " + oco5.getState());
+		System.out.println("oco1 zp = " + oco1.getZip() + " oco5 zp = " + oco5.getZip());
+		System.out.println("oco1 ph = " + oco1.getPhone() + " oco5 ph = " + oco5.getPhone());
+
+		System.out.println("oco1 sfn = " + oco1.getsFName() + " oco5 sfn = " + oco5.getsFName());
+		System.out.println("oco1 sln = " + oco1.getsLName() + " oco5 sln = " + oco5.getsLName());
+		System.out.println("oco1 ot = " + oco1.getOrderTotal() + " oco5 ot = " + oco5.getOrderTotal());
+		System.out.println("oco1 bal = " + oco1.getBalance() + " oco5 bal = " + oco5.getBalance());
+		System.out.println("oco1 nbal = " + oco1.getnBalance() + " oco5 nbal = " + oco5.getnBalance());
+
+		System.out.println("oco1 pt = " + oco1.getpType() + " oco5 pt = " + oco5.getpType());
+		System.out.println("oco1 ap = " + oco1.getaPaid() + " oco5 ap = " + oco5.getaPaid());
+		System.out.println("oco1 dt = " + oco1.getDate() + " oco5 dt = " + oco5.getDate());
+		System.out.println("oco1 pm = " + oco1.getPaymentMade() + " oco5 pm = " + oco5.getPaymentMade());
+
+		System.out.println("oco1 pdt = " + oco1.getpDate() + " oco5 pt = " + oco5.getpDate());
+		System.out.println("oco1 apt = " + oco1.getaPType() + " oco5 apt = " + oco5.getaPType());
+		System.out.println("oco1 apm = " + oco1.getaAPaid() + " oco5 apm = " + oco5.getaAPaid());
+		
 		System.out.println("oco2 pfn = " + oco2.getpFName() + " oco4 pfn = " + oco6.getpFName());
 		System.out.println("oco2 pln = " + oco2.getpLName() + " oco4 pln = " + oco6.getpLName());
 		System.out.println("oco2 a1 = " + oco2.getAdd1() + " oco4 a1 = " + oco6.getAdd1());

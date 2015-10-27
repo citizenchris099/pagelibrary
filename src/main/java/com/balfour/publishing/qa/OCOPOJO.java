@@ -426,7 +426,7 @@ public class OCOPOJO {
 			builder.append(add1.trim());
 			builder.append(add2.trim());
 			builder.append(city.trim());
-			builder.append(state.trim());
+//			builder.append(state.trim());
 			builder.append(zip.trim());
 			builder.append(phone.trim());
 		}

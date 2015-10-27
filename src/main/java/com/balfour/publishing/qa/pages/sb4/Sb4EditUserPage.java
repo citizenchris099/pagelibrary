@@ -21,8 +21,8 @@ public class Sb4EditUserPage extends Page {
 	 * locators
 	 */
 	private By editUserTile = By.xpath("//*[.='Edit User']");
-	private By userName = By.xpath("//*[@name='username']");
-	private By eMail = By.xpath("//*[@name='email']");
+	private By userName = By.xpath("//input[@name='username_visible']");
+	private By eMail = By.xpath("//input[@name='email_visible']");
 	private By fName = By.xpath("//*[@name='firstname']");
 	private By lName = By.xpath("//*[@name='lastname']");
 	private By phone = By.xpath("//input[@id='admin_edit_user_phone']");
