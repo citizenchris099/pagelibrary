@@ -29,7 +29,7 @@ public class genericTest001 {
 	Sb4HomePage sb4dashboard;
 	Sb4LoginPage sb4login;
 	private String unameVal = "veggietester003";
-	private String pwordVal = "cOOKE1964";
+	private String pwordVal = "Welles113*";
 	private Page pg = new Page(driver);
 	private String[] add2 = { "apt 101", "apt 202", "apt 303", "apt 404" };
 	private String[] city = { "Pirate Cove", "Ninja Way", "Mutant Road", "Alien Drive" };
@@ -68,7 +68,7 @@ public class genericTest001 {
 		driver.manage().window().maximize();
 	}
 
-	// @Test
+	 @Test
 	public void ocoTest003() throws InterruptedException {
 		OCOPOJO ocoA = createOCOInfo("Comp", "2800", true);
 		OCOPOJO ocoB = createOCOInfo("Cash", "2800", true);
@@ -77,15 +77,15 @@ public class genericTest001 {
 		OCOPOJO ocoE = createOCOInfo("Cash", "2800", false);
 		OCOPOJO ocoF = createOCOInfo("Check", "2800", false);
 		OCOPOJO ocoG = createOCOInfo("Comp", "5000", true);
-		OCOPOJO ocoH = createOCOInfo("Cash", "5000", true);
-		OCOPOJO ocoI = createOCOInfo("Check", "5000", true);
-		OCOPOJO ocoJ = createOCOInfo("Comp", "5000", false);
-		OCOPOJO ocoK = createOCOInfo("Cash", "5000", false);
-		OCOPOJO ocoL = createOCOInfo("Check", "5000", false);
+		OCOPOJO ocoH = createOCOInfo("Cash", "4999", true);
+		OCOPOJO ocoI = createOCOInfo("Check", "4999", true);
+		OCOPOJO ocoJ = createOCOInfo("Comp", "4999", false);
+		OCOPOJO ocoK = createOCOInfo("Cash", "4999", false);
+		OCOPOJO ocoL = createOCOInfo("Check", "4999", false);
 		OCOPOJO[] orders = { ocoA, ocoB, ocoC, ocoD, ocoE, ocoF, ocoG, ocoH, ocoI, ocoJ, ocoK, ocoL };
-		// OCOPOJO[] orders = { ocoA };
+//		 OCOPOJO[] orders = { ocoF };
 		int test = 0;
-		new Sb4LoginPage(driver).loginAs(unameVal, pwordVal).ChangeProject2("550074");
+		new Sb4LoginPage(driver).loginAs(unameVal, pwordVal).ChangeProject2("Y50061");
 
 		for (OCOPOJO oco : orders) {
 			System.out.println("BEGINING TEST " + test);
@@ -193,7 +193,7 @@ public class genericTest001 {
 		}
 	}
 
-	@Test
+//	@Test
 	public void ocoTest004() throws InterruptedException {
 		new Sb4LoginPage(driver).loginAs(unameVal, pwordVal);
 		OCOPOJO oco = createOCOInfo("Cash", "5000", true);
@@ -352,7 +352,7 @@ public class genericTest001 {
 		setStudent(oco);
 		oco.setOrderTotal(oco.getPrice());
 		oco.setQuan("1");
-		oco.setPrice("5000");
+		oco.setPrice("4999");
 		oco.setOrderTotal(oco.getPrice());
 		oco.setName(oco.getsFName());
 		oco.setPaymentMade(false);

@@ -2,6 +2,7 @@ package com.balfour.publishing.qa.pages.sb4;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -95,18 +96,28 @@ public class Sb4OCOListPage extends Page {
 		logger.info("Begin OCO search");
 		setOrderNum(obj.getOrderNumber());
 		clickFilter();
+		try{
 		waitForElementVisable(existingOCO(obj.getOrderNumber()));
+		}catch(TimeoutException t){
+			throw new RuntimeException("Order was not found with order number");
+		}
 		logger.info("Order found with order number");
 		setOrderName(obj.getName());
 		clickFilter();
+		try{
 		waitForElementVisable(existingOCO(obj.getOrderNumber()));
+		}catch(TimeoutException t){
+			throw new RuntimeException("Order was not found with name");
+		}
 		logger.info("Order found with name");
 		setBalStatus(obj.getBalStatus());
 		clickFilter();
+		try{
 		waitForElementVisable(existingOCO(obj.getOrderNumber()));
+		}catch(TimeoutException t){
+			throw new RuntimeException("Order was not found with Bal Status");
+		}
 		logger.info("Order found with Bal status");
-		clickFilter();
-		waitForElementVisable(existingOCO(obj.getOrderNumber()));
 		logger.info("OCO search complete and order found");
 		return this;
 	}

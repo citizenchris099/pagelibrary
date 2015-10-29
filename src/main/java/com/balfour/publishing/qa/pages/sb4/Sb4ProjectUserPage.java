@@ -54,13 +54,22 @@ public class Sb4ProjectUserPage extends Page {
 	private By roSearch = By.xpath(
 			"//div[contains(@class,'ui-grid-header-cell ui-grid-clearfix ng-scope ng-isolate-scope ui-grid-coluiGrid-0008')]");
 	private By roField = By.xpath("//div[contains(@class,'ui-grid-cell ng-scope ui-grid-coluiGrid-0008')]");
-
+	private By overlay = By.xpath("//div[@id='user_list_overlay']");
 	private String slug = slugNAction.getnReg_dynamic();
 	private String keyUrl = new Test_Enviornment().envUrl(slug);
+	
 	UserMenu um = new UserMenu(_driver);
 
 	public Sb4ProjectUserPage(WebDriver driver) throws InterruptedException {
 		super(driver);
+		Boolean flag = true;
+		while(flag == true){
+			if(overlayPresent()==false){
+				break;
+			}
+			flag = true;
+		}
+		
 		isLoaded(aNewUser, regNewUser);
 		logger.info("Project User Page is loaded");
 	}
@@ -68,6 +77,10 @@ public class Sb4ProjectUserPage extends Page {
 	/**
 	 * elements
 	 */
+	
+	public boolean overlayPresent(){
+		return _driver.findElement(overlay).isDisplayed();
+	}
 
 	private Sb4ProjectUserPage fNameSearch(String value) {
 		WebElement fNameTxt = _driver.findElement(fnSearch);

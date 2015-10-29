@@ -358,7 +358,7 @@ public class Sb4OCOPage extends Page {
 	}
 
 	public String getPackPrice() {
-		return _driver.findElement(packagePrice).getAttribute("value");
+		return _driver.findElement(packagePrice).getAttribute("value").replaceAll("[^a-zA-Z0-9]", "").trim();
 	}
 
 	private String getBalDue() {
@@ -762,6 +762,7 @@ public class Sb4OCOPage extends Page {
 		logger.info("Begin creating Save and New then View On Campus Order");
 		setOCOForm(obj).clickPackageAdd().setOCOProdNPayment(obj).clickSaveNew().clickViewOrder();
 		obj.setPrice(getPackPrice());
+		obj.setOrderTotal(obj.getPrice());
 		for (String winHandle : _driver.getWindowHandles()) {
 			_driver.switchTo().window(winHandle);
 		}
