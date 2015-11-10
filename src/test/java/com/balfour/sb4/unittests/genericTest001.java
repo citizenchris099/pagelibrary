@@ -82,8 +82,8 @@ public class genericTest001 {
 		OCOPOJO ocoJ = createOCOInfo("Comp", "4999", false);
 		OCOPOJO ocoK = createOCOInfo("Cash", "4999", false);
 		OCOPOJO ocoL = createOCOInfo("Check", "4999", false);
-		OCOPOJO[] orders = { ocoA, ocoB, ocoC, ocoD, ocoE, ocoF, ocoG, ocoH, ocoI, ocoJ, ocoK, ocoL };
-//		 OCOPOJO[] orders = { ocoF };
+//		OCOPOJO[] orders = { ocoA, ocoB, ocoC, ocoD, ocoE, ocoF, ocoG, ocoH, ocoI, ocoJ, ocoK, ocoL };
+		 OCOPOJO[] orders = { ocoF };
 		int test = 0;
 		new Sb4LoginPage(driver).loginAs(unameVal, pwordVal).ChangeProject2("Y50061");
 
