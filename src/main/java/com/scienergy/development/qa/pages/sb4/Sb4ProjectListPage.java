@@ -1,11 +1,11 @@
-package com.balfour.publishing.qa.pages.sb4;
+package com.scienergy.development.qa.pages.sb4;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 
-import com.balfour.publishing.qa.ProjectListPOJO;
-import com.balfour.publishing.qa.pages.Page;
+import com.scienergy.development.qa.ProjectListPOJO;
+import com.scienergy.development.qa.pages.Page;
 
 /**
  * the Studio Balfour Project List Page

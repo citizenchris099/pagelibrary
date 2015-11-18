@@ -1,4 +1,4 @@
-package com.balfour.publishing.qa.pages;
+package com.scienergy.development.qa.pages;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,10 +16,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.balfour.publishing.Test_Enviornment;
-import com.balfour.publishing.Test_EnviornmentPOJO;
-import com.balfour.publishing.qa.pages.sb4.RestUtil;
-import com.balfour.publishing.qa.pages.sb4.RndStringUtil;
+import com.scienergy.development.Test_Enviornment;
+import com.scienergy.development.Test_EnviornmentPOJO;
+import com.scienergy.development.qa.pages.sb4.RestUtil;
+import com.scienergy.development.qa.pages.sb4.RndStringUtil;
 
 /**
  * base page class that contains various utilities that are shared across all

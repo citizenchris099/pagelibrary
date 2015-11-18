@@ -1,4 +1,4 @@
-package com.balfour.publishing.qa.pages.sb4;
+package com.scienergy.development.qa.pages.sb4;
 
 import java.util.Random;
 

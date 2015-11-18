@@ -1,4 +1,4 @@
-package com.balfour.publishing.qa.pages.sb4;
+package com.scienergy.development.qa.pages.sb4;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import com.balfour.publishing.qa.SchoolViewPOJO;
-import com.balfour.publishing.qa.pages.Page;
+import com.scienergy.development.qa.SchoolViewPOJO;
+import com.scienergy.development.qa.pages.Page;
 
 /**
  * the Studio Balfour School View Page

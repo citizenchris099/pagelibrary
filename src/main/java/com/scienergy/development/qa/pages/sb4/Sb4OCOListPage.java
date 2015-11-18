@@ -1,4 +1,4 @@
-package com.balfour.publishing.qa.pages.sb4;
+package com.scienergy.development.qa.pages.sb4;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -7,9 +7,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import com.balfour.publishing.qa.OCOListPOJO;
-import com.balfour.publishing.qa.OCOPOJO;
-import com.balfour.publishing.qa.pages.Page;
+import com.scienergy.development.qa.OCOListPOJO;
+import com.scienergy.development.qa.OCOPOJO;
+import com.scienergy.development.qa.pages.Page;
 
 /**
  * Class for On Campus Order list / landing page

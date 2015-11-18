@@ -1,4 +1,4 @@
-package com.balfour.publishing.qa.pages.sb4;
+package com.scienergy.development.qa.pages.sb4;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import net.schmizz.sshj.userauth.method.AuthPublickey;
 
 import org.openqa.selenium.WebDriver;
 
-import com.balfour.publishing.qa.pages.Page;
+import com.scienergy.development.qa.pages.Page;
 
 /**
  * utility class whose methods are intended to aid in ssh access to various

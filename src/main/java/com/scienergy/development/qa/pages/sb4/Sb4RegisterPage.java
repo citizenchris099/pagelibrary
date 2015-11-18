@@ -1,14 +1,14 @@
-package com.balfour.publishing.qa.pages.sb4;
+package com.scienergy.development.qa.pages.sb4;
 
 import java.sql.SQLException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import com.balfour.publishing.Test_Enviornment;
-import com.balfour.publishing.qa.ProjConfigPOJO;
-import com.balfour.publishing.qa.UserRegPOJO;
-import com.balfour.publishing.qa.pages.Page;
+import com.scienergy.development.Test_Enviornment;
+import com.scienergy.development.qa.ProjConfigPOJO;
+import com.scienergy.development.qa.UserRegPOJO;
+import com.scienergy.development.qa.pages.Page;
 
 /**
  * class used to access the Studio Balfour Shop / Supply Desk features

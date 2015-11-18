@@ -2,8 +2,8 @@ package com.balfour.sb4.unittests;
 
 import org.testng.annotations.Test;
 
-import com.balfour.publishing.qa.pages.sb4.RestUtil;
-import com.balfour.publishing.qa.pages.sb4.RndStringUtil;
+import com.scienergy.development.qa.pages.sb4.RestUtil;
+import com.scienergy.development.qa.pages.sb4.RndStringUtil;
 
 public class email_Test {
 

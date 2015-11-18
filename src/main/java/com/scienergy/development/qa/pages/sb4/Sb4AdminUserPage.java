@@ -1,11 +1,11 @@
-package com.balfour.publishing.qa.pages.sb4;
+package com.scienergy.development.qa.pages.sb4;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-import com.balfour.publishing.qa.pages.Page;
+import com.scienergy.development.qa.pages.Page;
 
 /**
  * Studio Balfour Back End User page services that allow user to search and

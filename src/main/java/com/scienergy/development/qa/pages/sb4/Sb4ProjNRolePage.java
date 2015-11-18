@@ -1,4 +1,4 @@
-package com.balfour.publishing.qa.pages.sb4;
+package com.scienergy.development.qa.pages.sb4;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
-import com.balfour.publishing.qa.UserRegPOJO;
-import com.balfour.publishing.qa.pages.Page;
+import com.scienergy.development.qa.UserRegPOJO;
+import com.scienergy.development.qa.pages.Page;
 
 /**
  * Studio Balfour Home Page

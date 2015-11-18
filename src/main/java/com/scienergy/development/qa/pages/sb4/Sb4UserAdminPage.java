@@ -1,4 +1,4 @@
-package com.balfour.publishing.qa.pages.sb4;
+package com.scienergy.development.qa.pages.sb4;
 
 import java.sql.SQLException;
 
@@ -10,9 +10,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
-import com.balfour.publishing.Test_Enviornment;
-import com.balfour.publishing.qa.UserRegPOJO;
-import com.balfour.publishing.qa.pages.Page;
+import com.scienergy.development.Test_Enviornment;
+import com.scienergy.development.qa.UserRegPOJO;
+import com.scienergy.development.qa.pages.Page;
 
 public class Sb4UserAdminPage extends Page {
 

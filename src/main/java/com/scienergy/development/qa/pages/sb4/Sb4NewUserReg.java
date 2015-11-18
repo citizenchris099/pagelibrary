@@ -1,4 +1,4 @@
-package com.balfour.publishing.qa.pages.sb4;
+package com.scienergy.development.qa.pages.sb4;
 
 import java.sql.SQLException;
 
@@ -7,9 +7,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import com.balfour.publishing.Test_Enviornment;
-import com.balfour.publishing.qa.UserRegPOJO;
-import com.balfour.publishing.qa.pages.Page;
+import com.scienergy.development.Test_Enviornment;
+import com.scienergy.development.qa.UserRegPOJO;
+import com.scienergy.development.qa.pages.Page;
 
 /**
  * Used in Studio Balfour User Registration process. This is the initial page in

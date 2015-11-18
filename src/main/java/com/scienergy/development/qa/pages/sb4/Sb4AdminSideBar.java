@@ -1,13 +1,13 @@
-package com.balfour.publishing.qa.pages.sb4;
+package com.scienergy.development.qa.pages.sb4;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-import com.balfour.publishing.Test_Enviornment;
-import com.balfour.publishing.Test_EnviornmentPOJO;
-import com.balfour.publishing.qa.pages.Page;
+import com.scienergy.development.Test_Enviornment;
+import com.scienergy.development.Test_EnviornmentPOJO;
+import com.scienergy.development.qa.pages.Page;
 
 /**
  * these are the services available across all pages in the WP BE essentially

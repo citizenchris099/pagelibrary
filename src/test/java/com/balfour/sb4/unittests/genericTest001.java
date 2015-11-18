@@ -14,13 +14,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-import com.balfour.publishing.qa.OCOPOJO;
-import com.balfour.publishing.qa.pages.Page;
-import com.balfour.publishing.qa.pages.sb4.Sb4HomePage;
-import com.balfour.publishing.qa.pages.sb4.Sb4LoginPage;
-import com.balfour.publishing.qa.pages.sb4.Sb4OCOListPage;
-import com.balfour.publishing.qa.pages.sb4.Sb4OCOPage;
-import com.balfour.publishing.qa.pages.sb4.Sb4OCOViewPage;
+import com.scienergy.development.qa.OCOPOJO;
+import com.scienergy.development.qa.pages.Page;
+import com.scienergy.development.qa.pages.sb4.Sb4HomePage;
+import com.scienergy.development.qa.pages.sb4.Sb4LoginPage;
+import com.scienergy.development.qa.pages.sb4.Sb4OCOListPage;
+import com.scienergy.development.qa.pages.sb4.Sb4OCOPage;
+import com.scienergy.development.qa.pages.sb4.Sb4OCOViewPage;
 
 @SuppressWarnings("unused")
 public class genericTest001 {

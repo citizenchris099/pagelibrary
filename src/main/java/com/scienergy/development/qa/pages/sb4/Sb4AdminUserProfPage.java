@@ -1,11 +1,11 @@
-package com.balfour.publishing.qa.pages.sb4;
+package com.scienergy.development.qa.pages.sb4;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 
-import com.balfour.publishing.qa.AdminProfilePOJO;
-import com.balfour.publishing.qa.pages.Page;
+import com.scienergy.development.qa.AdminProfilePOJO;
+import com.scienergy.development.qa.pages.Page;
 
 /**
  * Studio Balfour Back End User Profile pages typically used in testing that

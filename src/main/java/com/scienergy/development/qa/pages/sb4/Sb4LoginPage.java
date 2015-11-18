@@ -1,4 +1,4 @@
-package com.balfour.publishing.qa.pages.sb4;
+package com.scienergy.development.qa.pages.sb4;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -8,9 +8,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import com.balfour.publishing.Test_Enviornment;
-import com.balfour.publishing.qa.LogInPOJO;
-import com.balfour.publishing.qa.pages.Page;
+import com.scienergy.development.Test_Enviornment;
+import com.scienergy.development.qa.LogInPOJO;
+import com.scienergy.development.qa.pages.Page;
 
 /**
  * Studio Balfour Log In page class contains methods needed for log in as well
