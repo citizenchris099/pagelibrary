@@ -2,9 +2,9 @@ package com.scienergy.development;
 
 import java.util.Map;
 
-public class Test_Enviornment {
+public class Test_Environment {
 
-	private String environment = "https://sb3-qa.balfour.com%s";
+	private String environment = "http://tasking.scienergydev.com/";
 	private String login = "/login/";
 	private String profile = "/profile/";
 	private String oco = "/sales-orders/oncampus/";
@@ -30,9 +30,9 @@ public class Test_Enviornment {
 	private String nReg_dynamic = "/register/?act=invite&key=%s";
 	private String register = "/register/";
 	private String enfold = "http://10.90.31.54:8000%s";
-	Test_EnviornmentPOJO te0;
+	Test_EnvironmentPOJO te0;
 
-	public Test_Enviornment() {
+	public Test_Environment() {
 		Map<String, String> env = System.getenv();
 		for (String envName : env.keySet()) {
 			if (envName.equals("sb_test_url"))
@@ -40,9 +40,9 @@ public class Test_Enviornment {
 		}
 	}
 
-	public Test_EnviornmentPOJO slugNAction() {
+	public Test_EnvironmentPOJO slugNAction() {
 
-		te0 = new Test_EnviornmentPOJO();
+		te0 = new Test_EnvironmentPOJO();
 		te0.setHome(home);
 		te0.setLogin(login);
 		te0.setOco(oco);
@@ -72,7 +72,6 @@ public class Test_Enviornment {
 	}
 
 	public String envUrl(String slug) {
-		String link = String.format(environment, slug);
-		return link;
+		return environment + slug;
 	}
 }

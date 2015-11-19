@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.apache.http.client.fluent.Request;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -16,10 +18,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.scienergy.development.Test_Enviornment;
-import com.scienergy.development.Test_EnviornmentPOJO;
-import com.scienergy.development.qa.pages.sb4.RestUtil;
-import com.scienergy.development.qa.pages.sb4.RndStringUtil;
+import com.scienergy.development.Test_Environment;
+import com.scienergy.development.Test_EnvironmentPOJO;
+import com.scienergy.development.qa.pages.spec.RestUtil;
+import com.scienergy.development.qa.pages.spec.RndStringUtil;
 
 /**
  * base page class that contains various utilities that are shared across all
@@ -31,7 +33,7 @@ import com.scienergy.development.qa.pages.sb4.RndStringUtil;
 public class Page {
 	protected static WebDriver _driver;
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-	protected Test_EnviornmentPOJO slugNAction = new Test_Enviornment().slugNAction();
+	protected Test_EnvironmentPOJO slugNAction = new Test_Environment().slugNAction();
 
 	public Page(WebDriver driver) {
 		Page._driver = driver;
@@ -105,7 +107,7 @@ public class Page {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public String curDate() {
 		Date today = Calendar.getInstance().getTime();
 		DateFormat df = new SimpleDateFormat("MMM dd");
@@ -134,120 +136,14 @@ public class Page {
 	}
 
 	/**
-	 * used to generate a random email.
+	 * uses the guerrilla mail api to get a random test email addy
 	 * 
 	 * @return
 	 */
-	public String emailGen001() {
-		String enfold = String.format(slugNAction.getEnfold(), "/users?email=");
-		int expected = 404;
-
-		@SuppressWarnings("unused")
-		Boolean flag = true;
-		String email = null;
-		while (flag = true) {
-
-			email = new RndStringUtil().randomPass();
-			int results = new RestUtil().enfoldCheckCode(enfold, email);
-
-			System.out.println(results);
-
-			if (expected == results) {
-				break;
-			}
-			flag = true;
-		}
-		logger.info("Email is " + email);
-		return email;
-	}
-
-	public String emailGen002() {
+	public String emailGen() {
 		String email = new RestUtil().guerrillamail();
 		logger.info("User Email is " + email);
 		return email;
-	}
-
-	/**
-	 * used to generate a random string.
-	 * 
-	 * @return
-	 */
-	public String randomString(int num) {
-		String string = new RndStringUtil().RandomString(num);
-
-		return string;
-	}
-
-	/**
-	 * used to generate a random "name"
-	 * 
-	 * @param num
-	 * @return
-	 */
-	public String randomNames(int num) {
-		String string = new RndStringUtil().RandomName(num);
-
-		return string;
-	}
-
-	/**
-	 * used to generate random phone phone number
-	 * 
-	 * @return : 10 digit phone number string
-	 */
-	public String randomPhone() {
-		String string = new RndStringUtil().RandomPhone();
-
-		logger.info("User Phone is " + string);
-		return string;
-	}
-
-	/**
-	 * generates a random 20 character username.
-	 * 
-	 * @return
-	 */
-	public String randomUName() {
-		String string = randomNames(20);
-
-		logger.info("User Name is " + string);
-		return string;
-	}
-
-	/**
-	 * generates a random 8 character password.
-	 * 
-	 * @return
-	 */
-	public String randomPassword() {
-		String string = new RndStringUtil().randomPass();
-
-		logger.info("Password is " + string);
-		return string;
-	}
-
-	/**
-	 * generates a random 5 character first name
-	 * 
-	 * @return
-	 */
-	public String randomFName() {
-		String string = randomNames(5);
-
-		logger.info("First Name is " + string);
-		return string;
-	}
-
-	/**
-	 * generates a random 8 character last name.
-	 * 
-	 * @return
-	 */
-	public String randomLName() {
-		String string = randomNames(8);
-
-		logger.info("Last Name is " + string);
-		return string;
 	}
 
 	/**
@@ -280,7 +176,6 @@ public class Page {
 		}
 	}
 
-
 	/**
 	 * used to verify a field is disabled
 	 * 
@@ -294,40 +189,52 @@ public class Page {
 	}
 
 	/**
-	 * used to generate a dynamic locator based on an href that is unique to the
-	 * environment.
+	 * used to click dynamic elements
 	 * 
-	 * @param slugAction
-	 *            : the unique slug and action of the href
-	 * @param value
-	 *            : that is concatenated with the slugAction. this is typically
-	 *            a unique project or school id
-	 * @return : xpath locator
+	 * @param locator
 	 */
-	public By dynamicLocator(String slugAction, String value) {
-		String link = String.format(slugAction, value);
-
-		String url = new Test_Enviornment().envUrl(link);
-
-		String txt = "//a[@href='" + url + "']";
-		By button = By.xpath(txt);
-		return button;
+	public void dynamicClick(By locator) {
+		java.util.List<WebElement> allElements = _driver.findElements(locator);
+		for (WebElement t : allElements) {
+			if (t.isDisplayed()) {
+				t.click();
+			}
+		}
 	}
 
 	/**
-	 * used to generate a dynamic locator based on an href that is unique to the
-	 * environment.
+	 * used to generate a locator based on an anticipated message that should
+	 * appear
 	 * 
-	 * @param slugAction
-	 *            : the unique slug and action of the href
-	 * @return
+	 * @param msg
+	 *            : string that contains part of / all of message that should
+	 *            appear
+	 * @return : By locator for message
 	 */
-	public By dynamicLocator(String slugAction) {
+	public By dynamicMsg(String msg) {
+		return By.xpath("//*[contains(text(), '" + msg + "')]");
+	}
 
-		String url = new Test_Enviornment().envUrl(slugAction);
-		By locator = By.xpath("//a[@href='" + url + "']");
-
-		return locator;
+	/**
+	 * tries to find an element and catches both NoSuchElementException &
+	 * TimeoutException. logs potential errors (with the name of the locator so
+	 * you know what failed) and then throws a RuntimeException (also with the
+	 * name of the locator so you know what failed from the console)
+	 * 
+	 * @param e
+	 *            : By locator of element to find
+	 * @return : WebElement
+	 */
+	public WebElement findElement(By e) {
+		try {
+			return _driver.findElement(e);
+		} catch (NoSuchElementException n) {
+			logger.info("Locator named " + e + " was not found on page");
+			throw new RuntimeException("Locator named " + e + " was not found on page");
+		} catch (TimeoutException t) {
+			logger.info("Locator named " + e + " was not found in time");
+			throw new RuntimeException("Locator named " + e + " was not found in time");
+		}
 	}
 
 }

@@ -1,6 +1,10 @@
-package com.scienergy.development.qa.pages.sb4;
+package com.scienergy.development.qa.pages.spec;
 
 import java.util.Random;
+
+import org.openqa.selenium.WebDriver;
+
+import com.scienergy.development.qa.pages.Page;
 
 /**
  * special utility class whose method are used to generate random string. x *
@@ -39,7 +43,6 @@ public class RndStringUtil {
 		Random rng = new Random();
 		String characters = "ABCDEFGHIJKLMNopqrstuvwxyz1234567890";
 		int length = 10;
-		new RndStringUtil();
 		return RndStringUtil.generateString(rng, characters, length);
 	}
 
@@ -55,11 +58,7 @@ public class RndStringUtil {
 		Random rng = new Random();
 		String characters = "abcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()_+ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		int length = num;
-
-		new RndStringUtil();
-		String random = RndStringUtil.generateString(rng, characters, length);
-
-		return random;
+		return RndStringUtil.generateString(rng, characters, length);
 	}
 
 	/**
@@ -72,11 +71,7 @@ public class RndStringUtil {
 		Random rng = new Random();
 		String characters = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
 		int length = 20;
-
-		new RndStringUtil();
-		String random = RndStringUtil.generateString(rng, characters, length);
-
-		return random;
+		return generateString(rng, characters, length);
 	}
 
 	/**
@@ -91,11 +86,7 @@ public class RndStringUtil {
 		Random rng = new Random();
 		String characters = "abcdefghijklmnopqrstuvwxyz1234567890";
 		int length = num;
-
-		new RndStringUtil();
-		String random = RndStringUtil.generateString(rng, characters, length);
-
-		return random;
+		return generateString(rng, characters, length);
 	}
 
 	/**
@@ -108,11 +99,6 @@ public class RndStringUtil {
 		Random rng = new Random();
 		String characters = "1234567890";
 		int length = 10;
-
-		new RndStringUtil();
-		String random = RndStringUtil.generateString(rng, characters, length);
-
-		return random;
+		return generateString(rng, characters, length);
 	}
-
 }

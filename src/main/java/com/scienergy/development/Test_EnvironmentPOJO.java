@@ -3,7 +3,7 @@ package com.scienergy.development;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class Test_EnviornmentPOJO {
+public class Test_EnvironmentPOJO {
 
 	private String login;
 	private String profile;
@@ -34,7 +34,7 @@ public class Test_EnviornmentPOJO {
 	private String salesDb;
 	
 
-	public Test_EnviornmentPOJO() {
+	public Test_EnvironmentPOJO() {
 	}
 
 	public String getSalesDb() {
@@ -255,8 +255,8 @@ public class Test_EnviornmentPOJO {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof Test_EnviornmentPOJO) {
-			Test_EnviornmentPOJO other = (Test_EnviornmentPOJO) obj;
+		if (obj instanceof Test_EnvironmentPOJO) {
+			Test_EnvironmentPOJO other = (Test_EnvironmentPOJO) obj;
 			EqualsBuilder builder = new EqualsBuilder();
 			builder.append(this.login, other.login);
 			builder.append(this.profile, other.profile);

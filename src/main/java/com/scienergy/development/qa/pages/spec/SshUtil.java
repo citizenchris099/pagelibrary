@@ -1,4 +1,4 @@
-package com.scienergy.development.qa.pages.sb4;
+package com.scienergy.development.qa.pages.spec;
 
 import java.io.File;
 import java.io.IOException;
