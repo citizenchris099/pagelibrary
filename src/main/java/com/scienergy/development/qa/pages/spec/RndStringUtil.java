@@ -73,6 +73,14 @@ public class RndStringUtil {
 		int length = 20;
 		return generateString(rng, characters, length);
 	}
+	
+	public String Random2Word() {
+
+		Random rng = new Random();
+		String characters = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		int length = 6;
+		return generateString(rng, characters, length)+" "+generateString(rng, characters, length);
+	}
 
 	/**
 	 * used to generate a random name

@@ -2,24 +2,24 @@
 <testng-results skipped="0" failed="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="24264" started-at="2015-11-20T21:02:04Z" finished-at="2015-11-20T21:02:29Z">
+  <suite name="Default suite" duration-ms="26363" started-at="2015-11-21T18:14:23Z" finished-at="2015-11-21T18:14:50Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="24264" started-at="2015-11-20T21:02:04Z" finished-at="2015-11-20T21:02:29Z">
+    <test name="Default test" duration-ms="26363" started-at="2015-11-21T18:14:23Z" finished-at="2015-11-21T18:14:50Z">
       <class name="com.balfour.sb4.unittests.genericTest001">
-        <test-method status="PASS" signature="setup()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@38082d64]" name="setup" is-config="true" duration-ms="9583" started-at="2015-11-20T15:01:55Z" finished-at="2015-11-20T15:02:04Z">
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@dfd3711]" name="setup" is-config="true" duration-ms="6992" started-at="2015-11-21T12:14:16Z" finished-at="2015-11-21T12:14:23Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method status="PASS" signature="testSetUp()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@38082d64]" name="testSetUp" is-config="true" duration-ms="7324" started-at="2015-11-20T15:02:04Z" finished-at="2015-11-20T15:02:12Z">
+        <test-method status="PASS" signature="testSetUp()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@dfd3711]" name="testSetUp" is-config="true" duration-ms="4319" started-at="2015-11-21T12:14:23Z" finished-at="2015-11-21T12:14:28Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testSetUp -->
-        <test-method status="PASS" signature="loginTest001()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@38082d64]" name="loginTest001" duration-ms="16929" started-at="2015-11-20T15:02:12Z" finished-at="2015-11-20T15:02:29Z">
+        <test-method status="PASS" signature="loginTest001()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@dfd3711]" name="loginTest001" duration-ms="22033" started-at="2015-11-21T12:14:28Z" finished-at="2015-11-21T12:14:50Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- loginTest001 -->
-        <test-method status="PASS" signature="teardown()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@38082d64]" name="teardown" is-config="true" duration-ms="188" started-at="2015-11-20T15:02:29Z" finished-at="2015-11-20T15:02:29Z">
+        <test-method status="PASS" signature="teardown()[pri:0, instance:com.balfour.sb4.unittests.genericTest001@dfd3711]" name="teardown" is-config="true" duration-ms="182" started-at="2015-11-21T12:14:50Z" finished-at="2015-11-21T12:14:50Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- teardown -->

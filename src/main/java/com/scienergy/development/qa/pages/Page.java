@@ -243,17 +243,6 @@ public class Page {
 		}
 	}
 	
-	public void dynamicSendKeys(By parent, By child, String value) {
-		builder.moveToElement(findElement(parent).findElement(child)).click().sendKeys(value, Keys.ENTER)
-				.build().perform();
-	}
 	
-	public void dynamicLabels(By parent, By child, String[] values) {
-		builder.moveToElement(findElement(parent).findElement(child)).click();
-		for(String v: values){
-		builder.sendKeys(v, Keys.ENTER)
-				.build().perform();
-		}
-	}
 
 }

@@ -1,4 +1,4 @@
-package com.balfour.sb4.unittests;
+package com.scienergy.spec.unittests;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -13,17 +13,25 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import com.scienergy.development.qa.pages.spec.RndStringUtil;
 import com.scienergy.development.qa.pages.spec.SpecLoginPage;
 import com.scienergy.development.qa.pages.spec.SpecMainPage;
 
 public class genericTest001 {
 
 	WebDriver driver;
+	RndStringUtil randomString = new RndStringUtil();
 	private String username = "wr";
 	private String password = "wr";
 	private String uNFerror = "User not found";
 	private String IPerror = "Incorrect password";
-	String[] labels = { "James", "Larry", "Tom", "Lacy" };
+	String[] labels = { randomString.Random2Word(), randomString.Random2Word(), randomString.Random2Word(),
+			randomString.Random2Word() };
+	String[] summary = { randomString.RandomUName() };
+	String[] description = { randomString.RandomUName() };
+	String[] location = { randomString.RandomUName() };
+	String[] assignee = { "Wilford Reich" };
+	String[] date = { "2015-12-25" };
 
 	@BeforeSuite
 	public void setup() throws MalformedURLException {
@@ -56,9 +64,10 @@ public class genericTest001 {
 
 	@Test
 	public void loginTest001() throws InterruptedException {
-		new SpecLoginPage(driver).loginAs(username, password).showAddTask().enterLocation("Test")
-				.enterDate("2015-12-25").enterSummary("awesome sauce").enterDescripton("this sauce is awesome")
-				.enterLabel(labels).enterAssignee("Wilford Reich").hideAddTask();
+		new SpecLoginPage(driver).loginAs(username, password).showAddTask().enterLocation(location).enterDate(date)
+				.enterSummary(summary).enterDescripton(description).enterLabel(labels).enterAssignee(assignee)
+				.clickCreate().hideAddTask().search(summary[0]).selectTaskInQueue(summary[0]).chooseEditTaskStatus(1)
+				.blockOrCancelTask("block").alert("accept").checkTaskBlocked();
 	}
 
 	// @Test

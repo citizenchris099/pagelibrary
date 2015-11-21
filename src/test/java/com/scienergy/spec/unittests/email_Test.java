@@ -1,4 +1,4 @@
-package com.balfour.sb4.unittests;
+package com.scienergy.spec.unittests;
 
 import org.testng.annotations.Test;
 
