@@ -8,10 +8,12 @@ import java.util.List;
 
 import org.apache.http.client.fluent.Request;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -22,6 +24,7 @@ import com.scienergy.development.Test_Environment;
 import com.scienergy.development.Test_EnvironmentPOJO;
 import com.scienergy.development.qa.pages.spec.RestUtil;
 import com.scienergy.development.qa.pages.spec.RndStringUtil;
+import com.scienergy.development.qa.pages.spec.SpecMainPage;
 
 /**
  * base page class that contains various utilities that are shared across all
@@ -34,9 +37,12 @@ public class Page {
 	protected static WebDriver _driver;
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	protected Test_EnvironmentPOJO slugNAction = new Test_Environment().slugNAction();
+	
+	Actions builder = null;
 
 	public Page(WebDriver driver) {
 		Page._driver = driver;
+		builder = new Actions(_driver);
 	}
 
 	/**
@@ -131,8 +137,8 @@ public class Page {
 	 * @throws InterruptedException
 	 */
 	public void isLoaded(By one, By two) throws InterruptedException {
-		waitForElementPresence(one, 15);
-		waitForElementPresence(two, 15);
+		waitForElementPresence(one, 5);
+		waitForElementPresence(two, 5);
 	}
 
 	/**
@@ -234,6 +240,19 @@ public class Page {
 		} catch (TimeoutException t) {
 			logger.info("Locator named " + e + " was not found in time");
 			throw new RuntimeException("Locator named " + e + " was not found in time");
+		}
+	}
+	
+	public void dynamicSendKeys(By parent, By child, String value) {
+		builder.moveToElement(findElement(parent).findElement(child)).click().sendKeys(value, Keys.ENTER)
+				.build().perform();
+	}
+	
+	public void dynamicLabels(By parent, By child, String[] values) {
+		builder.moveToElement(findElement(parent).findElement(child)).click();
+		for(String v: values){
+		builder.sendKeys(v, Keys.ENTER)
+				.build().perform();
 		}
 	}
 

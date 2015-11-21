@@ -1,15 +1,8 @@
 package com.scienergy.development.qa.pages.spec;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.sql.SQLException;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
-import com.scienergy.development.Test_Environment;
-import com.scienergy.development.qa.LogInPOJO;
 import com.scienergy.development.qa.pages.Page;
 
 /**
@@ -19,9 +12,6 @@ import com.scienergy.development.qa.pages.Page;
  * 
  */
 public class SpecLoginPage extends Page {
-
-	private String uNFerror = "User not found";
-	private String IPerror = "Incorrect password";
 
 	/**
 	 * locators
@@ -99,37 +89,33 @@ public class SpecLoginPage extends Page {
 	/**
 	 * services
 	 */
-	
+
 	/**
 	 * normal front end user log in
 	 * 
 	 * @param unameVal
 	 * @param pwordVal
-	 * @return: Dashboard Page constructor should be called
+	 * @return: SpecMainPage
 	 * @throws InterruptedException
 	 */
 	public SpecMainPage loginAs(String unameVal, String pwordVal) throws InterruptedException {
 		logger.info("Begin LogIn");
-		setUname(unameVal);
-		setPword(pwordVal);
-		clickSignin();
+		setUname(unameVal).setPword(pwordVal).clickSignin();
 		return new SpecMainPage(_driver);
 	}
 
-
-//	/**
-//	 * used to test bad log in
-//	 * 
-//	 * @param unameVal
-//	 * @param pwordVal
-//	 * @return: bad log in constructor should be called as the error message is
-//	 *          being passed
-//	 */
-//	public SpecLoginPage badloginAs(String unameVal, String pwordVal) {
-//		setUname(unameVal);
-//		setPword(pwordVal);
-//		clickSignin();
-//		return new SpecLoginPage(_driver, "Invalid Username/Password");
-//	}
+	/**
+	 * used to test bad log in
+	 * 
+	 * @param unameVal
+	 * @param pwordVal
+	 * @return: bad log in constructor should be called as the error message is
+	 *          being passed
+	 * @throws InterruptedException
+	 */
+	public SpecLoginPage loginAs(String unameVal, String pwordVal, String expectedError) throws InterruptedException {
+		setUname(unameVal).setPword(pwordVal).clickSignin();
+		return new SpecLoginPage(_driver, expectedError);
+	}
 
 }

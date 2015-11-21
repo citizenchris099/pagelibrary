@@ -1,35 +1,41 @@
 package com.balfour.sb4.unittests;
 
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.scienergy.development.qa.pages.spec.SpecLoginPage;
+import com.scienergy.development.qa.pages.spec.SpecMainPage;
 
 public class genericTest001 {
 
 	WebDriver driver;
 	private String username = "wr";
 	private String password = "wr";
+	private String uNFerror = "User not found";
+	private String IPerror = "Incorrect password";
+	String[] labels = { "James", "Larry", "Tom", "Lacy" };
 
 	@BeforeSuite
 	public void setup() throws MalformedURLException {
-		driver = new FirefoxDriver();
-		// DesiredCapabilities cap = DesiredCapabilities.firefox();
-		// cap.setCapability("platform", "Windows 7");
-		// cap.setCapability("version", "40.0");
-		// cap.setCapability("name", "OCO test");
-		//
-		// driver = new RemoteWebDriver(
-		// new
-		// URL("http://citizenchris:a8f0eeb8-bb02-4788-b6d1-3680f480930c@ondemand.saucelabs.com:80/wd/hub"),
-		// cap);
+		// driver = new FirefoxDriver();
+		DesiredCapabilities cap = DesiredCapabilities.chrome();
+		cap.setCapability("platform", "OS X 10.11");
+		cap.setCapability("version", "46.0");
+		cap.setCapability("name", "Spec Test");
+
+		driver = new RemoteWebDriver(
+				new URL("http://SCIenergyChris:72c2a9c3-9d7e-462c-bb46-9b5626fd903d@ondemand.saucelabs.com:80/wd/hub"),
+				cap);
 
 		// ((FirefoxDriver) driver).setFileDetector(new LocalFileDetector());
 	}
@@ -49,8 +55,20 @@ public class genericTest001 {
 	}
 
 	@Test
-	public void ocoTest003() throws InterruptedException {
-		new SpecLoginPage(driver).loginAs(username, password);
+	public void loginTest001() throws InterruptedException {
+		new SpecLoginPage(driver).loginAs(username, password).showAddTask().enterLocation("Test")
+				.enterDate("2015-12-25").enterSummary("awesome sauce").enterDescripton("this sauce is awesome")
+				.enterLabel(labels).enterAssignee("Wilford Reich").hideAddTask();
+	}
+
+	// @Test
+	public void loginTest002() throws InterruptedException {
+		new SpecLoginPage(driver).loginAs("rw", password, uNFerror);
+	}
+
+	// @Test
+	public void loginTest003() throws InterruptedException {
+		new SpecLoginPage(driver).loginAs(username, "rw", IPerror);
 	}
 
 }
