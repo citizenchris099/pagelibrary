@@ -22,17 +22,15 @@ public class genericTest001 {
 
 	WebDriver driver;
 	RndStringUtil randomString = new RndStringUtil();
-	TaskPOJO tp0 = new TaskPOJO();
-	TaskPOJO tp1 = new TaskPOJO();
-	TaskPOJO tp2 = new TaskPOJO();
+	TaskPOJO tp0 = null;
+	TaskPOJO tp1 = null;
+	TaskPOJO tp2 = null;
 	private String username = "wr";
 	private String password = "wr";
 	private String uNFerror = "User not found";
 	private String IPerror = "Incorrect password";
-	String[] labels = { randomString.Random2Word(), randomString.Random2Word(), randomString.Random2Word(),
-			randomString.Random2Word() };
+	String[] labels = { randomString.Random2Word(), randomString.Random2Word() };
 
-	String[] labels2Delete = { labels[1], labels[2] };
 	String summary = randomString.RandomUName();
 	String description = randomString.RandomUName();
 	String location = randomString.RandomUName();
@@ -51,9 +49,8 @@ public class genericTest001 {
 	String taskingURL = "http://tasking.scienergydev.com/";
 	String localURL = "http://localhost:3000/";
 
-	String[] addTask = { "taskAssignee", "taskDueDate" };
-	String[] editTask = { "edidTaskDescription", "existingAssignee", "taskLocation", "editTaskCommentField",
-			"taskLabels" };
+	String[] addTask = { "taskAssignee", "taskLocation" };
+	String[] editTask = { "blockTask" };
 
 	@BeforeSuite
 	public void setup() throws MalformedURLException {
@@ -69,25 +66,9 @@ public class genericTest001 {
 
 		// ((FirefoxDriver) driver).setFileDetector(new LocalFileDetector());
 
-		tp0.setLabels(labels);
-		tp0.setAssignee(assignee);
-		tp0.setSummary(summary);
-		tp0.setDescription(description);
-		tp0.setLocation(location);
-		tp0.setDueDate(date);
-
-		tp1.setLabels(nLabels);
-		tp1.setAssignee(nAssignee);
-		tp1.setAssigneePresent(1);
-		tp1.setSummary(nSummary);
-		tp1.setDescription(nDescription);
-		tp1.setLocation(nLocation);
-		tp1.setLocationPresent(1);
-		tp1.setDueDate(nDate);
-		tp1.setComment(comment);
-		tp1.setLabelsPresent(tp1.getLabels().length);
-		tp1.setCanceled(0);
-		tp1.setBlocked(0);
+		tp0 = createTaskInfo(addTask);
+		tp1 = taskInfoClone(tp0);
+		taskInfoEdit(tp1, editTask, 1);
 
 	}
 
@@ -110,7 +91,8 @@ public class genericTest001 {
 		new SpecLoginPage(driver).loginAs(username, password).addNewTask(tp0, addTask).findTask(tp0.getSummary(), tp0)
 				.LogOut().loginAs(username, password).findTask(tp0.getSummary(), tp0).editTask(tp0, tp1, editTask)
 				.LogOut();
-		tp2 = new SpecLoginPage(driver).loginAs(username, password).findTask(tp0.getSummary(), tp0).checkTask(tp1);
+		tp2 = new SpecLoginPage(driver).loginAs(username, password).findTask(tp0.getSummary(), tp0).checkTask(tp1,
+				editTask);
 
 		System.out.println("tp1 labels = " + tp1.getLabelsPresent() + " tp2 labels = " + tp2.getLabelsPresent());
 		System.out.println("tp1 canceled = " + tp1.getCanceled() + " tp2 canceled = " + tp2.getCanceled());
@@ -122,48 +104,89 @@ public class genericTest001 {
 		System.out.println("tp1 date = " + tp1.getDueDate() + " tp2 date = " + tp2.getDueDate());
 		System.out.println("tp1 description = " + tp1.getDescription() + " tp2 description = " + tp2.getDescription());
 		System.out.println("tp1 summary = " + tp1.getSummary() + " tp2 summary = " + tp2.getSummary());
+
+		if (tp1.hashCode() != tp2.hashCode()) {
+			throw new RuntimeException("Task Info did not match");
+		}
+	}
+
+	private TaskPOJO createTaskInfo(String[] task) {
+		TaskPOJO orig = new TaskPOJO();
+		orig.setSummary(summary);
+		for (String t : task) {
+			if (t.equals("addDescription")) {
+				orig.setDescription(description);
+			} else if (t.equals("taskLocation")) {
+				orig.setLocation(location);
+				orig.setLocationPresent(1);
+			} else if (t.equals("taskDueDate")) {
+				orig.setDueDate(date);
+			} else if (t.equals("taskLabels")) {
+				orig.setLabels(labels);
+				orig.setLabelsPresent(orig.getLabels().length);
+			} else if (t.equals("taskAssignee")) {
+				orig.setAssignee(assignee);
+				orig.setAssigneePresent(1);
+			}
+		}
+		return orig;
 	}
 
 	private TaskPOJO taskInfoClone(TaskPOJO orig) {
 		TaskPOJO edit = new TaskPOJO();
 		edit.setSummary(orig.getSummary());
 		edit.setDescription(orig.getDescription());
-		edit.setDueDate(orig.getDueDate());
-		edit.setAssigneePresent(orig.getAssigneePresent());
+		edit.setLocation(orig.getLocation());
 		edit.setLocationPresent(orig.getAssigneePresent());
-		edit.setBlocked(orig.getBlocked());
-		edit.setCanceled(orig.getCanceled());
-		edit.setLabelsPresent(orig.getLabels().length);
+		edit.setDueDate(orig.getDueDate());
+		if (orig.getLabels() != null) {
+			edit.setLabelsPresent(orig.getLabels().length);
+		}
+		edit.setAssignee(orig.getAssignee());
+		edit.setAssigneePresent(orig.getAssigneePresent());
 		return edit;
 	}
 
-	private TaskPOJO taskInfoEdit(TaskPOJO edit, String[] task) {
-		RndStringUtil randomString = new RndStringUtil();
+	private TaskPOJO taskInfoEdit(TaskPOJO edit, String[] task, int status) {
 		for (String t : task) {
 			if (t.equals("edidTaskSummary")) {
-				edit.setSummary(randomString.RandomUName());
+				edit.setSummary(summary);
 			} else if (t.equals("edidTaskDescription")) {
-				edit.setDescription(randomString.Random2Word());
+				edit.setDescription(description);
 			} else if (t.equals("taskLocation")) {
-				edit.setLocation(randomString.RandomUName());
+				edit.setLocation(location);
 				edit.setLocationPresent(1);
 			} else if (t.equals("taskDueDate")) {
-//				edit
+				edit.setDueDate(date);
 			} else if (t.equals("taskLabels")) {
+				edit.setLabels(labels);
+				edit.setLabelsPresent(edit.getLabels().length);
 			} else if (t.equals("taskAssignee")) {
+				edit.setAssignee(assignee);
+				edit.setAssigneePresent(1);
 			} else if (t.equals("existingLocation")) {
+				edit.setLocation(nLocation);
 			} else if (t.equals("existingAssignee")) {
+				edit.setAssignee(nAssignee);
 			} else if (t.equals("existingDate")) {
+				edit.setDueDate(nDate);
 			} else if (t.equals("existingLabels")) {
+				edit.setLabels(nLabels);
+				edit.setLabelsPresent(edit.getLabels().length);
 			} else if (t.equals("editTaskCommentField")) {
+				edit.setComment001(comment);
 			} else if (t.equals("blockTask")) {
-			} else if (t.equals("cancelTaskChild")) {
+				edit.setBlocked(1);
+			} else if (t.equals("cancelTask")) {
+				edit.setCanceled(1);
 			} else if (t.equals("unBlockTask")) {
+				edit.setBlocked(0);
 			} else if (t.equals("reopenTask")) {
+				edit.setCanceled(0);
 			} else if (t.equals("editStatus")) {
+				edit.setStatus(status);
 			}
 		}
 		return edit;
 	}
-
 }

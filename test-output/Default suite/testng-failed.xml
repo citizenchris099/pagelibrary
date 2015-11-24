@@ -5,9 +5,7 @@
     <classes>
       <class name="com.scienergy.spec.unittests.genericTest001">
         <methods>
-          <include name="testSetUp"/>
           <include name="setup"/>
-          <include name="teardown"/>
           <include name="loginTest001"/>
         </methods>
       </class> <!-- com.scienergy.spec.unittests.genericTest001 -->

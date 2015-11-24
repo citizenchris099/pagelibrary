@@ -22,7 +22,6 @@ public class TaskPOJO {
 	private int blocked;
 	private int canceled;
 	private Boolean open;
-	private String comment;
 
 	public TaskPOJO() {
 
@@ -76,16 +75,6 @@ public class TaskPOJO {
 
 	public void setAssigneePresent(int assigneePresent) {
 		this.assigneePresent = assigneePresent;
-	}
-
-
-
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
 	}
 
 	public int getStatus() {

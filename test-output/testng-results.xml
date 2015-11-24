@@ -2,24 +2,24 @@
 <testng-results skipped="0" failed="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="59273" started-at="2015-11-24T16:26:00Z" finished-at="2015-11-24T16:26:59Z">
+  <suite name="Default suite" duration-ms="50405" started-at="2015-11-24T20:58:24Z" finished-at="2015-11-24T20:59:14Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="59273" started-at="2015-11-24T16:26:00Z" finished-at="2015-11-24T16:26:59Z">
+    <test name="Default test" duration-ms="50405" started-at="2015-11-24T20:58:24Z" finished-at="2015-11-24T20:59:14Z">
       <class name="com.scienergy.spec.unittests.genericTest001">
-        <test-method status="PASS" signature="setup()[pri:0, instance:com.scienergy.spec.unittests.genericTest001@dfd3711]" name="setup" is-config="true" duration-ms="9212" started-at="2015-11-24T10:25:51Z" finished-at="2015-11-24T10:26:00Z">
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.scienergy.spec.unittests.genericTest001@dfd3711]" name="setup" is-config="true" duration-ms="8195" started-at="2015-11-24T14:58:16Z" finished-at="2015-11-24T14:58:24Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method status="PASS" signature="testSetUp()[pri:0, instance:com.scienergy.spec.unittests.genericTest001@dfd3711]" name="testSetUp" is-config="true" duration-ms="6028" started-at="2015-11-24T10:26:00Z" finished-at="2015-11-24T10:26:06Z">
+        <test-method status="PASS" signature="testSetUp()[pri:0, instance:com.scienergy.spec.unittests.genericTest001@dfd3711]" name="testSetUp" is-config="true" duration-ms="7854" started-at="2015-11-24T14:58:24Z" finished-at="2015-11-24T14:58:32Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testSetUp -->
-        <test-method status="PASS" signature="loginTest001()[pri:0, instance:com.scienergy.spec.unittests.genericTest001@dfd3711]" name="loginTest001" duration-ms="53232" started-at="2015-11-24T10:26:06Z" finished-at="2015-11-24T10:26:59Z">
+        <test-method status="PASS" signature="loginTest001()[pri:0, instance:com.scienergy.spec.unittests.genericTest001@dfd3711]" name="loginTest001" duration-ms="42540" started-at="2015-11-24T14:58:32Z" finished-at="2015-11-24T14:59:14Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- loginTest001 -->
-        <test-method status="PASS" signature="teardown()[pri:0, instance:com.scienergy.spec.unittests.genericTest001@dfd3711]" name="teardown" is-config="true" duration-ms="189" started-at="2015-11-24T10:26:59Z" finished-at="2015-11-24T10:27:00Z">
+        <test-method status="PASS" signature="teardown()[pri:0, instance:com.scienergy.spec.unittests.genericTest001@dfd3711]" name="teardown" is-config="true" duration-ms="201" started-at="2015-11-24T14:59:15Z" finished-at="2015-11-24T14:59:15Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- teardown -->

@@ -109,14 +109,14 @@ public class SpecMainPage extends Page {
 		locators.put("editTaskStatusChild",
 				By.xpath(".//button[contains(@class,'mod-dropdownarrow')] [@aria-expanded='false']"));
 		locators.put("editTaskStatusOptionChild", By.xpath(".//a[@name='status']"));
-		locators.put("editTaskBlockCancelChild", By.xpath(".//span[@class='scicon-dots-horizontal']"));
+		locators.put("editTaskBlockCancel", By.xpath(".//span[@class='scicon-dots-horizontal']"));
 		locators.put("blockTask", By.xpath(".//a[.='Block Task']"));
 		locators.put("unBlockTask", By.xpath(".//span[.='Unblock']"));
 		locators.put("blockedIndicator", By.xpath(".//span[.='Task Blocked']"));
 		locators.put("canceledIndicator", By.xpath(".//span[.='Task Canceled']"));
 		locators.put("reopenTask", By.xpath(".//button[.='Reopen']"));
 		locators.put("blockMessage", By.xpath(".//p[contains(text(), 'Because I said so')]"));
-		locators.put("cancelTaskChild", By.xpath(".//a[.='Cancel Task']"));
+		locators.put("cancelTask", By.xpath(".//a[.='Cancel Task']"));
 		locators.put("edidTaskSummary", By.xpath(".//textarea[@name='summary']"));
 		locators.put("edidTaskDescription", By.xpath(".//textarea[@name='description']"));
 		locators.put("edidTaskDueDate", By.xpath(".//input[@placeholder='Due']"));
@@ -426,13 +426,15 @@ public class SpecMainPage extends Page {
 				removeEditTaskLabels(orig.getLabels());
 				editTaskElement("taskLabels", edit.getLabels());
 			} else if (t.equals("editTaskCommentField")) {
-				editTaskElement(t, edit.getComment());
+				editTaskElement(t, edit.getComment001());
 				clickComment();
 			} else if (t.equals("blockTask")) {
+				findElement(locators.get("editTaskParent"), locators.get("editTaskBlockCancel")).click();
 				findElement(locators.get("editTaskParent"), locators.get("blockTask")).click();
 				alert("accept");
-			} else if (t.equals("cancelTaskChild")) {
-				findElement(locators.get("editTaskParent"), locators.get("cancelTaskChild")).click();
+			} else if (t.equals("cancelTask")) {
+				findElement(locators.get("editTaskParent"), locators.get("editTaskBlockCancel")).click();
+				findElement(locators.get("editTaskParent"), locators.get("cancelTask")).click();
 				alert("accept");
 			} else if (t.equals("unBlockTask")) {
 				findElement(locators.get("editTaskParent"), locators.get("unBlockTask")).click();
@@ -448,7 +450,7 @@ public class SpecMainPage extends Page {
 		return this;
 	}
 
-	public TaskPOJO checkTask(TaskPOJO edit) {
+	public TaskPOJO checkTask(TaskPOJO edit, String[] task) {
 		TaskPOJO obj = new TaskPOJO();
 		obj.setSummary(findElement(locators.get("editTaskParent"), locators.get("edidTaskSummary")).getText());
 		obj.setDescription(findElement(locators.get("editTaskParent"), locators.get("edidTaskDescription")).getText());
@@ -458,7 +460,9 @@ public class SpecMainPage extends Page {
 		obj.setLocationPresent(findElements(locators.get("editTaskParent"), editLocation(edit.getLocation())).size());
 		obj.setBlocked(findElements(locators.get("editTaskParent"), locators.get("unBlockTask")).size());
 		obj.setCanceled(findElements(locators.get("editTaskParent"), locators.get("reopenTask")).size());
-		obj.setLabelsPresent(editLabelCount(edit.getLabels()));
+		if (edit.getLabels() != null) {
+			obj.setLabelsPresent(editLabelCount(edit.getLabels()));
+		}
 		return obj;
 	}
 }
