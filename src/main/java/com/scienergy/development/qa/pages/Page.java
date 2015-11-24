@@ -37,7 +37,7 @@ public class Page {
 	protected static WebDriver _driver;
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	protected Test_EnvironmentPOJO slugNAction = new Test_Environment().slugNAction();
-	
+
 	Actions builder = null;
 
 	public Page(WebDriver driver) {
@@ -242,7 +242,64 @@ public class Page {
 			throw new RuntimeException("Locator named " + e + " was not found in time");
 		}
 	}
+
+	/**
+	 * tries to find the parent element first element and catches both
+	 * NoSuchElementException & TimeoutException. logs potential errors (with
+	 * the name of the locator so you know what failed) and then throws a
+	 * RuntimeException (also with the name of the locator so you know what
+	 * failed from the console) the same is done for the child element.
+	 * 
+	 * @param e1
+	 *            : By locator of the parent
+	 * @param e2
+	 *            : By locator of the child
+	 * @return : WebElement of the child
+	 */
+	public WebElement findElement(By e1, By e2) {
+		WebElement parent;
+		try {
+			parent = _driver.findElement(e1);
+		} catch (NoSuchElementException n) {
+			logger.info("Locator named " + e1 + " was not found on page");
+			throw new RuntimeException("Locator named " + e1 + " was not found on page");
+		} catch (TimeoutException t) {
+			logger.info("Locator named " + e1 + " was not found in time");
+			throw new RuntimeException("Locator named " + e1 + " was not found in time");
+		}
+		try {
+			return parent.findElement(e2);
+		} catch (NoSuchElementException n) {
+			logger.info("Locator named " + e2 + " was not found on page");
+			throw new RuntimeException("Locator named " + e2 + " was not found on page");
+		} catch (TimeoutException t) {
+			logger.info("Locator named " + e2 + " was not found in time");
+			throw new RuntimeException("Locator named " + e2 + " was not found in time");
+		}
+
+	}
 	
-	
+	public List<WebElement> findElements(By e1, By e2) {
+		WebElement parent;
+		try {
+			parent = _driver.findElement(e1);
+		} catch (NoSuchElementException n) {
+			logger.info("Locator named " + e1 + " was not found on page");
+			throw new RuntimeException("Locator named " + e1 + " was not found on page");
+		} catch (TimeoutException t) {
+			logger.info("Locator named " + e1 + " was not found in time");
+			throw new RuntimeException("Locator named " + e1 + " was not found in time");
+		}
+		try {
+			return parent.findElements(e2);
+		} catch (NoSuchElementException n) {
+			logger.info("Locator named " + e2 + " was not found on page");
+			throw new RuntimeException("Locator named " + e2 + " was not found on page");
+		} catch (TimeoutException t) {
+			logger.info("Locator named " + e2 + " was not found in time");
+			throw new RuntimeException("Locator named " + e2 + " was not found in time");
+		}
+
+	}
 
 }

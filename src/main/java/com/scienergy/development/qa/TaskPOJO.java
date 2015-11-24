@@ -1,168 +1,179 @@
 package com.scienergy.development.qa;
 
+import java.lang.reflect.Method;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class UserRegProfilePOJO {
+public class TaskPOJO {
 
-	private String uName;
-	private String email;
-	private String fName;
-	private String lName;
-	private String phone;
-	private String dName;
-	private String fBook;
-	private String google;
-	private String yahoo;
-	private String twitter;
-	private String linkedin;
-	private String pinterest;
-	private String instagram;
-	private String pword;
-	private String msg;
+	private String summary;
+	private String description;
+	private String location;
+	private int locationPresent;
+	private String dueDate;
+	private String[] labels;
+	private int labelsPresent;
+	private String assignee;
+	private int assigneePresent;
+	private String comment001;
+	private String comment002;
+	private int status;
+	private int blocked;
+	private int canceled;
+	private Boolean open;
+	private String comment;
 
-	public UserRegProfilePOJO() {
+	public TaskPOJO() {
 
 	}
 
-	public String getMsg() {
-		return msg;
+
+	public int getLabelsPresent() {
+		return labelsPresent;
 	}
 
-	public void setMsg(String msg) {
-		this.msg = msg;
+
+	public void setLabelsPresent(int labelsPresent) {
+		this.labelsPresent = labelsPresent;
 	}
 
-	public String getuName() {
-		return uName;
+
+	public int getBlocked() {
+		return blocked;
 	}
 
-	public void setuName(String uName) {
-		this.uName = uName;
+
+	public void setBlocked(int blocked) {
+		this.blocked = blocked;
 	}
 
-	public String getEmail() {
-		return email;
+
+	public int getCanceled() {
+		return canceled;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+
+	public void setCanceled(int canceled) {
+		this.canceled = canceled;
 	}
 
-	public String getfName() {
-		return fName;
+
+	public int getLocationPresent() {
+		return locationPresent;
 	}
 
-	public void setfName(String fName) {
-		this.fName = fName;
+
+	public void setLocationPresent(int locationPresent) {
+		this.locationPresent = locationPresent;
 	}
 
-	public String getlName() {
-		return lName;
+
+	public int getAssigneePresent() {
+		return assigneePresent;
 	}
 
-	public void setlName(String lName) {
-		this.lName = lName;
+
+	public void setAssigneePresent(int assigneePresent) {
+		this.assigneePresent = assigneePresent;
 	}
 
-	public String getPhone() {
-		return phone;
+
+
+	public String getComment() {
+		return comment;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
-	public String getdName() {
-		return dName;
+	public int getStatus() {
+		return status;
 	}
 
-	public void setdName(String dName) {
-		this.dName = dName;
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
-	public String getfBook() {
-		return fBook;
+	public String getSummary() {
+		return summary;
 	}
 
-	public void setfBook(String fBook) {
-		this.fBook = fBook;
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
 
-	public String getGoogle() {
-		return google;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setGoogle(String google) {
-		this.google = google;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public String getYahoo() {
-		return yahoo;
+	public String getLocation() {
+		return location;
 	}
 
-	public void setYahoo(String yahoo) {
-		this.yahoo = yahoo;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
-	public String getTwitter() {
-		return twitter;
+	public String getDueDate() {
+		return dueDate;
 	}
 
-	public void setTwitter(String twitter) {
-		this.twitter = twitter;
+	public void setDueDate(String dueDate) {
+		this.dueDate = dueDate;
 	}
 
-	public String getLinkedin() {
-		return linkedin;
+	public String[] getLabels() {
+		return labels;
 	}
 
-	public void setLinkedin(String linkedin) {
-		this.linkedin = linkedin;
+	public void setLabels(String[] labels) {
+		this.labels = labels;
 	}
 
-	public String getPinterest() {
-		return pinterest;
+	public String getAssignee() {
+		return assignee;
 	}
 
-	public void setPinterest(String pinterest) {
-		this.pinterest = pinterest;
+	public void setAssignee(String assignee) {
+		this.assignee = assignee;
 	}
 
-	public String getInstagram() {
-		return instagram;
+	public String getComment001() {
+		return comment001;
 	}
 
-	public void setInstagram(String instagram) {
-		this.instagram = instagram;
+	public void setComment001(String comment001) {
+		this.comment001 = comment001;
 	}
 
-	public String getPword() {
-		return pword;
+	public String getComment002() {
+		return comment002;
 	}
 
-	public void setPword(String pword) {
-		this.pword = pword;
+	public void setComment002(String comment002) {
+		this.comment002 = comment002;
+	}
+
+	public Boolean getOpen() {
+		return open;
+	}
+
+	public void setOpen(Boolean open) {
+		this.open = open;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof UserRegProfilePOJO) {
-			UserRegProfilePOJO other = (UserRegProfilePOJO) obj;
+		if (obj instanceof TaskPOJO) {
+			TaskPOJO other = (TaskPOJO) obj;
 			EqualsBuilder builder = new EqualsBuilder();
-			builder.append(this.uName, other.uName);
-			builder.append(this.email, other.email);
-			builder.append(this.fName, other.fName);
-			builder.append(this.lName, other.lName);
-			builder.append(this.phone, other.phone);
-			builder.append(this.dName, other.dName);
-			builder.append(this.fBook, other.fBook);
-			builder.append(this.google, other.google);
-			builder.append(this.yahoo, other.yahoo);
-			builder.append(this.twitter, other.twitter);
-			builder.append(this.linkedin, other.linkedin);
-			builder.append(this.pinterest, other.pinterest);
-			builder.append(this.instagram, other.instagram);
+			builder.append(this.summary, other.summary);
 			return builder.isEquals();
 		}
 		return false;
@@ -171,20 +182,14 @@ public class UserRegProfilePOJO {
 	@Override
 	public int hashCode() {
 		HashCodeBuilder builder = new HashCodeBuilder();
-		builder.append(uName);
-		builder.append(email);
-		builder.append(fName);
-		builder.append(lName);
-		builder.append(phone);
-		builder.append(dName);
-		builder.append(fBook);
-		builder.append(google);
-		builder.append(yahoo);
-		builder.append(twitter);
-		builder.append(linkedin);
-		builder.append(pinterest);
-		builder.append(instagram);
-
+		 builder.append(summary);
+		 builder.append(description);
+		 builder.append(dueDate);
+		 builder.append(labelsPresent);
+		 builder.append(assigneePresent);
+		 builder.append(locationPresent);
+		 builder.append(blocked);
+		 builder.append(canceled);
 		return builder.toHashCode();
 	}
 

@@ -3,14 +3,14 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="com.balfour.sb4.unittests.genericTest001">
+      <class name="com.scienergy.spec.unittests.genericTest001">
         <methods>
-          <include name="setup"/>
           <include name="testSetUp"/>
-          <include name="loginTest001"/>
+          <include name="setup"/>
           <include name="teardown"/>
+          <include name="loginTest001"/>
         </methods>
-      </class> <!-- com.balfour.sb4.unittests.genericTest001 -->
+      </class> <!-- com.scienergy.spec.unittests.genericTest001 -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
