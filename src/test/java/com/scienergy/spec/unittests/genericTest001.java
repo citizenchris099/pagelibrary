@@ -51,6 +51,7 @@ public class genericTest001 {
 
 	String[] addTask = { "taskAssignee", "taskLocation" };
 	String[] editTask = { "blockTask" };
+	String[] filterTask = { "allFilterLocation" };
 
 	@BeforeSuite
 	public void setup() throws MalformedURLException {
@@ -86,8 +87,8 @@ public class genericTest001 {
 		driver.manage().window().maximize();
 	}
 
-	@Test
-	public void loginTest001() throws InterruptedException {
+	// @Test
+	public void specTest001() throws InterruptedException {
 		new SpecLoginPage(driver).loginAs(username, password).addNewTask(tp0, addTask).findTask(tp0.getSummary(), tp0)
 				.LogOut().loginAs(username, password).findTask(tp0.getSummary(), tp0).editTask(tp0, tp1, editTask)
 				.LogOut();
@@ -108,6 +109,13 @@ public class genericTest001 {
 		if (tp1.hashCode() != tp2.hashCode()) {
 			throw new RuntimeException("Task Info did not match");
 		}
+	}
+
+	@Test
+	public void specTest002() throws InterruptedException {
+		new SpecLoginPage(driver).loginAs(username, password).addNewTask(tp0, addTask).findTask(tp0.getSummary(), tp0)
+				.LogOut().loginAs(username, password).findTask(tp0.getSummary(), tp0)
+				.useAllFiltersSearch(filterTask, tp0.getLocation());
 	}
 
 	private TaskPOJO createTaskInfo(String[] task) {

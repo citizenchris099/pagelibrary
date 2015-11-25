@@ -24,27 +24,7 @@ public class SpecMainPage extends Page {
 
 	public HashMap<String, By> locators = new HashMap<String, By>();
 	public HashMap<String, TaskPOJO> taskEntry = new HashMap<String, TaskPOJO>();
-
 	public TaskPOJO tp0 = new TaskPOJO();
-
-	/**
-	 * locators: edit task form
-	 */
-	private By editTaskParent = By.xpath("//div[@class='taskdetails']");
-	private By unblockTask = By.xpath(".//span[.='Unblock']");
-	private By blockedIndicator = By.xpath(".//span[.='Task Blocked']");
-	private By canceledIndicator = By.xpath(".//span[.='Task Canceled']");
-	private By reopenTask = By.xpath(".//button[.='Reopen']");
-	private By blockMessage = By.xpath(".//p[contains(text(), 'Because I said so')]");
-	private By edidTaskSummary = By.xpath(".//textarea[@name='summary']");
-	private By edidTaskDescription = By.xpath(".//textarea[@name='description']");
-	private By edidTaskDueDate = By.xpath(".//input[@placeholder='Due']");
-	private By editTaskCommentField = By.xpath(".//textarea[contains(@placeholder,'Add a comment')]");
-	private By editTaskCommentButton = By.xpath(".//button[contains(text(), 'Comment')]");
-
-	/**
-	 * locators: add/edit task fields
-	 */
 
 	JavascriptExecutor jse = (JavascriptExecutor) _driver;
 	Actions builder = new Actions(_driver);
@@ -67,13 +47,23 @@ public class SpecMainPage extends Page {
 		locators.put("allTasksInActive", By.xpath("//a[contains(@class,'nav-link false')] [.='All Tasks']"));
 		locators.put("myTasksActive", By.xpath("//a[contains(@class,'nav-link active')] [.='My Tasks']"));
 		locators.put("myTasksInActive", By.xpath("//a[contains(@class,'nav-link false')] [.='My Tasks']"));
-		locators.put("moreParent", By.xpath("//li[@class='nav-item dropdown ']"));
-		locators.put("moreChild", By.xpath(".//a[contains(@class,'nav-link dropdown-toggle')] [@href='#']"));
-		locators.put("moreStarred", By.xpath("//label[contains(text(), 'Starred')]"));
-		locators.put("moreBlocked", By.xpath("//label[contains(text(), 'Blocked')]"));
-		locators.put("moreMe", By.xpath("//label[contains(text(), 'Created by me')]"));
-		locators.put("advancedFilters", By.xpath("//span[contains(@class,'toggle-label')] [.='Advanced Filters']"));
-		locators.put("adFilterCategories", By.xpath("//div[@class='filter-label']"));
+		locators.put("quickFilter", By.xpath("//a[@class='quickfilter-item-link']"));
+		locators.put("quickFilterICreated",
+				By.xpath("//a[contains(@class,'quickfilter-item-choiceset-link')] [.='Tasks I Created']"));
+		locators.put("quickFilterStarred",
+				By.xpath("//a[contains(@class,'quickfilter-item-choiceset-link')] [.='Tasks I Starred']"));
+		locators.put("quickFilterBlocked",
+				By.xpath("//a[contains(@class,'quickfilter-item-choiceset-link')] [.='Blocked Tasks']"));
+		locators.put("allFilters", By.xpath("//span[.='All Filters']"));
+		locators.put("allFilterLocation", By.xpath("//div[@id='locations']"));
+		locators.put("allFilterDue", By.xpath("//div[@id='locations']"));
+		locators.put("allFilterLabels", By.xpath("//div[@id='locations']"));
+		locators.put("allFilterAssignee", By.xpath("//div[@id='locations']"));
+		locators.put("allFilterStatus", By.xpath("//div[@id='locations']"));
+		locators.put("allFilterMoreO", By.xpath("//div[@id='locations']"));
+		locators.put("allFiltersDropDownParent",
+				By.xpath("//div[contains(@class,'taskqueuefilters-filteritem-dropdown')]"));
+		locators.put("allFiltersSearch", By.xpath(".//input[contains(@class,'search-input')]"));
 		locators.put("clearAdFilters", By.xpath("//span[.='Clear All']"));
 
 		/**
@@ -130,8 +120,34 @@ public class SpecMainPage extends Page {
 		locators.put("taskLabels", By.xpath(".//div[.='Labels']"));
 		locators.put("taskAssignee", By.xpath(".//div[.='Assignee']"));
 
+		/**
+		 * locators: taskqueue
+		 */
+		locators.put("taskListParent", By.xpath("//div[@class='taskqueue-tasklist']"));
+
 		isLoaded(locators.get("search"), locators.get("allTasksActive"));
 		logger.info("Spec Main Page is loaded");
+	}
+
+	public SpecMainPage useAllFilters(String[] task, String value) {
+		findElement(locators.get("allFilters")).click();
+		for (String t : task) {
+			findElement(locators.get(t)).click();
+			findElement(locators.get("allFiltersDropDownParent"),
+					By.xpath(".//div[contains(@data-reactid,'" + value + "')] [@class='checkbox']")).click();
+		}
+		return this;
+	}
+	
+	public SpecMainPage useAllFiltersSearch(String[] task, String value) {
+		findElement(locators.get("allFilters")).click();
+		for (String t : task) {
+			findElement(locators.get(t)).click();
+			dynamicSendKeys(locators.get("allFiltersDropDownParent"),locators.get("allFiltersSearch"), value);
+			findElement(locators.get("allFiltersDropDownParent"),
+					By.xpath(".//div[@class='checkbox']")).click();
+		}
+		return this;
 	}
 
 	/**
@@ -214,6 +230,10 @@ public class SpecMainPage extends Page {
 		return this;
 	}
 
+	private By taskInQueue(String value) {
+		return By.xpath(".//span[contains(text(), '" + value + "')] [@class='js-taskqueue-task-summary']");
+	}
+
 	/**
 	 * clicks a task in queue based on the summary
 	 * 
@@ -222,8 +242,7 @@ public class SpecMainPage extends Page {
 	 * @return
 	 */
 	private SpecMainPage selectTaskInQueue(String value) {
-		findElement(By.xpath(".//span[contains(text(), '" + value + "')] [@class='js-taskqueue-task-summary']"))
-				.click();
+		findElement(taskInQueue(value)).click();
 		return this;
 	}
 
@@ -293,7 +312,7 @@ public class SpecMainPage extends Page {
 	 */
 	public SpecMainPage removeEditTaskLabels(String[] choice) {
 		for (String c : choice) {
-			findElement(editTaskParent,
+			findElement(locators.get("editTaskParent"),
 					By.xpath(".//span[contains(text(), '×')] [contains(@data-reactid,'" + c + "')]")).click();
 		}
 		return this;
@@ -302,7 +321,7 @@ public class SpecMainPage extends Page {
 	private int editLabelCount(String[] labels) {
 		int count = 0;
 		while (count < labels.length) {
-			if (findElements(editTaskParent,
+			if (findElements(locators.get("editTaskParent"),
 					By.xpath(".//span[contains(text(), '×')] [contains(@data-reactid,'" + labels[count] + "')]"))
 							.size() > 0) {
 				count++;
@@ -384,6 +403,10 @@ public class SpecMainPage extends Page {
 		search(value);
 		selectTaskInQueue(obj.getSummary());
 		return this;
+	}
+
+	public int checkTaskInQueuePresent(String value) {
+		return findElements(locators.get("taskListParent"), taskInQueue(value)).size();
 	}
 
 	/**
