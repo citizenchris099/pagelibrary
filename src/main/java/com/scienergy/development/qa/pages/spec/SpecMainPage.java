@@ -56,14 +56,14 @@ public class SpecMainPage extends Page {
 				By.xpath("//a[contains(@class,'quickfilter-item-choiceset-link')] [.='Blocked Tasks']"));
 		locators.put("allFilters", By.xpath("//span[.='All Filters']"));
 		locators.put("allFilterLocation", By.xpath("//div[@id='locations']"));
-		locators.put("allFilterDue", By.xpath("//div[@id='locations']"));
-		locators.put("allFilterLabels", By.xpath("//div[@id='locations']"));
-		locators.put("allFilterAssignee", By.xpath("//div[@id='locations']"));
-		locators.put("allFilterStatus", By.xpath("//div[@id='locations']"));
-		locators.put("allFilterMoreO", By.xpath("//div[@id='locations']"));
+		locators.put("allFilterDue", By.xpath("//div[@id='due']"));
+		locators.put("allFilterLabels", By.xpath("//div[@id='labels']"));
+		locators.put("allFilterAssignee", By.xpath("//div[@id='assignees']"));
+		locators.put("allFilterStatus", By.xpath("//div[@id='statuses']"));
+		locators.put("allFilterMoreO", By.xpath("//div[@id='moreOptions']"));
 		locators.put("allFiltersDropDownParent",
 				By.xpath("//div[contains(@class,'taskqueuefilters-filteritem-dropdown')]"));
-		locators.put("allFiltersSearch", By.xpath(".//input[contains(@class,'search-input')]"));
+		locators.put("allFiltersSearch", By.xpath(".//input[contains(@placeholder,'Search')]"));
 		locators.put("clearAdFilters", By.xpath("//span[.='Clear All']"));
 
 		/**
@@ -129,23 +129,48 @@ public class SpecMainPage extends Page {
 		logger.info("Spec Main Page is loaded");
 	}
 
+	/**
+	 * uses all filters. first clicks to reveal the filters menus. then clicks
+	 * the specific menu based on tasks then a specific check box based on value
+	 * 
+	 * @param task:
+	 *            String[] that denotes the locator key to pass. this should be
+	 *            a locator key for one of the all filter sub menus.
+	 * @param value:
+	 *            String that denotes the specific check box to click
+	 * @return
+	 */
 	public SpecMainPage useAllFilters(String[] task, String value) {
 		findElement(locators.get("allFilters")).click();
 		for (String t : task) {
 			findElement(locators.get(t)).click();
-			findElement(locators.get("allFiltersDropDownParent"),
-					By.xpath(".//div[contains(@data-reactid,'" + value + "')] [@class='checkbox']")).click();
+			findElement(By.xpath("//div[contains(@data-reactid,'" + value + "')] [@class='checkbox']")).click();
 		}
 		return this;
 	}
-	
-	public SpecMainPage useAllFiltersSearch(String[] task, String value) {
+
+	/**
+	 * uses the all filters search feature. first clicks to reveal the filters
+	 * menu. then clicks the specific menu and uses the search field to find the
+	 * desired opton.
+	 * 
+	 * @param task
+	 *            : String[] that denotes the locator key to pass. this should
+	 *            be a locator key for one of the all filter sub menus.
+	 * @param placeholder
+	 *            : the values of placeholder in the search field
+	 * @param value
+	 *            : that you want to pass to the search field
+	 * @param userId
+	 *            : of the user to click
+	 * @return
+	 */
+	public SpecMainPage useAllFiltersSearch(String[] task, String placeholder, String value, String userId) {
 		findElement(locators.get("allFilters")).click();
 		for (String t : task) {
 			findElement(locators.get(t)).click();
-			dynamicSendKeys(locators.get("allFiltersDropDownParent"),locators.get("allFiltersSearch"), value);
-			findElement(locators.get("allFiltersDropDownParent"),
-					By.xpath(".//div[@class='checkbox']")).click();
+			findElement(By.xpath("//input[contains(@placeholder,'" + placeholder + "')]")).sendKeys(value);
+			findElement(By.xpath("//div[contains(@data-reactid,'" + userId + "')] [@class='checkbox']")).click();
 		}
 		return this;
 	}
@@ -198,8 +223,7 @@ public class SpecMainPage extends Page {
 	 *            : String that contains the value to enter into the field
 	 */
 	private void dynamicSendKeys(By parent, By child, String value) {
-		builder.moveToElement(findElement(parent).findElement(child)).click().sendKeys(value, Keys.ENTER).build()
-				.perform();
+		builder.moveToElement(findElement(parent, child)).click().sendKeys(value, Keys.ENTER).build().perform();
 	}
 
 	private SpecMainPage useDatePicker(WebElement addOrEdit, String value) {

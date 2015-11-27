@@ -5,9 +5,11 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -25,8 +27,8 @@ public class genericTest001 {
 	TaskPOJO tp0 = null;
 	TaskPOJO tp1 = null;
 	TaskPOJO tp2 = null;
-	private String username = "wr";
-	private String password = "wr";
+	private String username = "testusername";
+	private String password = "testpassword";
 	private String uNFerror = "User not found";
 	private String IPerror = "Incorrect password";
 	String[] labels = { randomString.Random2Word(), randomString.Random2Word() };
@@ -34,7 +36,7 @@ public class genericTest001 {
 	String summary = randomString.RandomUName();
 	String description = randomString.RandomUName();
 	String location = randomString.RandomUName();
-	String assignee = "Wilford Reich";
+	String assignee = "Test User";
 	String date = "2015-12-25";
 
 	String[] nLabels = { randomString.Random2Word(), randomString.Random2Word(), randomString.Random2Word(),
@@ -42,20 +44,21 @@ public class genericTest001 {
 	String nSummary = randomString.RandomUName();
 	String nDescription = randomString.RandomUName();
 	String nLocation = randomString.RandomUName();
-	String nAssignee = "Alice Williams";
+	String nAssignee = "Test User2";
 	String nDate = "2016-01-19";
 	String comment = randomString.Random2Word();
 
 	String taskingURL = "http://tasking.scienergydev.com/";
 	String localURL = "http://localhost:3000/";
 
-	String[] addTask = { "taskAssignee", "taskLocation" };
+	String[] addTask = { "taskAssignee", "taskLocation", "taskLabels" };
 	String[] editTask = { "blockTask" };
 	String[] filterTask = { "allFilterLocation" };
 
 	@BeforeSuite
 	public void setup() throws MalformedURLException {
 		// driver = new FirefoxDriver();
+
 		DesiredCapabilities cap = DesiredCapabilities.chrome();
 		cap.setCapability("platform", "OS X 10.11");
 		cap.setCapability("version", "46.0");
@@ -115,7 +118,8 @@ public class genericTest001 {
 	public void specTest002() throws InterruptedException {
 		new SpecLoginPage(driver).loginAs(username, password).addNewTask(tp0, addTask).findTask(tp0.getSummary(), tp0)
 				.LogOut().loginAs(username, password).findTask(tp0.getSummary(), tp0)
-				.useAllFiltersSearch(filterTask, tp0.getLocation());
+//				.useAllFiltersSearch(filterTask, "Search assignees",tp0.getAssignee(), "testuid1");
+				.useAllFilters(filterTask, tp0.getLocation());
 	}
 
 	private TaskPOJO createTaskInfo(String[] task) {
