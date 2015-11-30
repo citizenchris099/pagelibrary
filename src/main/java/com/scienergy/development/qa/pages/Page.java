@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.http.client.fluent.Request;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -114,13 +115,7 @@ public class Page {
 		}
 	}
 
-	public String curDate() {
-		Date today = Calendar.getInstance().getTime();
-		DateFormat df = new SimpleDateFormat("MMM dd");
-		String reportDate = df.format(today);
-		logger.info("Tadys date = " + reportDate.trim());
-		return reportDate.trim();
-	}
+	
 
 	/**
 	 * methods to verify page is loaded
@@ -240,9 +235,11 @@ public class Page {
 		} catch (TimeoutException t) {
 			logger.info("Locator named " + e + " was not found in time");
 			throw new RuntimeException("Locator named " + e + " was not found in time");
+		} catch (ElementNotVisibleException t) {
+			logger.info("Locator named " + e + " was not visible");
+			throw new RuntimeException("Locator named " + e + " was not visible");
 		}
 	}
-	
 
 	/**
 	 * tries to find the parent element first element and catches both
@@ -267,6 +264,9 @@ public class Page {
 		} catch (TimeoutException t) {
 			logger.info("Locator named " + e1 + " was not found in time");
 			throw new RuntimeException("Locator named " + e1 + " was not found in time");
+		} catch (ElementNotVisibleException t) {
+			logger.info("Locator named " + e1 + " was not visible");
+			throw new RuntimeException("Locator named " + e1 + " was not visible");
 		}
 		try {
 			return parent.findElement(e2);
@@ -276,10 +276,13 @@ public class Page {
 		} catch (TimeoutException t) {
 			logger.info("Locator named " + e2 + " was not found in time");
 			throw new RuntimeException("Locator named " + e2 + " was not found in time");
+		} catch (ElementNotVisibleException t) {
+			logger.info("Locator named " + e2 + " was not visible");
+			throw new RuntimeException("Locator named " + e2 + " was not visible");
 		}
 
 	}
-	
+
 	public List<WebElement> findElements(By e1, By e2) {
 		WebElement parent;
 		try {

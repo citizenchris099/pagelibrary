@@ -1,5 +1,9 @@
 package com.scienergy.development.qa.pages.spec;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 import org.openqa.selenium.WebDriver;
@@ -73,13 +77,13 @@ public class RndStringUtil {
 		int length = 20;
 		return generateString(rng, characters, length);
 	}
-	
+
 	public String Random2Word() {
 
 		Random rng = new Random();
 		String characters = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		int length = 6;
-		return generateString(rng, characters, length)+" "+generateString(rng, characters, length);
+		return generateString(rng, characters, length) + " " + generateString(rng, characters, length);
 	}
 
 	/**
@@ -108,5 +112,23 @@ public class RndStringUtil {
 		String characters = "1234567890";
 		int length = 10;
 		return generateString(rng, characters, length);
+	}
+
+	public String curDate() {
+		Date today = Calendar.getInstance().getTime();
+		DateFormat df = new SimpleDateFormat("MMM dd");
+		String reportDate = df.format(today);
+		return reportDate.trim();
+	}
+
+	public String date(int days) {
+		Date now = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(now);
+		cal.add(Calendar.DAY_OF_YEAR, days);
+		Date tomorrow = cal.getTime();
+		DateFormat df = new SimpleDateFormat("M/d/yyyy");
+		String reportDate = df.format(tomorrow);
+		return reportDate.trim();
 	}
 }

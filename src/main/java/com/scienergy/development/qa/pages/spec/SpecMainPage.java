@@ -23,7 +23,7 @@ import com.scienergy.development.qa.pages.Page;
 public class SpecMainPage extends Page {
 
 	public HashMap<String, By> locators = new HashMap<String, By>();
-	public HashMap<String, TaskPOJO> taskEntry = new HashMap<String, TaskPOJO>();
+	public HashMap<String, String> months = new HashMap<String, String>();
 	public TaskPOJO tp0 = new TaskPOJO();
 
 	JavascriptExecutor jse = (JavascriptExecutor) _driver;
@@ -39,14 +39,24 @@ public class SpecMainPage extends Page {
 	public SpecMainPage(WebDriver driver) throws InterruptedException {
 		super(driver);
 
+		months.put("January", "1");
+		months.put("February", "2");
+		months.put("March", "3");
+		months.put("April", "4");
+		months.put("May", "5");
+		months.put("June", "6");
+		months.put("July", "7");
+		months.put("August", "8");
+		months.put("September", "9");
+		months.put("October", "10");
+		months.put("November", "11");
+		months.put("December", "12");
+
 		/**
 		 * locators : filters
 		 */
 		locators.put("search", By.xpath("//input[@placeholder='Search']"));
-		locators.put("allTasksActive", By.xpath("//a[contains(@class,'is-active')] [.='All Tasks']"));
-		locators.put("allTasksInActive", By.xpath("//a[contains(@class,'nav-link false')] [.='All Tasks']"));
-		locators.put("myTasksActive", By.xpath("//a[contains(@class,'nav-link active')] [.='My Tasks']"));
-		locators.put("myTasksInActive", By.xpath("//a[contains(@class,'nav-link false')] [.='My Tasks']"));
+		locators.put("quickFiltersParent", By.xpath("//ul[@class='quickfilters']"));
 		locators.put("quickFilter", By.xpath("//a[@class='quickfilter-item-link']"));
 		locators.put("quickFilterICreated",
 				By.xpath("//a[contains(@class,'quickfilter-item-choiceset-link')] [.='Tasks I Created']"));
@@ -78,6 +88,7 @@ public class SpecMainPage extends Page {
 		locators.put("datePickerParent", By.xpath("//div[@class='datepicker']"));
 		locators.put("datePickerPrevMoChild", By.xpath(".//a[contains(@class,'previous')]"));
 		locators.put("datePickerNextMoChild", By.xpath(".//a[contains(@class,'next')]"));
+		locators.put("datePickerCurrentMonth", By.xpath(".//span[@class='datepicker__current-month']"));
 
 		/**
 		 * locators: add task form
@@ -125,8 +136,214 @@ public class SpecMainPage extends Page {
 		 */
 		locators.put("taskListParent", By.xpath("//div[@class='taskqueue-tasklist']"));
 
-		isLoaded(locators.get("search"), locators.get("allTasksActive"));
+		isLoaded(locators.get("search"), locators.get("loginName"));
 		logger.info("Spec Main Page is loaded");
+	}
+
+	/**
+	 * helper method that uses selenium actions to move to a text area, click it
+	 * then enter text
+	 * 
+	 * @param parent
+	 *            : parent element that denotes whether to use the add or edit
+	 *            task area
+	 * @param child
+	 *            : specific element to edit
+	 * @param values
+	 *            : String[] that contains the value(s) to enter into the field
+	 */
+	private void dynamicSendKeys(By parent, By child, String[] values) {
+		builder.moveToElement(findElement(parent).findElement(child)).click();
+		for (String v : values) {
+			builder.sendKeys(v, Keys.ENTER).build().perform();
+		}
+	}
+
+	/**
+	 * helper method that uses uses selenium actions to move to a text area,
+	 * click it then enter text
+	 * 
+	 * @param parent
+	 *            : parent element that denotes whether to use the add or edit
+	 *            task area
+	 * @param child
+	 *            : specific element to edit
+	 * @param values
+	 *            : String that contains the value to enter into the field
+	 */
+	private void dynamicSendKeys(By parent, By child, String value) {
+		builder.moveToElement(findElement(parent, child)).click().sendKeys(value, Keys.ENTER).build().perform();
+	}
+
+	private SpecMainPage useDatePicker(WebElement addOrEdit, String date) {
+		addOrEdit.click();
+		String[] dateValues = date.split("/");
+		String month = dateValues[0];
+		String day = dateValues[1];
+		int count = 0;
+		while (count < 12) {
+			String[] currentMonthYear = findElement(locators.get("datePickerParent"),
+					locators.get("datePickerCurrentMonth")).getText().trim().split(" ");
+			String currentMonthNumber = months.get(currentMonthYear[0]);
+			if (!currentMonthNumber.equals(month)) {
+				findElement(locators.get("datePickerParent"), locators.get("datePickerNextMoChild")).click();
+				count++;
+			} else
+				break;
+		}
+		List<WebElement> li = findElements(locators.get("datePickerParent"),
+				By.xpath(".//div[contains(text(), '" + day + "')] [contains(@class,'datepicker__day')]"));
+		if (li.size() > 1) {
+			li.get(1).click();
+		} else
+			li.get(0).click();
+		return this;
+	}
+
+	private By taskInQueue(String value) {
+		return By.xpath(".//span[contains(text(), '" + value + "')] [@class='js-taskqueue-task-summary']");
+	}
+
+	private SpecMainPage editTaskValue(String field, String value) {
+		findElement(locators.get("editTaskParent"), locators.get(field)).clear();
+		findElement(locators.get("editTaskParent"), locators.get(field)).sendKeys(value);
+		return this;
+	}
+
+	private By editLocation(String value) {
+		return By.xpath(".//div[contains(text(), '" + value + "')] [@class='Select-placeholder']");
+	}
+
+	/**
+	 * used to edit either location or assignee fields when values are already
+	 * present
+	 * 
+	 * @param task
+	 *            : By locator for eitehr assignee or location field
+	 * @param oValue
+	 *            : original value present
+	 * @param nValue
+	 *            : new value to enter
+	 * @return SpecMainPage
+	 */
+	private SpecMainPage editTaskLocationAssignee(By task, String oValue, String nValue) {
+		builder.moveToElement(findElement(locators.get("editTaskParent"), editLocation(oValue))).click()
+				.sendKeys(Keys.BACK_SPACE).build().perform();
+		dynamicSendKeys(locators.get("editTaskParent"), task, nValue);
+		return this;
+	}
+
+	/**
+	 * used to remove edit task labels
+	 * 
+	 * @param choice
+	 *            : String[] of label names that need to be removed
+	 * @return: SpecMainPage
+	 */
+	public SpecMainPage removeEditTaskLabels(String[] choice) {
+		for (String c : choice) {
+			findElement(locators.get("editTaskParent"),
+					By.xpath(".//span[contains(text(), '×')] [contains(@data-reactid,'" + c + "')]")).click();
+		}
+		return this;
+	}
+
+	private int editLabelCount(String[] labels) {
+		int count = 0;
+		while (count < labels.length) {
+			if (findElements(locators.get("editTaskParent"),
+					By.xpath(".//span[contains(text(), '×')] [contains(@data-reactid,'" + labels[count] + "')]"))
+							.size() > 0) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	private SpecMainPage alert(String choice) {
+		Alert alert = _driver.switchTo().alert();
+		if (choice.equals("accept")) {
+			alert.sendKeys("Because I said so");
+			alert.accept();
+		} else if (choice.equals("decline")) {
+			alert.dismiss();
+		}
+		return this;
+	}
+
+	/**
+	 * shared log out service
+	 * 
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public SpecLoginPage LogOut() throws InterruptedException {
+		findElement(locators.get("loginName")).click();
+		findElement(locators.get("signOut")).click();
+		return new SpecLoginPage(_driver);
+	}
+
+	/**
+	 * used to search for and then click on an existing task
+	 * 
+	 * @param value
+	 *            : what will be entered into search field
+	 * @param obj
+	 *            : TaskPOJO this is used to get the summary of the task being
+	 *            searched for
+	 * @return: SpecMainPage
+	 */
+	public SpecMainPage findTask(String value, TaskPOJO obj) {
+		findElement(locators.get("search")).sendKeys(value);
+		findElement(taskInQueue(obj.getSummary())).click();
+		return this;
+	}
+	
+	public SpecMainPage findTask(String[] value, TaskPOJO obj) {
+		
+		for(String v : value){
+		findElement(locators.get("search")).sendKeys(v);
+		findElement(taskInQueue(obj.getSummary())).click();
+		findElement(locators.get("allFilters")).click();
+		findElement(locators.get("clearAdFilters")).click();
+		findElement(locators.get("allFilters")).click();
+		}
+		return this;
+	} 
+
+	/**
+	 * used to click one of the two main quick filters
+	 * 
+	 * @param value
+	 *            : of the quick filter to click. options are 'All Tasks' or 'My
+	 *            Tasks'
+	 * @return
+	 */
+	public SpecMainPage selectQuickFilter(String value) {
+		findElement(locators.get("quickFiltersParent"),
+				By.xpath(".//a[contains(text(), '" + value + "')] [contains(@class,'quickfilter-item-link')]")).click();
+		findElement(locators.get("quickFiltersParent"),
+				By.xpath(".//a[contains(text(), '" + value + "')] [contains(@class,'is-active')]"));
+		return this;
+	}
+
+	/**
+	 * checks for in-active filter
+	 * 
+	 * @param value
+	 *            : of filter that is active
+	 * @return
+	 */
+	public SpecMainPage quickFilterInActive(String value) {
+		if (value.equals("All Tasks")) {
+			findElement(locators.get("quickFiltersParent"),
+					By.xpath(".//a[contains(text(), 'My Tasks')] [@class='quickfilter-item-link']"));
+		} else if (value.equals("My Tasks")) {
+			findElement(locators.get("quickFiltersParent"),
+					By.xpath(".//a[contains(text(), 'All Tasks')] [@class='quickfilter-item-link']"));
+		} else
+			throw new RuntimeException("value passed was not an accepted value");
+		return this;
 	}
 
 	/**
@@ -175,209 +392,8 @@ public class SpecMainPage extends Page {
 		return this;
 	}
 
-	/**
-	 * elements
-	 */
-	private SpecMainPage clickLoginName() {
-		findElement(locators.get("loginName")).click();
-		return this;
-	}
-
-	private SpecMainPage clickSignOut() {
-		findElement(locators.get("signOut")).click();
-		return this;
-	}
-
-	private SpecMainPage search(String value) {
-		findElement(locators.get("search")).sendKeys(value);
-		return this;
-	}
-
-	/**
-	 * uses selenium actions to move to a text area, click it then enter text
-	 * 
-	 * @param parent
-	 *            : parent element that denotes whether to use the add or edit
-	 *            task area
-	 * @param child
-	 *            : specific element to edit
-	 * @param values
-	 *            : String[] that contains the value(s) to enter into the field
-	 */
-	private void dynamicSendKeys(By parent, By child, String[] values) {
-		builder.moveToElement(findElement(parent).findElement(child)).click();
-		for (String v : values) {
-			builder.sendKeys(v, Keys.ENTER).build().perform();
-		}
-	}
-
-	/**
-	 * uses selenium actions to move to a text area, click it then enter text
-	 * 
-	 * @param parent
-	 *            : parent element that denotes whether to use the add or edit
-	 *            task area
-	 * @param child
-	 *            : specific element to edit
-	 * @param values
-	 *            : String that contains the value to enter into the field
-	 */
-	private void dynamicSendKeys(By parent, By child, String value) {
-		builder.moveToElement(findElement(parent, child)).click().sendKeys(value, Keys.ENTER).build().perform();
-	}
-
-	private SpecMainPage useDatePicker(WebElement addOrEdit, String value) {
-		addOrEdit.click();
-		findElement(locators.get("datePickerParent"), locators.get("datePickerNextMoChild")).click();
-		findElement(locators.get("datePickerParent"),
-				By.xpath(".//div[contains(text(), '" + value + "')] [@class='datepicker__day']")).click();
-		return this;
-	}
-
-	private SpecMainPage showAddTask() {
-		findElement(locators.get("showAddTaskParent"), locators.get("showAddTaskChild")).click();
-		return this;
-	}
-
-	private SpecMainPage hideAddTask() {
-		findElement(locators.get("addTaskParent"), locators.get("hideAddTaskChild")).click();
-		return this;
-	}
-
-	private SpecMainPage clickCreate() {
-		findElement(locators.get("create")).click();
-		return this;
-	}
-
-	private SpecMainPage clickComment() {
-		findElement(locators.get("editTaskParent"), locators.get("editTaskCommentButton")).click();
-		return this;
-	}
-
-	private By taskInQueue(String value) {
-		return By.xpath(".//span[contains(text(), '" + value + "')] [@class='js-taskqueue-task-summary']");
-	}
-
-	/**
-	 * clicks a task in queue based on the summary
-	 * 
-	 * @param value
-	 *            : String of summary of task to select
-	 * @return
-	 */
-	private SpecMainPage selectTaskInQueue(String value) {
-		findElement(taskInQueue(value)).click();
-		return this;
-	}
-
-	private void addTaskElement(String field, String value) {
-		dynamicSendKeys(locators.get("addTaskParent"), locators.get(field), value);
-	}
-
-	private void addTaskElement(String field, String[] value) {
-		dynamicSendKeys(locators.get("addTaskParent"), locators.get(field), value);
-	}
-
-	private void editTaskElement(String field, String value) {
-		dynamicSendKeys(locators.get("editTaskParent"), locators.get(field), value);
-	}
-
-	private void editTaskElement(String field, String[] value) {
-		dynamicSendKeys(locators.get("editTaskParent"), locators.get(field), value);
-	}
-
-	private SpecMainPage editTaskValue(String field, String value) {
-		findElement(locators.get("editTaskParent"), locators.get(field)).clear();
-		findElement(locators.get("editTaskParent"), locators.get(field)).sendKeys(value);
-		return this;
-	}
-
-	private By editLocation(String value) {
-		return By.xpath(".//div[contains(text(), '" + value + "')] [@class='Select-placeholder']");
-	}
-
-	/**
-	 * used to edit either location or assignee fields when values are already
-	 * present
-	 * 
-	 * @param task
-	 *            : By locator for eitehr assignee or location field
-	 * @param oValue
-	 *            : original value present
-	 * @param nValue
-	 *            : new value to enter
-	 * @return SpecMainPage
-	 */
-	private SpecMainPage editTaskLocationAssignee(By task, String oValue, String nValue) {
-		builder.moveToElement(findElement(locators.get("editTaskParent"), editLocation(oValue))).click()
-				.sendKeys(Keys.BACK_SPACE).build().perform();
-		dynamicSendKeys(locators.get("editTaskParent"), task, nValue);
-		return this;
-	}
-
-	/**
-	 * used to edit the task calendar
-	 * 
-	 * @param value
-	 *            : String two digit date value ex: 01, 19 etc...
-	 * @return : SpecMainPage
-	 */
-	private SpecMainPage editTaskDate(String value) {
-		useDatePicker(findElement(locators.get("editTaskParent"), locators.get("edidTaskDueDate")), value);
-		return this;
-	}
-
-	/**
-	 * used to remove edit task labels
-	 * 
-	 * @param choice
-	 *            : String[] of label names that need to be removed
-	 * @return: SpecMainPage
-	 */
-	public SpecMainPage removeEditTaskLabels(String[] choice) {
-		for (String c : choice) {
-			findElement(locators.get("editTaskParent"),
-					By.xpath(".//span[contains(text(), '×')] [contains(@data-reactid,'" + c + "')]")).click();
-		}
-		return this;
-	}
-
-	private int editLabelCount(String[] labels) {
-		int count = 0;
-		while (count < labels.length) {
-			if (findElements(locators.get("editTaskParent"),
-					By.xpath(".//span[contains(text(), '×')] [contains(@data-reactid,'" + labels[count] + "')]"))
-							.size() > 0) {
-				count++;
-			}
-		}
-		return count;
-	}
-
-	private SpecMainPage alert(String choice) {
-		Alert alert = _driver.switchTo().alert();
-		if (choice.equals("accept")) {
-			alert.sendKeys("Because I said so");
-			alert.accept();
-		} else if (choice.equals("decline")) {
-			alert.dismiss();
-		}
-		return this;
-	}
-
-	/**
-	 * services
-	 */
-
-	/**
-	 * shared log out service
-	 * 
-	 * @return
-	 * @throws InterruptedException
-	 */
-	public SpecLoginPage LogOut() throws InterruptedException {
-		clickLoginName().clickSignOut();
-		return new SpecLoginPage(_driver);
+	public int checkTaskInQueuePresent(String value) {
+		return findElements(locators.get("taskListParent"), taskInQueue(value)).size();
 	}
 
 	/**
@@ -392,45 +408,31 @@ public class SpecMainPage extends Page {
 	 * @return: SpecMainPage
 	 */
 	public SpecMainPage addNewTask(TaskPOJO obj, String[] task) {
-		showAddTask();
-		addTaskElement("addSummary", obj.getSummary());
+		logger.info("adding a new task");
+		findElement(locators.get("showAddTaskParent"), locators.get("showAddTaskChild")).click();
+		dynamicSendKeys(locators.get("addTaskParent"), locators.get("addSummary"), obj.getSummary());
 		for (String t : task) {
 			if (t.equals("addDescription")) {
-				addTaskElement(t, obj.getDescription());
+				dynamicSendKeys(locators.get("addTaskParent"), locators.get(t), obj.getDescription());
 			} else if (t.equals("taskLocation")) {
-				addTaskElement(t, obj.getLocation());
+				dynamicSendKeys(locators.get("addTaskParent"), locators.get(t), obj.getLocation());
 			} else if (t.equals("taskDueDate")) {
-				addTaskElement(t, obj.getDueDate());
+				dynamicSendKeys(locators.get("addTaskParent"), locators.get(t), obj.getDueDate());
+			} else if (t.equals("edidTaskDueDate")) {
+				useDatePicker(findElement(locators.get("addTaskParent"), locators.get("edidTaskDueDate")),
+						obj.getDueDate());
 			} else if (t.equals("taskLabels")) {
-				addTaskElement(t, obj.getLabels());
+				dynamicSendKeys(locators.get("addTaskParent"), locators.get(t), obj.getLabels());
 			} else if (t.equals("taskAssignee")) {
-				addTaskElement(t, obj.getAssignee());
+				dynamicSendKeys(locators.get("addTaskParent"), locators.get(t), obj.getAssignee());
+			} else if (t.equals("sumaryOnly")){
+				break;
 			} else
 				throw new RuntimeException("Task passed was not an accepted value");
 		}
-		clickCreate();
-		hideAddTask();
+		findElement(locators.get("create")).click();
+		findElement(locators.get("addTaskParent"), locators.get("hideAddTaskChild")).click();
 		return this;
-	}
-
-	/**
-	 * used to search for and then click on an existing task
-	 * 
-	 * @param value
-	 *            : what will be entered into search field
-	 * @param obj
-	 *            : TaskPOJO this is used to get the summary of the task being
-	 *            searched for
-	 * @return: SpecMainPage
-	 */
-	public SpecMainPage findTask(String value, TaskPOJO obj) {
-		search(value);
-		selectTaskInQueue(obj.getSummary());
-		return this;
-	}
-
-	public int checkTaskInQueuePresent(String value) {
-		return findElements(locators.get("taskListParent"), taskInQueue(value)).size();
 	}
 
 	/**
@@ -449,32 +451,33 @@ public class SpecMainPage extends Page {
 	 * @return SpecMainPage
 	 */
 	public SpecMainPage editTask(TaskPOJO orig, TaskPOJO edit, String[] task) {
+		logger.info("editing task");
 		for (String t : task) {
 			if (t.equals("edidTaskSummary")) {
 				editTaskValue(t, edit.getSummary());
 			} else if (t.equals("edidTaskDescription")) {
 				editTaskValue(t, edit.getDescription());
 			} else if (t.equals("taskLocation")) {
-				editTaskElement(t, edit.getLocation());
+				dynamicSendKeys(locators.get("editTaskParent"), locators.get(t), edit.getLocation());
 			} else if (t.equals("taskDueDate")) {
-				editTaskElement(t, edit.getDueDate());
+				dynamicSendKeys(locators.get("editTaskParent"), locators.get(t), edit.getDueDate());
 			} else if (t.equals("taskLabels")) {
-				editTaskElement(t, edit.getLabels());
+				dynamicSendKeys(locators.get("editTaskParent"), locators.get(t), edit.getLabels());
 			} else if (t.equals("taskAssignee")) {
-				editTaskElement(t, edit.getAssignee());
+				dynamicSendKeys(locators.get("editTaskParent"), locators.get(t), edit.getAssignee());
 			} else if (t.equals("existingLocation")) {
 				editTaskLocationAssignee(locators.get("taskLocation"), orig.getLocation(), edit.getLocation());
 			} else if (t.equals("existingAssignee")) {
 				editTaskLocationAssignee(locators.get("taskAssignee"), orig.getAssignee(), edit.getAssignee());
-			} else if (t.equals("existingDate")) {
-				String[] date = edit.getDueDate().split("-");
-				editTaskDate(date[2].trim());
+			} else if (t.equals("edidTaskDueDate")) {
+				useDatePicker(findElement(locators.get("editTaskParent"), locators.get("edidTaskDueDate")),
+						edit.getDueDate());
 			} else if (t.equals("existingLabels")) {
 				removeEditTaskLabels(orig.getLabels());
-				editTaskElement("taskLabels", edit.getLabels());
+				dynamicSendKeys(locators.get("editTaskParent"), locators.get("taskLabels"), edit.getLabels());
 			} else if (t.equals("editTaskCommentField")) {
-				editTaskElement(t, edit.getComment001());
-				clickComment();
+				dynamicSendKeys(locators.get("editTaskParent"), locators.get(t), edit.getComment001());
+				findElement(locators.get("editTaskParent"), locators.get("editTaskCommentButton")).click();
 			} else if (t.equals("blockTask")) {
 				findElement(locators.get("editTaskParent"), locators.get("editTaskBlockCancel")).click();
 				findElement(locators.get("editTaskParent"), locators.get("blockTask")).click();
@@ -498,6 +501,7 @@ public class SpecMainPage extends Page {
 	}
 
 	public TaskPOJO checkTask(TaskPOJO edit, String[] task) {
+		logger.info("retrieving task info");
 		TaskPOJO obj = new TaskPOJO();
 		obj.setSummary(findElement(locators.get("editTaskParent"), locators.get("edidTaskSummary")).getText());
 		obj.setDescription(findElement(locators.get("editTaskParent"), locators.get("edidTaskDescription")).getText());

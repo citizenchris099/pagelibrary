@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.scienergy.development.qa.TaskPOJO;
+import com.scienergy.development.qa.pages.Page;
 import com.scienergy.development.qa.pages.spec.RndStringUtil;
 import com.scienergy.development.qa.pages.spec.SpecLoginPage;
 import com.scienergy.development.qa.pages.spec.SpecMainPage;
@@ -37,7 +38,7 @@ public class genericTest001 {
 	String description = randomString.RandomUName();
 	String location = randomString.RandomUName();
 	String assignee = "Test User";
-	String date = "2015-12-25";
+	String date = randomString.date(1);
 
 	String[] nLabels = { randomString.Random2Word(), randomString.Random2Word(), randomString.Random2Word(),
 			randomString.Random2Word() };
@@ -45,15 +46,15 @@ public class genericTest001 {
 	String nDescription = randomString.RandomUName();
 	String nLocation = randomString.RandomUName();
 	String nAssignee = "Test User2";
-	String nDate = "2016-01-19";
+	String nDate = randomString.date(90);
 	String comment = randomString.Random2Word();
 
 	String taskingURL = "http://tasking.scienergydev.com/";
 	String localURL = "http://localhost:3000/";
 
-	String[] addTask = { "taskAssignee", "taskLocation", "taskLabels" };
-	String[] editTask = { "blockTask" };
-	String[] filterTask = { "allFilterLocation" };
+	String[] addTask = { "taskAssignee", "taskLocation", "taskLabels", "edidTaskDueDate" };
+	String[] editTask = { "edidTaskDueDate", "nLabels" };
+	String[] filterTask = { "allFilterAssignee" };
 
 	@BeforeSuite
 	public void setup() throws MalformedURLException {
@@ -90,7 +91,7 @@ public class genericTest001 {
 		driver.manage().window().maximize();
 	}
 
-	// @Test
+//	@Test
 	public void specTest001() throws InterruptedException {
 		new SpecLoginPage(driver).loginAs(username, password).addNewTask(tp0, addTask).findTask(tp0.getSummary(), tp0)
 				.LogOut().loginAs(username, password).findTask(tp0.getSummary(), tp0).editTask(tp0, tp1, editTask)
@@ -115,11 +116,25 @@ public class genericTest001 {
 	}
 
 	@Test
+	public void specTest003() throws InterruptedException {
+		if (new SpecLoginPage(driver).loginAs(username, password).addNewTask(tp0, addTask)
+				.checkTaskInQueuePresent(tp0.getSummary()) < 1) {
+			throw new RuntimeException("Task not present in queue");
+		}
+	}
+
+	// @Test
 	public void specTest002() throws InterruptedException {
 		new SpecLoginPage(driver).loginAs(username, password).addNewTask(tp0, addTask).findTask(tp0.getSummary(), tp0)
 				.LogOut().loginAs(username, password).findTask(tp0.getSummary(), tp0)
-//				.useAllFiltersSearch(filterTask, "Search assignees",tp0.getAssignee(), "testuid1");
-				.useAllFilters(filterTask, tp0.getLocation());
+				.useAllFiltersSearch(filterTask, "Search assignees", tp0.getAssignee(), "testuid1");
+		// .useAllFilters(filterTask, tp0.getLocation());
+	}
+
+	// @Test
+	public void quickFilterTest001() throws InterruptedException {
+		new SpecLoginPage(driver).loginAs(username, password).selectQuickFilter("My Tasks")
+				.quickFilterInActive("My Tasks");
 	}
 
 	private TaskPOJO createTaskInfo(String[] task) {
@@ -132,6 +147,8 @@ public class genericTest001 {
 				orig.setLocation(location);
 				orig.setLocationPresent(1);
 			} else if (t.equals("taskDueDate")) {
+				orig.setDueDate(date);
+			} else if (t.equals("edidTaskDueDate")) {
 				orig.setDueDate(date);
 			} else if (t.equals("taskLabels")) {
 				orig.setLabels(labels);
@@ -152,6 +169,7 @@ public class genericTest001 {
 		edit.setLocationPresent(orig.getAssigneePresent());
 		edit.setDueDate(orig.getDueDate());
 		if (orig.getLabels() != null) {
+			edit.setLabels(orig.getLabels());
 			edit.setLabelsPresent(orig.getLabels().length);
 		}
 		edit.setAssignee(orig.getAssignee());
@@ -162,7 +180,7 @@ public class genericTest001 {
 	private TaskPOJO taskInfoEdit(TaskPOJO edit, String[] task, int status) {
 		for (String t : task) {
 			if (t.equals("edidTaskSummary")) {
-				edit.setSummary(summary);
+				edit.setSummary(nSummary);
 			} else if (t.equals("edidTaskDescription")) {
 				edit.setDescription(description);
 			} else if (t.equals("taskLocation")) {
@@ -180,7 +198,7 @@ public class genericTest001 {
 				edit.setLocation(nLocation);
 			} else if (t.equals("existingAssignee")) {
 				edit.setAssignee(nAssignee);
-			} else if (t.equals("existingDate")) {
+			} else if (t.equals("edidTaskDueDate")) {
 				edit.setDueDate(nDate);
 			} else if (t.equals("existingLabels")) {
 				edit.setLabels(nLabels);
