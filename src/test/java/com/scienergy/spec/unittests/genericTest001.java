@@ -52,8 +52,8 @@ public class genericTest001 {
 	String taskingURL = "http://tasking.scienergydev.com/";
 	String localURL = "http://localhost:3000/";
 
-	String[] addTask = { "taskAssignee", "taskLocation", "taskLabels", "edidTaskDueDate" };
-	String[] editTask = { "edidTaskDueDate", "nLabels" };
+	String[] addTask = { "taskAssignee" };
+	String[] editTask = { "editTaskCommentField" };
 	String[] filterTask = { "allFilterAssignee" };
 
 	@BeforeSuite
@@ -91,13 +91,12 @@ public class genericTest001 {
 		driver.manage().window().maximize();
 	}
 
-//	@Test
+	// @Test
 	public void specTest001() throws InterruptedException {
 		new SpecLoginPage(driver).loginAs(username, password).addNewTask(tp0, addTask).findTask(tp0.getSummary(), tp0)
 				.LogOut().loginAs(username, password).findTask(tp0.getSummary(), tp0).editTask(tp0, tp1, editTask)
 				.LogOut();
-		tp2 = new SpecLoginPage(driver).loginAs(username, password).findTask(tp0.getSummary(), tp0).checkTask(tp1,
-				editTask);
+		tp2 = new SpecLoginPage(driver).loginAs(username, password).findTask(tp0.getSummary(), tp0).checkTask(tp1);
 
 		System.out.println("tp1 labels = " + tp1.getLabelsPresent() + " tp2 labels = " + tp2.getLabelsPresent());
 		System.out.println("tp1 canceled = " + tp1.getCanceled() + " tp2 canceled = " + tp2.getCanceled());
@@ -116,25 +115,13 @@ public class genericTest001 {
 	}
 
 	@Test
-	public void specTest003() throws InterruptedException {
-		if (new SpecLoginPage(driver).loginAs(username, password).addNewTask(tp0, addTask)
-				.checkTaskInQueuePresent(tp0.getSummary()) < 1) {
-			throw new RuntimeException("Task not present in queue");
-		}
-	}
-
-	// @Test
-	public void specTest002() throws InterruptedException {
-		new SpecLoginPage(driver).loginAs(username, password).addNewTask(tp0, addTask).findTask(tp0.getSummary(), tp0)
-				.LogOut().loginAs(username, password).findTask(tp0.getSummary(), tp0)
-				.useAllFiltersSearch(filterTask, "Search assignees", tp0.getAssignee(), "testuid1");
-		// .useAllFilters(filterTask, tp0.getLocation());
-	}
-
-	// @Test
-	public void quickFilterTest001() throws InterruptedException {
-		new SpecLoginPage(driver).loginAs(username, password).selectQuickFilter("My Tasks")
-				.quickFilterInActive("My Tasks");
+	public void commentTest001() throws InterruptedException {
+		String[] commentText = new SpecLoginPage(driver).loginAs(username, password).addNewTask(tp0, addTask)
+				.findTask(tp0.getSummary(), tp0).editTask(tp0, tp1, editTask).getCommentText();
+		String dateTime = randomString.curDateTime().toLowerCase();
+		System.out.println("comment author = " + commentText[0]);
+		System.out.println("comment date = " + commentText[1]+" date time i generated = "+dateTime);
+		System.out.println("comment text = " + commentText[2]);
 	}
 
 	private TaskPOJO createTaskInfo(String[] task) {

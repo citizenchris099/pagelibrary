@@ -120,6 +120,13 @@ public class RndStringUtil {
 		String reportDate = df.format(today);
 		return reportDate.trim();
 	}
+	
+	public String curDateTime() {
+		Date today = Calendar.getInstance().getTime();
+		DateFormat df = new SimpleDateFormat("M/dd/yyyy, h:ma");
+		String reportDate = df.format(today);
+		return reportDate.trim().toLowerCase();
+	}
 
 	public String date(int days) {
 		Date now = new Date();
@@ -127,7 +134,7 @@ public class RndStringUtil {
 		cal.setTime(now);
 		cal.add(Calendar.DAY_OF_YEAR, days);
 		Date tomorrow = cal.getTime();
-		DateFormat df = new SimpleDateFormat("M/d/yyyy");
+		DateFormat df = new SimpleDateFormat("M/dd/yyyy");
 		String reportDate = df.format(tomorrow);
 		return reportDate.trim();
 	}

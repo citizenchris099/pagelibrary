@@ -28,6 +28,7 @@ public class SpecMainPage extends Page {
 
 	JavascriptExecutor jse = (JavascriptExecutor) _driver;
 	Actions builder = new Actions(_driver);
+	RndStringUtil stringUtil = new RndStringUtil();
 
 	/**
 	 * constructor uses shared isloaded service to check for the presence of two
@@ -123,6 +124,10 @@ public class SpecMainPage extends Page {
 		locators.put("edidTaskDueDate", By.xpath(".//input[@placeholder='Due']"));
 		locators.put("editTaskCommentField", By.xpath(".//textarea[contains(@placeholder,'Add a comment')]"));
 		locators.put("editTaskCommentButton", By.xpath(".//button[contains(text(), 'Comment')]"));
+		locators.put("existingCommentParent", By.xpath(".//div[@class='comment']"));
+		locators.put("existingCommentAuthor", By.cssSelector(".comment-author span:nth-child(1)"));
+		locators.put("existingCommentDateTime", By.cssSelector(".comment-author span:nth-child(2)"));
+		locators.put("existingCommentText", By.xpath(".//div[@class='comment-text']"));
 
 		/**
 		 * locators: add/edit task fields
@@ -135,9 +140,20 @@ public class SpecMainPage extends Page {
 		 * locators: taskqueue
 		 */
 		locators.put("taskListParent", By.xpath("//div[@class='taskqueue-tasklist']"));
+		locators.put("moreTaskParent", By.xpath("//div[@class='load-more']"));
+		locators.put("moreTaskButton", By.xpath(".//button[.='More Tasks']"));
 
 		isLoaded(locators.get("search"), locators.get("loginName"));
 		logger.info("Spec Main Page is loaded");
+	}
+
+	public String[] getCommentText() {
+		WebElement comment = findElement(locators.get("editTaskParent"), locators.get("existingCommentParent"));
+		String author = comment.findElement(locators.get("existingCommentAuthor")).getText();
+		String dateTime = comment.findElement(locators.get("existingCommentDateTime")).getText();
+		String text = comment.findElement(locators.get("existingCommentText")).getText();
+		String[] commentContent = { author, dateTime, text };
+		return commentContent;
 	}
 
 	/**
@@ -177,9 +193,12 @@ public class SpecMainPage extends Page {
 
 	private SpecMainPage useDatePicker(WebElement addOrEdit, String date) {
 		addOrEdit.click();
+		System.out.println("date passed = " + date);
 		String[] dateValues = date.split("/");
 		String month = dateValues[0];
-		String day = dateValues[1];
+		String day = dateValues[1].replaceFirst("^0+(?!$)", "");
+		int dayCount = day.length();
+		System.out.println("month = " + month + " day = " + day);
 		int count = 0;
 		while (count < 12) {
 			String[] currentMonthYear = findElement(locators.get("datePickerParent"),
@@ -193,7 +212,7 @@ public class SpecMainPage extends Page {
 		}
 		List<WebElement> li = findElements(locators.get("datePickerParent"),
 				By.xpath(".//div[contains(text(), '" + day + "')] [contains(@class,'datepicker__day')]"));
-		if (li.size() > 1) {
+		if (li.size() > 1 & dayCount > 1) {
 			li.get(1).click();
 		} else
 			li.get(0).click();
@@ -298,18 +317,27 @@ public class SpecMainPage extends Page {
 		findElement(taskInQueue(obj.getSummary())).click();
 		return this;
 	}
-	
+
+	/**
+	 * used to search for tasks based on labels
+	 * 
+	 * @param value
+	 *            : label array being passed
+	 * @param obj
+	 *            : TaskPOJO
+	 * @return
+	 */
 	public SpecMainPage findTask(String[] value, TaskPOJO obj) {
-		
-		for(String v : value){
-		findElement(locators.get("search")).sendKeys(v);
-		findElement(taskInQueue(obj.getSummary())).click();
-		findElement(locators.get("allFilters")).click();
-		findElement(locators.get("clearAdFilters")).click();
-		findElement(locators.get("allFilters")).click();
+
+		for (String v : value) {
+			findElement(locators.get("search")).sendKeys(v);
+			findElement(taskInQueue(obj.getSummary())).click();
+			findElement(locators.get("allFilters")).click();
+			findElement(locators.get("clearAdFilters")).click();
+			findElement(locators.get("allFilters")).click();
 		}
 		return this;
-	} 
+	}
 
 	/**
 	 * used to click one of the two main quick filters
@@ -393,7 +421,21 @@ public class SpecMainPage extends Page {
 	}
 
 	public int checkTaskInQueuePresent(String value) {
-		return findElements(locators.get("taskListParent"), taskInQueue(value)).size();
+		int taskPresent = 0;
+		while (taskPresent < 1) {
+			taskPresent = findElements(locators.get("taskListParent"), taskInQueue(value)).size();
+			if (taskPresent > 0) {
+				break;
+			} else if (taskPresent < 1) {
+				findElement(locators.get("moreTaskParent"), locators.get("moreTaskButton")).click();
+			}
+		}
+		return taskPresent;
+	}
+
+	public SpecMainPage clickTaskInQueue(String value) {
+		findElement(locators.get("taskListParent"), taskInQueue(value)).click();
+		return this;
 	}
 
 	/**
@@ -425,7 +467,7 @@ public class SpecMainPage extends Page {
 				dynamicSendKeys(locators.get("addTaskParent"), locators.get(t), obj.getLabels());
 			} else if (t.equals("taskAssignee")) {
 				dynamicSendKeys(locators.get("addTaskParent"), locators.get(t), obj.getAssignee());
-			} else if (t.equals("sumaryOnly")){
+			} else if (t.equals("sumaryOnly")) {
 				break;
 			} else
 				throw new RuntimeException("Task passed was not an accepted value");
@@ -478,6 +520,7 @@ public class SpecMainPage extends Page {
 			} else if (t.equals("editTaskCommentField")) {
 				dynamicSendKeys(locators.get("editTaskParent"), locators.get(t), edit.getComment001());
 				findElement(locators.get("editTaskParent"), locators.get("editTaskCommentButton")).click();
+				edit.setComment001DateTime(stringUtil.curDateTime());
 			} else if (t.equals("blockTask")) {
 				findElement(locators.get("editTaskParent"), locators.get("editTaskBlockCancel")).click();
 				findElement(locators.get("editTaskParent"), locators.get("blockTask")).click();
@@ -500,7 +543,7 @@ public class SpecMainPage extends Page {
 		return this;
 	}
 
-	public TaskPOJO checkTask(TaskPOJO edit, String[] task) {
+	public TaskPOJO checkTask(TaskPOJO edit) {
 		logger.info("retrieving task info");
 		TaskPOJO obj = new TaskPOJO();
 		obj.setSummary(findElement(locators.get("editTaskParent"), locators.get("edidTaskSummary")).getText());

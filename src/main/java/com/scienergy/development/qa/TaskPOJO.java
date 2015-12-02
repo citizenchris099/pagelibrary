@@ -17,6 +17,8 @@ public class TaskPOJO {
 	private String assignee;
 	private int assigneePresent;
 	private String comment001;
+	private String comment001DateTime;
+	private String user;
 	private String comment002;
 	private int status;
 	private int blocked;
@@ -25,6 +27,26 @@ public class TaskPOJO {
 
 	public TaskPOJO() {
 
+	}
+
+
+	public String getUser() {
+		return user;
+	}
+
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+
+	public String getComment001DateTime() {
+		return comment001DateTime;
+	}
+
+
+	public void setComment001DateTime(String comment001DateTime) {
+		this.comment001DateTime = comment001DateTime;
 	}
 
 

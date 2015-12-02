@@ -2,24 +2,24 @@
 <testng-results skipped="0" failed="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="24723" started-at="2015-11-30T20:46:21Z" finished-at="2015-11-30T20:46:46Z">
+  <suite name="Default suite" duration-ms="20826" started-at="2015-12-02T15:56:40Z" finished-at="2015-12-02T15:57:01Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="24723" started-at="2015-11-30T20:46:21Z" finished-at="2015-11-30T20:46:46Z">
+    <test name="Default test" duration-ms="20826" started-at="2015-12-02T15:56:40Z" finished-at="2015-12-02T15:57:01Z">
       <class name="com.scienergy.spec.unittests.genericTest001">
-        <test-method status="PASS" signature="setup()[pri:0, instance:com.scienergy.spec.unittests.genericTest001@735f7ae5]" name="setup" is-config="true" duration-ms="8256" started-at="2015-11-30T14:46:13Z" finished-at="2015-11-30T14:46:21Z">
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.scienergy.spec.unittests.genericTest001@735f7ae5]" name="setup" is-config="true" duration-ms="8143" started-at="2015-12-02T09:56:32Z" finished-at="2015-12-02T09:56:40Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method status="PASS" signature="testSetUp()[pri:0, instance:com.scienergy.spec.unittests.genericTest001@735f7ae5]" name="testSetUp" is-config="true" duration-ms="7315" started-at="2015-11-30T14:46:21Z" finished-at="2015-11-30T14:46:29Z">
+        <test-method status="PASS" signature="testSetUp()[pri:0, instance:com.scienergy.spec.unittests.genericTest001@735f7ae5]" name="testSetUp" is-config="true" duration-ms="7097" started-at="2015-12-02T09:56:40Z" finished-at="2015-12-02T09:56:47Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testSetUp -->
-        <test-method status="PASS" signature="specTest003()[pri:0, instance:com.scienergy.spec.unittests.genericTest001@735f7ae5]" name="specTest003" duration-ms="17397" started-at="2015-11-30T14:46:29Z" finished-at="2015-11-30T14:46:46Z">
+        <test-method status="PASS" signature="commentTest001()[pri:0, instance:com.scienergy.spec.unittests.genericTest001@735f7ae5]" name="commentTest001" duration-ms="13719" started-at="2015-12-02T09:56:47Z" finished-at="2015-12-02T09:57:01Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- specTest003 -->
-        <test-method status="PASS" signature="teardown()[pri:0, instance:com.scienergy.spec.unittests.genericTest001@735f7ae5]" name="teardown" is-config="true" duration-ms="200" started-at="2015-11-30T14:46:46Z" finished-at="2015-11-30T14:46:46Z">
+        </test-method> <!-- commentTest001 -->
+        <test-method status="PASS" signature="teardown()[pri:0, instance:com.scienergy.spec.unittests.genericTest001@735f7ae5]" name="teardown" is-config="true" duration-ms="196" started-at="2015-12-02T09:57:01Z" finished-at="2015-12-02T09:57:01Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- teardown -->
