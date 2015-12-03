@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -80,8 +81,8 @@ public class SpecMainPage extends Page {
 		/**
 		 * locators: log out
 		 */
-		locators.put("loginName", By.xpath("//a[contains(@class,'login-link-text')] [@id='login-name-link']"));
-		locators.put("signOut", By.xpath("//div[contains(@class,'login-button')] [@id='login-buttons-logout']"));
+		locators.put("loginName", By.xpath("//span[@class='avatar']"));
+		locators.put("signOut", By.xpath("//span[.='Log Out']"));
 
 		/**
 		 * locators: date picker
@@ -90,6 +91,37 @@ public class SpecMainPage extends Page {
 		locators.put("datePickerPrevMoChild", By.xpath(".//a[contains(@class,'previous')]"));
 		locators.put("datePickerNextMoChild", By.xpath(".//a[contains(@class,'next')]"));
 		locators.put("datePickerCurrentMonth", By.xpath(".//span[@class='datepicker__current-month']"));
+		locators.put("1", By.xpath(".//div[contains(@class,'datepicker__day')] [.='1']"));
+		locators.put("2", By.xpath(".//div[contains(@class,'datepicker__day')] [.='2']"));
+		locators.put("3", By.xpath(".//div[contains(@class,'datepicker__day')] [.='3']"));
+		locators.put("4", By.xpath(".//div[contains(@class,'datepicker__day')] [.='4']"));
+		locators.put("5", By.xpath(".//div[contains(@class,'datepicker__day')] [.='5']"));
+		locators.put("6", By.xpath(".//div[contains(@class,'datepicker__day')] [.='6']"));
+		locators.put("7", By.xpath(".//div[contains(@class,'datepicker__day')] [.='7']"));
+		locators.put("8", By.xpath(".//div[contains(@class,'datepicker__day')] [.='8']"));
+		locators.put("9", By.xpath(".//div[contains(@class,'datepicker__day')] [.='9']"));
+		locators.put("10", By.xpath(".//div[contains(@class,'datepicker__day')] [.='10']"));
+		locators.put("11", By.xpath(".//div[contains(@class,'datepicker__day')] [.='11']"));
+		locators.put("12", By.xpath(".//div[contains(@class,'datepicker__day')] [.='12']"));
+		locators.put("13", By.xpath(".//div[contains(@class,'datepicker__day')] [.='13']"));
+		locators.put("14", By.xpath(".//div[contains(@class,'datepicker__day')] [.='14']"));
+		locators.put("15", By.xpath(".//div[contains(@class,'datepicker__day')] [.='15']"));
+		locators.put("16", By.xpath(".//div[contains(@class,'datepicker__day')] [.='16']"));
+		locators.put("17", By.xpath(".//div[contains(@class,'datepicker__day')] [.='17']"));
+		locators.put("18", By.xpath(".//div[contains(@class,'datepicker__day')] [.='18']"));
+		locators.put("19", By.xpath(".//div[contains(@class,'datepicker__day')] [.='19']"));
+		locators.put("20", By.xpath(".//div[contains(@class,'datepicker__day')] [.='20']"));
+		locators.put("21", By.xpath(".//div[contains(@class,'datepicker__day')] [.='21']"));
+		locators.put("22", By.xpath(".//div[contains(@class,'datepicker__day')] [.='22']"));
+		locators.put("23", By.xpath(".//div[contains(@class,'datepicker__day')] [.='23']"));
+		locators.put("24", By.xpath(".//div[contains(@class,'datepicker__day')] [.='24']"));
+		locators.put("25", By.xpath(".//div[contains(@class,'datepicker__day')] [.='25']"));
+		locators.put("26", By.xpath(".//div[contains(@class,'datepicker__day')] [.='26']"));
+		locators.put("27", By.xpath(".//div[contains(@class,'datepicker__day')] [.='27']"));
+		locators.put("28", By.xpath(".//div[contains(@class,'datepicker__day')] [.='28']"));
+		locators.put("29", By.xpath(".//div[contains(@class,'datepicker__day')] [.='29']"));
+		locators.put("30", By.xpath(".//div[contains(@class,'datepicker__day')] [.='30']"));
+		locators.put("31", By.xpath(".//div[contains(@class,'datepicker__day')] [.='31']"));
 
 		/**
 		 * locators: add task form
@@ -139,9 +171,13 @@ public class SpecMainPage extends Page {
 		/**
 		 * locators: taskqueue
 		 */
+		locators.put("taskListGroup", By.xpath("//div[@class='taskqueue-togglegroup']"));
 		locators.put("taskListParent", By.xpath("//div[@class='taskqueue-tasklist']"));
 		locators.put("moreTaskParent", By.xpath("//div[@class='load-more']"));
 		locators.put("moreTaskButton", By.xpath(".//button[.='More Tasks']"));
+		locators.put("taskIsSelected", By.xpath(".//div[contains(@class,'is-selected')]"));
+		locators.put("taskStatus", By.xpath(".//span[@class='js-taskqueue-task-status']"));
+		locators.put("taskComplete", By.xpath(".//div[contains(@class,'mod-complete')]"));
 
 		isLoaded(locators.get("search"), locators.get("loginName"));
 		logger.info("Spec Main Page is loaded");
@@ -210,12 +246,13 @@ public class SpecMainPage extends Page {
 			} else
 				break;
 		}
-		List<WebElement> li = findElements(locators.get("datePickerParent"),
-				By.xpath(".//div[contains(text(), '" + day + "')] [contains(@class,'datepicker__day')]"));
+		List<WebElement> li = findElements(locators.get("datePickerParent"), locators.get(day));
 		if (li.size() > 1 & dayCount > 1) {
 			li.get(1).click();
 		} else
 			li.get(0).click();
+		// findElement(locators.get("datePickerParent"),
+		// locators.get(day)).click();
 		return this;
 	}
 
@@ -427,7 +464,11 @@ public class SpecMainPage extends Page {
 			if (taskPresent > 0) {
 				break;
 			} else if (taskPresent < 1) {
-				findElement(locators.get("moreTaskParent"), locators.get("moreTaskButton")).click();
+				try {
+					findElement(locators.get("moreTaskParent"), locators.get("moreTaskButton")).click();
+				} catch (ElementNotVisibleException e) {
+					return taskPresent = 0;
+				}
 			}
 		}
 		return taskPresent;
@@ -435,6 +476,29 @@ public class SpecMainPage extends Page {
 
 	public SpecMainPage clickTaskInQueue(String value) {
 		findElement(locators.get("taskListParent"), taskInQueue(value)).click();
+		return this;
+	}
+
+	public String checkTaskStatus(String value) {
+		checkTaskInQueuePresent(value);
+		clickTaskInQueue(value);
+		return findElement(locators.get("taskListParent"), locators.get("taskIsSelected"))
+				.findElement(locators.get("taskStatus")).getText().trim().toLowerCase();
+	}
+
+	public int checkTaskComplete(String value) {
+		checkTaskInQueuePresent(value);
+		clickTaskInQueue(value);
+		return findElement(locators.get("taskListParent"), locators.get("taskIsSelected"))
+				.findElements(locators.get("taskComplete")).size();
+	}
+
+	public SpecMainPage selectTaskQueueGroup(String value) {
+		findElement(locators.get("taskListGroup"),
+				By.xpath(".//a[contains(text(), '" + value + "')] [contains(@class,'togglegroup-item-link ')]"))
+						.click();
+		findElement(locators.get("taskListGroup"),
+				By.xpath(".//a[contains(text(), '" + value + "')] [contains(@class,'is-active')]"));
 		return this;
 	}
 
@@ -550,6 +614,11 @@ public class SpecMainPage extends Page {
 		obj.setDescription(findElement(locators.get("editTaskParent"), locators.get("edidTaskDescription")).getText());
 		obj.setDueDate(findElement(locators.get("editTaskParent"), locators.get("edidTaskDueDate"))
 				.getAttribute("value").trim());
+		if (edit.getComment001() != null) {
+			obj.setComment001(getCommentText()[2]);
+			obj.setComment001DateTime(getCommentText()[1]);
+			obj.setUser(getCommentText()[0]);
+		}
 		obj.setAssigneePresent(findElements(locators.get("editTaskParent"), editLocation(edit.getAssignee())).size());
 		obj.setLocationPresent(findElements(locators.get("editTaskParent"), editLocation(edit.getLocation())).size());
 		obj.setBlocked(findElements(locators.get("editTaskParent"), locators.get("unBlockTask")).size());

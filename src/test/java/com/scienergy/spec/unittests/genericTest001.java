@@ -48,12 +48,14 @@ public class genericTest001 {
 	String nAssignee = "Test User2";
 	String nDate = randomString.date(90);
 	String comment = randomString.Random2Word();
+	String user1 = "Test User";
+	String user2 = "Test User2";
 
 	String taskingURL = "http://tasking.scienergydev.com/";
 	String localURL = "http://localhost:3000/";
 
 	String[] addTask = { "taskAssignee" };
-	String[] editTask = { "editTaskCommentField" };
+	String[] editTask = { "editStatus" };
 	String[] filterTask = { "allFilterAssignee" };
 
 	@BeforeSuite
@@ -116,12 +118,7 @@ public class genericTest001 {
 
 	@Test
 	public void commentTest001() throws InterruptedException {
-		String[] commentText = new SpecLoginPage(driver).loginAs(username, password).addNewTask(tp0, addTask)
-				.findTask(tp0.getSummary(), tp0).editTask(tp0, tp1, editTask).getCommentText();
-		String dateTime = randomString.curDateTime().toLowerCase();
-		System.out.println("comment author = " + commentText[0]);
-		System.out.println("comment date = " + commentText[1]+" date time i generated = "+dateTime);
-		System.out.println("comment text = " + commentText[2]);
+		new SpecLoginPage(driver).loginAs(username, password).selectTaskQueueGroup("Closed");
 	}
 
 	private TaskPOJO createTaskInfo(String[] task) {

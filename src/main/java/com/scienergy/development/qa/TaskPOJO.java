@@ -21,12 +21,23 @@ public class TaskPOJO {
 	private String user;
 	private String comment002;
 	private int status;
+	private String statusDisplay;
 	private int blocked;
 	private int canceled;
 	private Boolean open;
 
 	public TaskPOJO() {
 
+	}
+
+
+	public String getStatusDisplay() {
+		return statusDisplay;
+	}
+
+
+	public void setStatusDisplay(String statusDisplay) {
+		this.statusDisplay = statusDisplay;
 	}
 
 
@@ -201,6 +212,9 @@ public class TaskPOJO {
 		 builder.append(locationPresent);
 		 builder.append(blocked);
 		 builder.append(canceled);
+		 builder.append(comment001);
+//		 builder.append(comment001DateTime);
+		 builder.append(user);
 		return builder.toHashCode();
 	}
 
