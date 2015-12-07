@@ -145,7 +145,7 @@ public class SpecMainPage extends Page {
 		locators.put("editTaskStatusOptionChild", By.xpath(".//a[@name='status']"));
 		locators.put("editTaskBlockCancel", By.xpath(".//span[@class='scicon-dots-horizontal']"));
 		locators.put("blockTask", By.xpath(".//a[.='Block Task']"));
-		locators.put("unBlockTask", By.xpath(".//span[.='Unblock']"));
+		locators.put("unBlockTask", By.xpath(".//button[.='Unblock']"));
 		locators.put("blockedIndicator", By.xpath(".//span[.='Task Blocked']"));
 		locators.put("canceledIndicator", By.xpath(".//span[.='Task Canceled']"));
 		locators.put("reopenTask", By.xpath(".//button[.='Reopen']"));
@@ -178,6 +178,8 @@ public class SpecMainPage extends Page {
 		locators.put("taskIsSelected", By.xpath(".//div[contains(@class,'is-selected')]"));
 		locators.put("taskStatus", By.xpath(".//span[@class='js-taskqueue-task-status']"));
 		locators.put("taskComplete", By.xpath(".//div[contains(@class,'mod-complete')]"));
+		locators.put("taskBlocked", By.xpath(".//i[contains(@class,'scicon-alert-octagon')]"));
+		locators.put("taskCanceled", By.xpath(".//i[contains(@class,'scicon-block-helper')]"));
 
 		isLoaded(locators.get("search"), locators.get("loginName"));
 		logger.info("Spec Main Page is loaded");
@@ -486,11 +488,11 @@ public class SpecMainPage extends Page {
 				.findElement(locators.get("taskStatus")).getText().trim().toLowerCase();
 	}
 
-	public int checkTaskComplete(String value) {
+	public int checkTaskInQueueElement(String value,String key) {
 		checkTaskInQueuePresent(value);
 		clickTaskInQueue(value);
 		return findElement(locators.get("taskListParent"), locators.get("taskIsSelected"))
-				.findElements(locators.get("taskComplete")).size();
+				.findElements(locators.get(key)).size();
 	}
 
 	public SpecMainPage selectTaskQueueGroup(String value) {
